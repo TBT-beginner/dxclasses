@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>【自己成長への羅針盤】高校1年生 学習状況リサーチ 分析結果報告 - 進路指導部</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* --- 基本設定 & 色定義 --- */
+        :root {
+            --bg-color: #FFFFFF;
+            --text-color: #1F2937; /* ダークグレー */
+            --sub-text-color: #6B7280; /* ミディアムグレー */
+            --border-color: #E5E7EB; /* ライトグレー */
+            --divider-color: #F3F4F6; /* ベリーライトグレー */
+
+            /* アクセントカラー（役割定義） */
+            --accent-primary: #3B82F6; /* プライマリ (青) - 情報、中立 */
+            --accent-primary-bg: rgba(59, 130, 246, 0.07);
+            --accent-warning: #F59E0B; /* 注意・行動喚起 (オレンジ) */
+            --accent-warning-bg: rgba(245, 158, 11, 0.08);
+            --accent-success: #10B981; /* 成功・ポジティブ (緑) */
+            --accent-success-bg: rgba(16, 185, 129, 0.08);
+            --accent-danger: #EF4444; /* 課題・重要注意 (赤) */
+            --accent-danger-bg: rgba(239, 68, 68, 0.08);
+            --accent-info: #6366F1; /* 情報・個性 (紫) */
+            --accent-info-bg: rgba(99, 102, 241, 0.08);
+            --accent-highlight: #FBBF24; /* 目立たせたい箇所 (黄色) */
+            --accent-highlight-bg: rgba(251, 191, 36, 0.1);
+
+            --heading-font: 'Noto Sans JP', sans-serif;
+            --body-font: 'Noto Sans JP', sans-serif;
+
+            --content-max-width: 800px;
+            --base-font-size: clamp(1rem, 1.8vw + 0.5rem, 1.125rem); /* 16px-18px */
+            --line-height-base: 1.8; /* 基本行間 */
+            --section-spacing: 5.5rem; /* セクション間余白 */
+        }
+
+        html { scroll-behavior: smooth; font-size: 100%; }
+        body { margin: 0; padding: 0; font-family: var(--body-font); font-size: var(--base-font-size); color: var(--text-color); background-color: var(--bg-color); line-height: var(--line-height-base); -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+        .container { max-width: var(--content-max-width); margin: 0 auto; padding: 5rem 2rem; }
+
+        /* --- ヘッダー --- */
+        header { text-align: center; margin-bottom: var(--section-spacing); padding-bottom: 3rem; border-bottom: 1px solid var(--divider-color); }
+        header h1 { font-size: clamp(2.4rem, 7vw, 3.5rem); font-weight: 900; line-height: 1.2; margin-bottom: 0.3em; color: var(--text-color); letter-spacing: -0.02em; }
+        header .icon { font-size: 0.8em; color: var(--accent-info); margin-right: 0.2em; vertical-align: baseline; }
+        header .subtitle { font-size: clamp(1.3rem, 4vw, 1.8rem); font-weight: 700; color: var(--sub-text-color); margin-bottom: 0.5em; }
+        header .provider { font-size: clamp(0.9rem, 2.5vw, 1rem); color: var(--sub-text-color); font-weight: 500; }
+
+        /* --- セクション --- */
+        section { margin-bottom: var(--section-spacing); }
+        section h2 { font-size: clamp(1.7rem, 5vw, 2.4rem); font-weight: 700; margin-bottom: 2em; padding-bottom: 0.6em; border-bottom: 2px solid var(--divider-color); display: flex; align-items: center; gap: 0.6em; color: var(--text-color); line-height: 1.3; }
+        section h2 i { font-size: 1em; color: var(--accent-primary); margin-bottom: -1px; width: 1.2em; text-align: center; flex-shrink: 0; }
+        section h3 { font-size: clamp(1.3rem, 4vw, 1.7rem); font-weight: 700; margin-top: 3em; margin-bottom: 1.5em; display: flex; align-items: center; gap: 0.5em; color: var(--text-color); line-height: 1.4; }
+        section h3 i { font-size: 1em; color: var(--accent-success); margin-right: 0.1em; margin-bottom: -1px; width: 1.2em; text-align: center; flex-shrink: 0; }
+        p { margin-bottom: 1.5em; font-weight: 400; /* 本文はRegular */ }
+        strong { font-weight: 700; color: var(--text-color); } /* 強調はBold */
+        .bold { font-weight: 900; } /* 特に強い強調はExtra Bold */
+
+
+        /* --- ハイライト（視認性向上） --- */
+        .highlight { padding: 0.05em 0.4em; border-radius: 3px; font-weight: 700; margin: 0 0.1em; }
+        .highlight-blue { background-color: var(--accent-primary-bg); color: #1E40AF; } /* WCAG AA+ */
+        .highlight-orange { background-color: var(--accent-warning-bg); color: #9A3412; } /* WCAG AA+ */
+        .highlight-green { background-color: var(--accent-success-bg); color: #065F46; } /* WCAG AA+ */
+        .highlight-red { background-color: var(--accent-danger-bg); color: #991B1B; }   /* WCAG AA+ */
+        .highlight-yellow { background-color: var(--accent-highlight-bg); color: #92400E; } /* WCAG AA+ */
+        .highlight-purple { background-color: var(--accent-info-bg); color: #4C1D95; }  /* WCAG AA+ */
+
+        /* --- Callout --- */
+        .callout { background-color: #F9FAFB; border-radius: 6px; padding: 1.8em 2em; margin: 2.5em 0; display: flex; align-items: flex-start; gap: 1em; border-left: 4px solid var(--accent-primary); }
+        .callout .icon { font-size: 1.5rem; color: var(--accent-primary); margin-top: 0.1em; flex-shrink: 0; }
+        .callout p { margin: 0; font-size: 1.05em; font-weight: 500; line-height: 1.65; }
+        .callout p strong { font-weight: 700; color: var(--accent-primary); }
+        .callout.orange { border-left-color: var(--accent-warning); background-color: var(--accent-warning-bg); }
+        .callout.orange .icon { color: var(--accent-warning); }
+        .callout.orange p strong { color: var(--accent-warning); }
+        .callout.green { border-left-color: var(--accent-success); background-color: var(--accent-success-bg); }
+        .callout.green .icon { color: var(--accent-success); }
+        .callout.green p strong { color: var(--accent-success); }
+        .callout.purple { border-left-color: var(--accent-info); background-color: var(--accent-info-bg); }
+        .callout.purple .icon { color: var(--accent-info); }
+        .callout.purple p strong { color: var(--accent-info); }
+
+        /* --- グリッド --- */
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 1.8rem; margin: 2.5em 0; }
+        .grid-item { background-color: var(--bg-color); padding: 1.8em; border-radius: 6px; border: 1px solid var(--border-color); transition: box-shadow 0.3s ease; }
+        .grid-item:hover { box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07); }
+        .grid-item h4 { font-size: 1.2em; font-weight: 700; margin-top: 0; margin-bottom: 1em; display: flex; align-items: center; gap: 0.6em; line-height: 1.4; }
+        .grid-item h4 i { font-size: 1.1em; color: var(--sub-text-color); width: 1.5em; text-align: center; flex-shrink: 0; }
+        .grid-item p, .grid-item ol, .grid-item ul { font-size: 0.95em; color: var(--text-color); margin-bottom: 0.5em; line-height: 1.7; font-weight: 400;}
+        .grid-item ol, .grid-item ul { padding-left: 1.5em; margin-top: 1em; }
+        .grid-item li { margin-bottom: 0.6em; padding-left: 0.5em; }
+        .grid-item li::marker { color: var(--sub-text-color); }
+        .grid-item .small-note { font-size: 0.85em; color: var(--sub-text-color); margin-top: 1.2em; line-height: 1.5; }
+        .grid-item .small-note i { color: var(--sub-text-color); margin-right: 0.3em;}
+
+        /* --- リスト --- */
+        .icon-list { list-style: none; padding-left: 0; margin: 2.5em 0; }
+        .icon-list li { margin-bottom: 1.3em; padding-left: 2.5em; position: relative; line-height: 1.7; font-size: 1em; }
+        .icon-list li::before { font-family: "Font Awesome 6 Free"; font-weight: 900; position: absolute; left: 0; top: 0.1em; font-size: 1.2em; width: 1.5em; text-align: center; opacity: 0.8; }
+        .list-check li::before { content: "\f00c"; color: var(--accent-success); }
+        .list-brain li::before { content: "\f5ad"; color: var(--accent-primary); }
+        .list-star li::before { content: "\f005"; color: var(--accent-warning); }
+        .list-lightbulb li::before { content: "\f0eb"; color: var(--accent-highlight); }
+        .list-action li::before { content: "\f058"; color: var(--accent-success); }
+        .icon-list strong { font-weight: 700; }
+        .icon-list .highlight-action { background: var(--accent-success-bg); color: #065F46; font-weight: 700; padding: 0.1em 0.4em; border-radius: 3px; }
+
+        /* --- グラフ風要素 --- */
+        .chart-container { margin: 2.5em 0; padding: 1.8em; background-color: #fefefe; border: 1px solid var(--border-color); border-radius: 6px; }
+        .chart-title { font-size: 1em; font-weight: 700; color: var(--text-color); margin-bottom: 1.8em; text-align: center; }
+
+        /* 棒グラフ */
+        .bar-chart { display: flex; gap: 1.5em; align-items: flex-end; justify-content: space-around; min-height: 180px; padding: 1em 0; flex-wrap: wrap; }
+        .bar-item { display: flex; flex-direction: column; align-items: center; flex-basis: 60px; flex-grow: 1; text-align: center; }
+        .bar { width: clamp(30px, 10vw, 45px); background-color: var(--divider-color); border-radius: 4px 4px 0 0; position: relative; margin-bottom: 0.5em; min-height: 10px; /* 最低限の高さを確保 */ }
+        .bar-inner { display: block; width: 100%; background-color: var(--accent-primary); border-radius: 4px 4px 0 0; transition: height 0.7s cubic-bezier(0.25, 1, 0.5, 1); /* アニメーション調整 */ position: absolute; bottom: 0; left: 0;}
+        .bar-warning .bar-inner { background-color: var(--accent-warning); }
+        .bar-success .bar-inner { background-color: var(--accent-success); }
+        .bar-danger .bar-inner { background-color: var(--accent-danger); }
+        .bar-label { font-size: 0.8em; color: var(--sub-text-color); margin-top: 0.5em; line-height: 1.3; word-break: keep-all; font-weight: 500;}
+        .bar-value { font-size: 0.8em; font-weight: 700; color: var(--text-color); position: absolute; top: -1.8em; left: 50%; transform: translateX(-50%); white-space: nowrap; background: rgba(255,255,255,0.7); padding: 0.1em 0.3em; border-radius: 2px;}
+
+        /* 比較横棒グラフ */
+        .comparison-chart { display: flex; flex-direction: column; gap: 0.8em; }
+        .comparison-item { display: flex; align-items: center; gap: 0.8em; margin-bottom: 0.5em;}
+        .comparison-label { width: 130px; font-size: 0.85em; color: var(--sub-text-color); text-align: right; flex-shrink: 0; font-weight: 500;}
+        .comparison-bars { display: flex; flex-grow: 1; height: 22px; background-color: var(--divider-color); border-radius: 4px; overflow: hidden; position: relative; }
+        .comparison-bar { height: 100%; transition: width 0.7s cubic-bezier(0.25, 1, 0.5, 1); display: flex; align-items: center; justify-content: flex-end; padding-right: 0.5em; box-sizing: border-box;}
+        .bar-high { background-color: var(--accent-success); } /* 緑: 上位層 */
+        .bar-mid { background-color: var(--accent-primary); } /* 青: 中間層 */
+        .bar-low { background-color: var(--accent-danger); } /* 赤: 下位層 */
+        .comparison-value { font-size: 0.8em; font-weight: 700; color: black; text-shadow: 1px 1px 1px rgba(0,0,0,0.2); white-space: nowrap;}
+        .comparison-item .group-label { font-size: 0.8em; font-weight: 700; margin-left: 0.5em; width: 50px; /* ラベル幅確保 */ flex-shrink: 0;}
+        .label-high { color: var(--accent-success); }
+        .label-low { color: var(--accent-danger); }
+
+        /* --- 最終セクション --- */
+        .final-section { text-align: center; padding-top: 4rem; margin-top: 4rem; border-top: 1px solid var(--divider-color); }
+        .final-section h2 { border-bottom: none; justify-content: center; }
+        .final-section h2 i { color: var(--accent-primary); }
+        .final-section .large-text { font-size: clamp(1.4rem, 3.5vw, 1.9rem); font-weight: 700; margin: 1.5em 0; line-height: 1.6; color: var(--text-color); }
+        .final-section .large-text strong { color: var(--accent-primary); font-weight: 900; }
+        .final-section .large-text i { color: var(--accent-success); margin-left: 0.2em; }
+        .final-section .note { margin-top: 3em; font-size: 0.9em; }
+
+        /* --- レスポンシブ調整 --- */
+        @media (max-width: 768px) {
+            .container { padding: 4rem 1.5rem; }
+            header { margin-bottom: 4rem; padding-bottom: 2.5rem;}
+            section { margin-bottom: 5rem; }
+            .grid-container { grid-template-columns: 1fr; gap: 1.5rem;}
+            .callout { flex-direction: column; align-items: flex-start; gap: 0.8em;}
+            .callout .icon { margin-bottom: 0.3em; }
+            .final-section { padding-top: 3rem; margin-top: 3rem;}
+            .bar-chart { gap: 1em; min-height: 150px;}
+            .comparison-label { width: 100px; font-size: 0.8em; }
+            .comparison-item .group-label { width: 40px; }
+        }
+        @media (max-width: 480px) {
+             .container { padding: 3rem 1rem; }
+             header { margin-bottom: 3rem; padding-bottom: 2rem;}
+             section { margin-bottom: 4rem; }
+             .grid-container { gap: 1.2rem;}
+             .icon-list li { padding-left: 2.2em; }
+             .icon-list li::before { width: 1.3em; }
+             .bar-chart { justify-content: flex-start; }
+             .comparison-chart { gap: 0.5em; }
+             .comparison-item { flex-wrap: wrap; gap: 0.3em;} /* スマホでラベルが改行されるように */
+             .comparison-label { text-align: left; width: auto; margin-bottom: 0.2em;}
+             .comparison-bars { width: 100%; }
+             .comparison-item .group-label { width: auto; margin-left: 0; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1><i class="fa-solid fa-compass icon"></i>自己成長への羅針盤</h1>
+            <p class="subtitle">高校1年生 学習状況リサーチ 分析結果報告</p>
+            <p class="provider">○○高校 進路指導部</p>
+        </header>
+
+        <main>
+            <section id="intro">
+                <h2><i class="fa-solid fa-magnifying-glass"></i>はじめに：現在地と可能性</h2>
+                <p>この分析は、皆さんの学習状況や意識を客観的に把握し、<strong class="highlight-purple">自己理解を深め、今後の成長に繋げる</strong>ことを目的としています。</p>
+                <p>他の生徒と比較するためではなく、<strong class="highlight-blue">自分自身の特性や傾向、改善点</strong>をデータに基づいて認識するためのものです。この分析結果を、<strong class="highlight-green">より効果的な学習戦略を立て、充実した高校生活を送る</strong>ための一助として活用してください。</p>
+                <p>客観的なデータと向き合うことで、<strong class="highlight-yellow">具体的な次の一歩</strong>が見えてくるはずです。進路指導部として、皆さんの成長をサポートするための情報を提供します。</p>
+                <p class="note">（分析対象：高校1年生）</p>
+            </section>
+
+            <section id="overview">
+                <h2><i class="fa-solid fa-chart-pie"></i>学年全体の傾向：現状の客観的把握</h2>
+                <p>まず、学年全体のデータから、皆さんがどのような状況にあるのかを見ていきましょう。自身の状況を相対的に把握する参考としてください。</p>
+
+                 <div class="chart-container">
+                     <p class="chart-title">主な傾向（学年全体）</p>
+                     <div class="bar-chart">
+                         <div class="bar-item">
+                             <div class="bar" style="height: 130px;"><span class="bar-inner" style="height: 63.8%;"></span><span class="bar-value">63.8%</span></div>
+                             <div class="bar-label">4大希望</div>
+                         </div>
+                         <div class="bar-item">
+                             <div class="bar bar-warning" style="height: 130px;"><span class="bar-inner" style="height: 21.6%;"></span><span class="bar-value">21.6%</span></div>
+                             <div class="bar-label">進路未定</div>
+                         </div>
+                          <div class="bar-item">
+                             <div class="bar bar-success" style="height: 130px;"><span class="bar-inner" style="height: 50.9%;"></span><span class="bar-value">50.9%</span></div>
+                             <div class="bar-label">部活と両立OK</div>
+                         </div>
+                          <div class="bar-item">
+                             <div class="bar bar-danger" style="height: 130px;"><span class="bar-inner" style="height: 34.7%;"></span><span class="bar-value">34.7%</span></div>
+                             <div class="bar-label">両立に課題</div>
+                         </div>
+                         <div class="bar-item">
+                             <div class="bar bar-warning" style="height: 130px;"><span class="bar-inner" style="height: 39.1%;"></span><span class="bar-value">39.1%</span></div>
+                             <div class="bar-label">学習の悩みあり</div>
+                         </div>
+                     </div>
+                     <p class="small-note" style="text-align: center; margin-top: 1em;"><i class="fa-solid fa-info-circle"></i> 進路、部活動との両立、学習方法が主な関心事・課題となっているようです。</p>
+                 </div>
+
+                <p>これらの全体像を踏まえつつ、個々の詳細を見ていきましょう。</p>
+
+                <div class="grid-container" style="margin-top: 1em;">
+                    <div class="grid-item">
+                        <h4><i class="fa-regular fa-clock"></i>学習時間（中央値）</h4>
+                        <p><strong>平日：</strong><span class="highlight-blue">1.5時間</span></p>
+                        <p><strong>休日：</strong><span class="highlight-blue">2.5時間</span></p>
+                        <p class="small-note"><i class="fa-solid fa-arrow-up-right-dots"></i> 確保時間と<strong class="highlight-red">学習の質</strong>のバランスが重要です。</p>
+                    </div>
+                    <div class="grid-item">
+                        <h4><i class="fa-regular fa-comments"></i>主な悩み</h4>
+                        <p><strong>１位：</strong><span class="highlight-red">学習方法・内容 (39.1%)</span></p>
+                        <p><strong>２位：</strong><span class="highlight-red">部活との両立 (30.6%)</span></p>
+                        <p><strong>３位：</strong><span class="highlight-red">進路選択 (17.2%)</span></p>
+                        <p class="small-note"><i class="fa-regular fa-lightbulb"></i> 高校での学びに戸惑いを感じている生徒が多いことがうかがえます。</p>
+                    </div>
+                </div>
+                 <div class="callout blue">
+                     <span class="icon"><i class="fa-solid fa-circle-info"></i></span>
+                     <p>多くの生徒が同様の状況や課題を抱えています。この<strong><strong class="highlight-blue">共通認識</strong>を基に、建設的な対策を考えていきましょう。</strong></p>
+                 </div>
+            </section>
+
+            <section id="study-habits">
+                 <h2><i class="fa-solid fa-arrow-up-right-dots"></i>学力向上の本質：<strong class="highlight-orange">「学習の質」が成長を加速する</strong></h2>
+                <p>「努力がなかなか実を結ばない」と感じる場合、その原因は<strong class="highlight-red">学習のプロセス</strong>にある可能性が高いです。データ分析から見えてきた、<strong class="highlight-blue">学力と学習行動の明確な関連性</strong>について解説します。</p>
+
+                <h3><i class="fa-solid fa-layer-group"></i>基盤となる「学びに向かう力」の重要性</h3>
+                <p>分析の結果、<strong class="highlight-blue">学習時間以上に強く</strong>学力との相関が見られたのは、以下の4つの<strong class="highlight-orange">学習コンピテンシー</strong>でした。これらは<strong class="highlight-green bold">意識的な取り組みによって確実に向上</strong>させることができます。</p>
+
+                <div class="chart-container">
+                    <p class="chart-title">学力層別「学びに向かう力」平均レベル（5段階評価）</p>
+                    <div class="bar-chart">
+                         <div class="bar-item">
+                             <div class="bar bar-success" style="height: 150px;"><span class="bar-inner" style="height: 78.0%;"></span><span class="bar-value">3.9</span></div>
+                             <div class="bar-label">上位層</div>
+                         </div>
+                         <div class="bar-item">
+                             <div class="bar" style="height: 150px;"><span class="bar-inner" style="height: 64.0%;"></span><span class="bar-value">3.2</span></div>
+                             <div class="bar-label">中間層</div>
+                         </div>
+                         <div class="bar-item">
+                             <div class="bar bar-danger" style="height: 150px;"><span class="bar-inner" style="height: 48.0%;"></span><span class="bar-value">2.4</span></div>
+                             <div class="bar-label">下位層</div>
+                         </div>
+                    </div>
+                    <p class="small-note" style="text-align: center; margin-top: 1em;"><i class="fa-solid fa-arrow-pointer"></i> 学力上位層は、学習習慣・方法・粘り強さ・自己調整の総合レベルが顕著に高い。（最大5）</p>
+                </div>
+
+                 <ul class="icon-list list-brain">
+                     <li><strong>学習習慣：</strong>日々の学習を<strong class="highlight-blue">継続・定着</strong>させる基盤。</li>
+                     <li><strong>学習方法：</strong><strong class="highlight-blue">効果的・効率的なアプローチ</strong>を選択・実行する能力。</li>
+                     <li><strong>粘り強さ：</strong><strong class="highlight-blue">困難な課題にも意欲的に</strong>取り組み続ける精神力。</li>
+                     <li><strong>自己調整学習：</strong><strong class="highlight-blue">自らの学びを客観的に捉え、計画・実行・評価・改善</strong>する能力（メタ認知）。</li>
+                 </ul>
+                 <p>これらの力を総合的に育成することが、<strong class="highlight-yellow">持続的な学力向上</strong>に不可欠です。</p>
+
+                 <h3><i class="fa-solid fa-bullseye"></i>差がつくポイント：質の高い学習行動とは？</h3>
+                 <p>特に学力上位層において、<strong class="highlight-orange">実践率が高い</strong>と確認された具体的な学習行動を紹介します。自身の学習と比較し、改善点を探ってみましょう。（※「とてもあてはまる」「ややあてはまる」と回答した割合）</p>
+
+                 <div class="chart-container">
+                     <p class="chart-title">質の高い学習行動の実践率比較（上位層 vs 下位層）</p>
+                     <div class="comparison-chart">
+                         <div class="comparison-item">
+                             <div class="comparison-label">間違い分析＆対策</div>
+                             <div class="comparison-bars">
+                                 <div class="comparison-bar bar-high" style="width: 76.7%;"></div>
+                             </div>
+                             <span class="comparison-value">76.7%</span><span class="group-label label-high">上位層</span>
+                         </div>
+                          <div class="comparison-item">
+                             <div class="comparison-label">(同上)</div>
+                             <div class="comparison-bars">
+                                 <div class="comparison-bar bar-low" style="width: 47.6%;"></div>
+                             </div>
+                              <span class="comparison-value">47.6%</span><span class="group-label label-low">下位層</span>
+                         </div>
+                          <div class="comparison-item">
+                             <div class="comparison-label">理解重視の学習</div>
+                             <div class="comparison-bars">
+                                 <div class="comparison-bar bar-high" style="width: 83.3%;"></div>
+                             </div>
+                             <span class="comparison-value">83.3%</span><span class="group-label label-high">上位層</span>
+                         </div>
+                          <div class="comparison-item">
+                             <div class="comparison-label">(同上)</div>
+                             <div class="comparison-bars">
+                                 <div class="comparison-bar bar-low" style="width: 50.8%;"></div>
+                             </div>
+                              <span class="comparison-value">50.8%</span><span class="group-label label-low">下位層</span>
+                         </div>
+                          <div class="comparison-item">
+                             <div class="comparison-label">計画と振り返り</div>
+                              <div class="comparison-bars">
+                                 <div class="comparison-bar bar-high" style="width: 66.7%;"></div>
+                             </div>
+                              <span class="comparison-value">66.7%</span><span class="group-label label-high">上位層</span>
+                         </div>
+                         <div class="comparison-item">
+                             <div class="comparison-label">(同上)</div>
+                             <div class="comparison-bars">
+                                 <div class="comparison-bar bar-low" style="width: 25.9%;"></div>
+                             </div>
+                             <span class="comparison-value">25.9%</span><span class="group-label label-low">下位層</span>
+                         </div>
+                     </div>
+                      <p class="small-note" style="text-align: center; margin-top: 1em;"><i class="fa-solid fa-lightbulb"></i> 特に計画性において大きな差が見られます。意識的な行動変容が求められます。</p>
+                 </div>
+
+                 <ul class="icon-list list-star">
+                     <li><strong>課題分析と解決策思考：</strong>間違えた問題に対し、<strong class="highlight-yellow">原因を特定し、次にどうすべきか具体的な対策</strong>を考えるプロセスを重視する。</li>
+                     <li><strong>本質的理解の追求：</strong>表面的な暗記に留まらず、<strong class="highlight-yellow">「なぜそうなるのか」という原理原則や、知識間の関連性</strong>を深く理解しようと努める。</li>
+                     <li><strong>計画性と柔軟な見直し：</strong>目標達成のために<strong class="highlight-yellow">具体的な学習計画を立て、その進捗を客観的に評価し、必要に応じて計画を修正</strong>する。</li>
+                     <li><strong>疑問点の積極的解消：</strong>不明な点を<strong class="highlight-yellow">放置せず、質問や調査によってその日のうちに解決</strong>しようと努める姿勢を持つ。</li>
+                 </ul>
+
+                <div class="callout orange">
+                    <span class="icon"><i class="fa-solid fa-chart-line"></i></span>
+                     <p>学力向上を目指す上で、学習時間を確保することに加えて、<strong><strong class="highlight-orange">「学習の質」</strong>にいかにこだわるか</strong>が、<strong class="highlight-orange">決定的な差を生む要因</strong>となり得ます。</p>
+                </div>
+            </section>
+
+            <section id="lifestyle">
+                 <h2><i class="fa-solid fa-heart-pulse"></i>心身のコンディション：<strong class="highlight-green">安定した学習基盤を築く</strong></h2>
+                <p>日々の生活習慣は、皆さんの<strong class="highlight-blue">集中力や学習効率</strong>に直接的な影響を与えます。<strong class="highlight-purple">健全な心身の状態</strong>を維持することの重要性を再確認しましょう。</p>
+                <div class="grid-container">
+                    <div class="grid-item">
+                        <h4><i class="fa-solid fa-bed"></i>睡眠：記憶と集中力の回復</h4>
+                        <p>十分な睡眠は、<strong class="highlight-red">記憶の定着や日中の集中力維持</strong>に不可欠な要素です。</p>
+                        <p>個人差はありますが、<strong class="highlight-green">安定して7時間程度の睡眠時間</strong>を確保することを推奨します。（学年平均：約6.8時間）</p>
+                    </div>
+                    <div class="grid-item">
+                        <h4><i class="fa-solid fa-clock"></i>時間管理：自己管理能力の育成</h4>
+                        <p>部活動等で多忙な状況は、<strong class="highlight-blue">計画性や優先順位付け</strong>といった時間管理能力を高める良い機会となります。</p>
+                        <p><strong class="highlight-orange">スキマ時間の有効活用</strong>など、効率的な時間の使い方を意識しましょう。</p>
+                    </div>
+                    <div class="grid-item">
+                        <h4><i class="fa-solid fa-calendar-alt"></i>学習リズム：習慣化の効果</h4>
+                        <p><strong class="highlight-red">日々の気分に左右されず</strong>、学習に取り組むためには、<strong class="highlight-green">学習時間を固定化</strong>するなど、習慣の力を活用することが有効です。</p>
+                        <p>「まず始める」ことを意識すると、集中力は後から高まる傾向があります。</p>
+                    </div>
+                     <div class="grid-item">
+                         <h4><i class="fa-solid fa-dumbbell"></i>部活動との両立と学力傾向</h4>
+                         <p>部活動への取り組み方と学力の間には、興味深い傾向が見られました。（※学力をスコア化して比較）</p>
+                         <div class="chart-container" style="padding: 1em 0.5em; background: none; border: none; margin: 1em 0;">
+                              <p class="chart-title" style="font-size: 0.9em; margin-bottom: 1em;">部活動状況別 平均学力スコア</p>
+                             <div class="bar-chart" style="min-height: 100px; gap: 0.8em;">
+                                 <div class="bar-item">
+                                     <div class="bar bar-success" style="height: 100px;"><span class="bar-inner" style="height: 71.3%;"></span><span class="bar-value">7.1</span></div>
+                                     <div class="bar-label">両立できている</div>
+                                 </div>
+                                  <div class="bar-item">
+                                     <div class="bar" style="height: 100px;"><span class="bar-inner" style="height: 68.2%;"></span><span class="bar-value">6.8</span></div>
+                                     <div class="bar-label">部活なし</div>
+                                 </div>
+                                 <div class="bar-item">
+                                     <div class="bar bar-danger" style="height: 100px;"><span class="bar-inner" style="height: 58.4%;"></span><span class="bar-value">5.8</span></div>
+                                     <div class="bar-label">両立に課題</div>
+                                 </div>
+                             </div>
+                         </div>
+                         <p class="small-note"><i class="fa-solid fa-lightbulb"></i> 「両立できている」生徒の平均スコアが高いのは、時間管理や集中力など、学習に必要な能力が部活動との両立を通じて鍛えられている可能性を示唆しています。</p>
+                     </div>
+                </div>
+                 <div class="callout green">
+                    <span class="icon"><i class="fa-solid fa-shield-alt"></i></span>
+                     <p>規則正しい生活は、<strong><strong class="highlight-green">学習パフォーマンスを安定させ、向上させるための土台</strong>です。</strong>日々の小さな積み重ねを大切にしましょう。</p>
+                 </div>
+            </section>
+
+            <section id="environment">
+                 <h2><i class="fa-solid fa-users"></i>周囲との関わりと自己認識：<strong class="highlight-purple">成長を支える力</strong></h2>
+                 <p>皆さんの学びは、<strong class="highlight-blue">周囲の環境や人々との関わり</strong>、そして<strong class="highlight-purple">自分自身に対する理解</strong>によって、より豊かなものになります。</p>
+                 <div class="grid-container">
+                     <div class="grid-item">
+                         <h4><i class="fa-solid fa-comments"></i>悩み相談：問題解決への一歩</h4>
+                         <p>学習や進路に関する悩みは、<strong class="highlight-purple">客観的な視点やアドバイス</strong>を得ることで解決に向かうことが多いです。</p>
+                         <p><strong class="highlight-green">信頼できる先生、保護者、友人</strong>に積極的に相談することを推奨します。</p>
+                     </div>
+                     <div class="grid-item">
+                         <h4><i class="fa-solid fa-graduation-cap"></i>進路意識：学習の動機付け</h4>
+                         <p><strong class="highlight-orange">将来への目的意識</strong>は、日々の学習に対する<strong class="highlight-red bold">内発的な動機付け</strong>に繋がります。</p>
+                         <p>現段階から<strong class="highlight-yellow">多様な進路情報を収集し、自身の興味・関心と向き合う</strong>ことが重要です。</p>
+                     </div>
+                     <div class="grid-item">
+                         <h4><i class="fa-solid fa-user-group"></i>保護者との連携：共通理解の形成</h4>
+                         <p>自身の考えを<strong class="highlight-blue">保護者に伝え、対話する</strong>ことは、<strong class="highlight-green">相互理解を深め、円滑な進路選択</strong>に繋がります。(保護者が理解: <span class="highlight-green">71.6%</span>)</p>
+                         <p>積極的にコミュニケーションを図ることを推奨します。</p>
+                     </div>
+                     <div class="grid-item">
+                         <h4><i class="fa-solid fa-toolbox"></i>学習ツールの活用：主体的な選択</h4>
+                         <p>参考書や塾などのツールは、<strong class="highlight-purple">自身の学習目的やスタイルに合わせて主体的に選択・活用</strong>することが効果を高める鍵です。(参考書利用: <span class="highlight-blue">66.6%</span>)</p>
+                         <p>ツールに<strong class="highlight-orange">受け身で依存するのではなく</strong>、自らの学習を補助するものとして戦略的に利用しましょう。</p>
+                     </div>
+                 </div>
+                 <div class="callout purple">
+                      <span class="icon"><i class="fa-solid fa-network-wired"></i></span>
+                     <p>周囲のリソースを<strong class="highlight-purple">効果的に活用</strong>し、自身の状況を<strong class="highlight-purple">客観的に把握</strong>することが、更なる成長に繋がります。</p>
+                 </div>
+            </section>
+
+            <section id="types">
+                 <h2><i class="fa-solid fa-id-badge"></i>自己理解の深化：<strong class="highlight-yellow">個性を活かした学びの探求</strong></h2>
+                 <p>一人ひとり、思考の傾向や得意な学習スタイルは異なります。<strong class="highlight-blue">「自分らしさ」</strong>を深く理解することは、<strong class="highlight-green">学習効果を高め、将来の可能性を広げる</strong>上で非常に有益です。</p>
+                 <div class="grid-container">
+                     <div class="grid-item">
+                         <h4><i class="fa-solid fa-brain"></i>志向性タイプ：自分の特性を知る</h4>
+                         <p>論理的思考、共感性、計画性、実行力など、人にはそれぞれ異なる<strong class="highlight-yellow">認知・行動特性</strong>があります。（例: 最も多いタイプは「研究家タイプ」約26%）</p>
+                         <p>自身のタイプを知ることで、<strong class="highlight-purple">強みを活かし、弱みを補う</strong>ための具体的な方策が見えてきます。</p>
+                         <p class="small-note"><i class="fa-solid fa-comment-alt"></i> 個別面談等で結果の詳細についてお伝えします。</p>
+                     </div>
+                     <div class="grid-item">
+                         <h4><i class="fa-solid fa-pen-ruler"></i>学習スタイル：最適なアプローチ</h4>
+                         <p>視覚情報が理解しやすい、聴覚情報が記憶に残りやすい、書いて覚えるのが得意など、<strong class="highlight-yellow">学習効果が高い方法は個人によって異なります</strong>。</p>
+                         <p><strong class="highlight-blue">自身の得意な学習スタイル</strong>を認識し活用するとともに、<strong class="highlight-green">多様な方法を試す</strong>ことで、学習の幅が広がります。</p>
+                     </div>
+                 </div>
+                 <div class="callout yellow" style="background-color: var(--accent-yellow-bg); border-left-color: #92400E;">
+                     <span class="icon" style="color: #92400E;"><i class="fa-solid fa-book-open"></i></span>
+                    <p><strong style="color: #92400E;">客観的なデータに基づいた自己理解</strong>は、<strong style="color: #92400E;">自分に最適化された学習戦略</strong>を構築し、<strong style="color: #92400E;">迷いを減らし自信を持って</strong>学習に取り組むための重要な基盤となります。</p>
+                 </div>
+            </section>
+
+            <section id="summary">
+                <h2><i class="fa-solid fa-person-chalkboard"></i>行動への転換：<strong class="highlight-orange">明日から始める成長戦略</strong></h2>
+                <p>これまでの分析を踏まえ、皆さんの<strong class="highlight-green">更なる成長</strong>を促すための具体的なアクションプランを提案します。<strong class="highlight-blue">実現可能</strong>だと思えることから、ぜひ実践に移してみてください。</p>
+
+                <div class="grid-container" style="grid-template-columns: 1fr;">
+                    <div class="grid-item">
+                        <h4><i class="fa-solid fa-arrow-trend-up"></i>学習の「質」向上プラン</h4>
+                        <ul class="icon-list list-action">
+                            <li><strong>課題分析の深化：</strong><span class="highlight-action">誤答分析（原因特定→改善策立案→記録）</span>を学習プロセスに組み込む。</li>
+                            <li><strong>能動的理解の促進：</strong>学んだ内容を<span class="highlight-action">自分の言葉で要約</span>したり、<span class="highlight-action">他者に説明</span>する機会を持つ。</li>
+                            <li><strong>計画と振り返りの習慣化：</strong><span class="highlight-action">週単位・日単位での具体的な学習目標</span>を設定し、定期的に進捗を確認・評価する。</li>
+                            <li><strong>疑問点の計画的解消：</strong><span class="highlight-action">不明点をリスト化</span>し、計画的に質問や調査を行う。</li>
+                        </ul>
+                    </div>
+                    <div class="grid-item">
+                        <h4><i class="fa-solid fa-heart-pulse"></i>学習基盤強化プラン</h4>
+                        <ul class="icon-list list-action">
+                             <li><strong>時間資源の意識的活用：</strong><span class="highlight-action">スキマ時間でできる学習メニュー</span>を用意し、有効活用する。</li>
+                             <li><strong>集中できる環境構築：</strong>学習場所を<span class="highlight-action">物理的・心理的に整理</span>し、集中を妨げる要因を減らす。</li>
+                             <li><strong>睡眠サイクルの安定化：</strong><span class="highlight-action">規則正しい就寝・起床時間</span>を心がけ、睡眠の質向上に努める。</li>
+                             <li><strong>段階的目標による成功体験：</strong>苦手分野は<span class="highlight-action">達成可能な小さな目標を設定</span>し、「できた」体験を重視する。</li>
+                        </ul>
+                    </div>
+                     <div class="grid-item">
+                        <h4><i class="fa-solid fa-handshake-angle"></i>サポート活用・自己効力感向上プラン</h4>
+                        <ul class="icon-list list-action">
+                             <li><strong>能動的な情報収集：</strong><span class="highlight-action">信頼できる情報源</span>から、進路や学習法に関する情報を主体的に集める。</li>
+                             <li><strong>効果的な相談スキル：</strong><span class="highlight-action">相談前に要点を整理</span>し、具体的かつ建設的な対話を心がける。</li>
+                             <li><strong>学習ツールの評価と選択：</strong><span class="highlight-action">自身の目的・課題に照らし合わせてツールを吟味</span>し、活用法を工夫する。</li>
+                             <li><strong>自己肯定感の育成：</strong><span class="highlight-action">日々の努力や小さな進歩を客観的に評価</span>し、自身の成長を認識する。</li>
+                        </ul>
+                    </div>
+                </div>
+                 <div class="callout orange">
+                     <span class="icon"><i class="fa-solid fa-shoe-prints"></i></span>
+                    <p>大切なのは、分析結果を<strong class="highlight-orange">知るだけで終わらせず</strong>、<strong><strong class="highlight-orange">具体的な行動</strong>に結びつける</strong>ことです。<strong class="highlight-orange">小さな一歩</strong>が、着実な成長へと繋がっていきます。</p>
+                </div>
+            </section>
+
+            <section class="final-section">
+                 <h2><i class="fa-solid fa-graduation-cap"></i>最後に：未来は君たちの主体的な選択の中にある</h2>
+                <p>今回の分析が、皆さんが<strong class="highlight-blue">客観的に自身を見つめ直し、より良い未来を築く</strong>ため<strong class="highlight-yellow">の有益な材料</strong>となることを願っています。</p>
+                <p>高校生活は、<strong class="highlight-green">多くのことを学び、経験し、自己を確立していく</strong>ための貴重な期間です。困難に直面することもあると思いますが、それは<strong class="highlight-purple">乗り越えることで得られる大きな学びの機会</strong>でもあります。</p>
+                 <p>私たち進路指導部は、皆さんの<strong class="highlight-orange">主体的な学びと挑戦</strong>を継続的に支援していきます。疑問や相談があれば、いつでも遠慮なく進路指導室を活用してください。</p>
+                <p class="large-text">
+                    自らの<strong>可能性</strong>を信じ、<br>
+                    <strong>意欲的に未来を切り拓いていく</strong>ことを心から期待しています。 <i class="fa-solid fa-hands-clapping"></i>
+                </p>
+                <p class="note">（ご清聴ありがとうございました / 個別相談も随時受け付けています）</p>
+            </section>
+        </main>
+    </div>
+
+</body>
+</html>
