@@ -1,318 +1,348 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>学びに向かう力の育成と質の高い学習行動</title>
-<style>
-  body {
-    font-family: 'Helvetica Neue', 'Arial', 'Hiragino Sans', 'Meiryo', sans-serif;
-    line-height: 1.8;
-    color: #333;
-    background-color: #f8f9fa;
-    padding: 20px;
-  }
-  .container {
-    max-width: 850px;
-    margin: 20px auto;
-    background-color: #fff;
-    padding: 35px 40px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    border: 1px solid #e0e0e0;
-  }
-  h2 {
-    color: #005f73; /* 深い青緑 */
-    border-left: 6px solid #005f73;
-    padding: 8px 15px;
-    margin-top: 45px;
-    margin-bottom: 25px;
-    background-color: #f0f7f8;
-    font-size: 1.5em;
-    font-weight: 600;
-  }
-  h3 {
-    color: #0077b6; /* やや明るい青 */
-    margin-top: 35px;
-    margin-bottom: 18px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid #ade8f4;
-    font-size: 1.25em;
-    font-weight: 600;
-  }
-  .section {
-    margin-bottom: 45px;
-  }
-  .goal {
-    background-color: #e9f5ff;
-    border: 1px solid #cde7ff;
-    border-left: 5px solid #0077b6;
-    padding: 12px 18px;
-    margin-bottom: 20px;
-    font-weight: bold;
-    color: #1a3a6e;
-    border-radius: 4px;
-  }
-  .learning-point {
-      background-color: #fff3cd;
-      border-left: 5px solid #ffe082;
-      padding: 10px 15px;
-      margin-top: 25px;
-      margin-bottom: 15px;
-      font-weight: bold;
-      color: #664d03;
-      border-radius: 4px;
-  }
-  .approach-list {
-    list-style: none;
-    padding-left: 0;
-  }
-  .approach-list li {
-    margin-bottom: 18px;
-    padding-left: 30px;
-    position: relative;
-  }
-  .approach-list li::before {
-    content: "›"; /* シンプルなマーカー */
-    color: #0077b6;
-    position: absolute;
-    left: 5px;
-    font-size: 1.8em;
-    line-height: 1;
-    top: 0px;
-    font-weight: bold;
-  }
-  strong {
-    color: #c9184a; /* 強調色 (濃いピンク) */
-    font-weight: 600;
-  }
-   .example-quote {
-    display: inline-block;
-    background-color: #f0f0f0;
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-family: Consolas, Monaco, monospace;
-    font-size: 0.95em;
-    color: #555;
-    margin: 0 3px;
-  }
-  .pdca-cycle {
-      margin-top: 20px;
-      padding-left: 15px;
-      border-left: 3px solid #ced4da;
-  }
-  .pdca-cycle h4 {
-      margin-top: 15px;
-      margin-bottom: 10px;
-      color: #495057;
-      font-weight: 600;
-  }
-  .sub-list {
-      list-style: disc;
-      padding-left: 25px;
-      margin-top: 5px;
-  }
-   .sub-list li {
-       margin-bottom: 8px;
-       padding-left: 0; /* Reset padding */
-   }
-   .sub-list li::before {
-       content: ""; /* Remove outer list marker */
-   }
-  hr {
-      border: none;
-      border-top: 1px solid #e0e0e0;
-      margin: 50px 0;
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>【自己成長への羅針盤】学びに向かう力 育成ガイド</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* --- 基本設定 & 色定義 --- */
+        :root {
+            --bg-color: #FFFFFF;
+            --text-color: #1F2937; /* ダークグレー */
+            --sub-text-color: #6B7280; /* ミディアムグレー */
+            --border-color: #E5E7EB; /* ライトグレー */
+            --divider-color: #F3F4F6; /* ベリーライトグレー */
+
+            /* アクセントカラー（役割定義） */
+            --accent-primary: #3B82F6; /* プライマリ (青) - 情報、中立 */
+            --accent-primary-bg: rgba(59, 130, 246, 0.07);
+            --accent-warning: #F59E0B; /* 注意・行動喚起 (オレンジ) */
+            --accent-warning-bg: rgba(245, 158, 11, 0.08);
+            --accent-success: #10B981; /* 成功・ポジティブ (緑) */
+            --accent-success-bg: rgba(16, 185, 129, 0.08);
+            --accent-danger: #EF4444; /* 課題・重要注意 (赤) */
+            --accent-danger-bg: rgba(239, 68, 68, 0.08);
+            --accent-info: #6366F1; /* 情報・個性 (紫) */
+            --accent-info-bg: rgba(99, 102, 241, 0.08);
+            --accent-highlight: #FBBF24; /* 目立たせたい箇所 (黄色) */
+            --accent-highlight-bg: rgba(251, 191, 36, 0.1);
+
+            --heading-font: 'Noto Sans JP', sans-serif;
+            --body-font: 'Noto Sans JP', sans-serif;
+
+            --content-max-width: 800px;
+            --base-font-size: clamp(1rem, 1.8vw + 0.5rem, 1.125rem); /* 16px-18px */
+            --line-height-base: 1.8; /* 基本行間 */
+            --section-spacing: 5.5rem; /* セクション間余白 */
+        }
+
+        html { scroll-behavior: smooth; font-size: 100%; }
+        body { margin: 0; padding: 0; font-family: var(--body-font); font-size: var(--base-font-size); color: var(--text-color); background-color: var(--bg-color); line-height: var(--line-height-base); -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+        .container { max-width: var(--content-max-width); margin: 0 auto; padding: 5rem 2rem; }
+
+        /* --- ヘッダー (今回はシンプルに) --- */
+        header { text-align: center; margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid var(--divider-color); }
+        header h1 { font-size: clamp(2.0rem, 6vw, 3.0rem); font-weight: 900; line-height: 1.2; margin-bottom: 0.3em; color: var(--text-color); letter-spacing: -0.02em; }
+        header .subtitle { font-size: clamp(1.1rem, 3vw, 1.5rem); font-weight: 500; color: var(--sub-text-color); margin-bottom: 0; }
+
+        /* --- セクション --- */
+        section { margin-bottom: var(--section-spacing); }
+        section h2 { font-size: clamp(1.7rem, 5vw, 2.4rem); font-weight: 700; margin-bottom: 2em; padding-bottom: 0.6em; border-bottom: 2px solid var(--divider-color); display: flex; align-items: center; gap: 0.6em; color: var(--text-color); line-height: 1.3; }
+        section h2 i { font-size: 1em; color: var(--accent-primary); margin-bottom: -1px; width: 1.2em; text-align: center; flex-shrink: 0; }
+        section h3 { font-size: clamp(1.3rem, 4vw, 1.7rem); font-weight: 700; margin-top: 3em; margin-bottom: 1.5em; display: flex; align-items: center; gap: 0.5em; color: var(--text-color); line-height: 1.4; }
+        section h3 i { font-size: 1em; color: var(--accent-success); margin-right: 0.1em; margin-bottom: -1px; width: 1.2em; text-align: center; flex-shrink: 0; }
+        p { margin-bottom: 1.5em; font-weight: 400; /* 本文はRegular */ }
+        strong { font-weight: 700; color: var(--text-color); } /* 強調はBold */
+        .bold { font-weight: 900; } /* 特に強い強調はExtra Bold */
+
+
+        /* --- ハイライト（視認性向上） --- */
+        .highlight { padding: 0.05em 0.4em; border-radius: 3px; font-weight: 700; margin: 0 0.1em; }
+        .highlight-blue { background-color: var(--accent-primary-bg); color: #1E40AF; } /* WCAG AA+ */
+        .highlight-orange { background-color: var(--accent-warning-bg); color: #9A3412; } /* WCAG AA+ */
+        .highlight-green { background-color: var(--accent-success-bg); color: #065F46; } /* WCAG AA+ */
+        .highlight-red { background-color: var(--accent-danger-bg); color: #991B1B; }   /* WCAG AA+ */
+        .highlight-yellow { background-color: var(--accent-highlight-bg); color: #92400E; } /* WCAG AA+ */
+        .highlight-purple { background-color: var(--accent-info-bg); color: #4C1D95; }  /* WCAG AA+ */
+
+        /* --- Callout --- */
+        .callout { background-color: #F9FAFB; border-radius: 6px; padding: 1.8em 2em; margin: 2.5em 0; display: flex; align-items: flex-start; gap: 1em; border-left: 4px solid var(--accent-primary); }
+        .callout .icon { font-size: 1.5rem; color: var(--accent-primary); margin-top: 0.1em; flex-shrink: 0; }
+        .callout p { margin: 0; font-size: 1.05em; font-weight: 500; line-height: 1.65; }
+        .callout p strong { font-weight: 700; color: var(--accent-primary); }
+        .callout.orange { border-left-color: var(--accent-warning); background-color: var(--accent-warning-bg); }
+        .callout.orange .icon { color: var(--accent-warning); }
+        .callout.orange p strong { color: var(--accent-warning); }
+        .callout.green { border-left-color: var(--accent-success); background-color: var(--accent-success-bg); }
+        .callout.green .icon { color: var(--accent-success); }
+        .callout.green p strong { color: var(--accent-success); }
+        .callout.purple { border-left-color: var(--accent-info); background-color: var(--accent-info-bg); }
+        .callout.purple .icon { color: var(--accent-info); }
+        .callout.purple p strong { color: var(--accent-info); }
+        .callout.yellow { border-left-color: var(--accent-highlight); background-color: var(--accent-highlight-bg); }
+        .callout.yellow .icon { color: #92400E; }
+        .callout.yellow p strong { color: #92400E; }
+
+        /* --- グリッド --- */
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr; /* ★変更点：常に1列にする */
+            gap: 1.8rem;
+            margin: 2.5em 0;
+        }
+        .grid-item { background-color: var(--bg-color); padding: 1.8em; border-radius: 6px; border: 1px solid var(--border-color); transition: box-shadow 0.3s ease; display: flex; flex-direction: column; } /* flex追加 */
+        .grid-item:hover { box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07); }
+        .grid-item h4 { font-size: 1.2em; font-weight: 700; margin-top: 0; margin-bottom: 1em; display: flex; align-items: center; gap: 0.6em; line-height: 1.4; color: var(--text-color); }
+        .grid-item h4 i { font-size: 1.1em; color: var(--sub-text-color); width: 1.5em; text-align: center; flex-shrink: 0; }
+        .grid-item .content { flex-grow: 1; } /* 内容部分が伸びるように */
+        .grid-item p, .grid-item ol, .grid-item ul { font-size: 0.95em; color: var(--text-color); margin-bottom: 0.8em; line-height: 1.7; font-weight: 400;} /* マージン調整 */
+        .grid-item ol, .grid-item ul { padding-left: 1.8em; margin-top: 1em; } /* パディング調整 */
+        .grid-item li { margin-bottom: 0.8em; padding-left: 0.3em; } /* マージン・パディング調整 */
+        .grid-item li::marker { color: var(--sub-text-color); font-size: 0.9em; } /* マーカー調整 */
+        .grid-item .goal, .grid-item .learning-point { font-size: 0.95em; font-weight: 700; padding: 0.8em 1.2em; margin-bottom: 1.5em; border-radius: 4px; }
+        .grid-item .goal { background-color: var(--accent-success-bg); border: 1px solid #a3e6cb; border-left: 4px solid var(--accent-success); color: #065f46; } /* Goalスタイル */
+        .grid-item .learning-point { background-color: var(--accent-highlight-bg); border: 1px solid #fcd34d; border-left: 4px solid var(--accent-highlight); color: #92400E; } /* Learning Pointスタイル */
+        .grid-item .small-note { font-size: 0.85em; color: var(--sub-text-color); margin-top: 1.2em; line-height: 1.5; }
+        .grid-item .small-note i { color: var(--sub-text-color); margin-right: 0.3em;}
+
+        /* --- リスト --- */
+        .icon-list { list-style: none; padding-left: 0; margin: 2.5em 0; }
+        .icon-list li { margin-bottom: 1.3em; padding-left: 2.5em; position: relative; line-height: 1.7; font-size: 1em; }
+        .icon-list li::before { font-family: "Font Awesome 6 Free"; font-weight: 900; position: absolute; left: 0; top: 0.1em; font-size: 1.2em; width: 1.5em; text-align: center; opacity: 0.8; }
+        .list-check li::before { content: "\f00c"; color: var(--accent-success); }
+        .list-brain li::before { content: "\f5ad"; color: var(--accent-primary); }
+        .list-star li::before { content: "\f005"; color: var(--accent-warning); }
+        .list-lightbulb li::before { content: "\f0eb"; color: var(--accent-highlight); }
+        .list-action li::before { content: "\f058"; color: var(--accent-success); }
+        .icon-list strong { font-weight: 700; }
+        .icon-list .highlight-action { background: var(--accent-success-bg); color: #065F46; font-weight: 700; padding: 0.1em 0.4em; border-radius: 3px; }
+
+        /* --- PDCAサイクル表現用 --- */
+        .pdca-cycle { margin-top: 1.5em; border-left: 3px solid var(--divider-color); padding-left: 1.5em; }
+        .pdca-step h5 { font-size: 1em; font-weight: 700; color: var(--text-color); margin-bottom: 0.5em; margin-top: 1.2em; }
+        .pdca-step h5 i { margin-right: 0.4em; color: var(--accent-primary); opacity: 0.8; }
+        .pdca-step ul { list-style: disc; padding-left: 1.5em; margin-top: 0.5em; }
+        .pdca-step ul li { font-size: 0.9em; margin-bottom: 0.5em; padding-left: 0.2em; }
+        .pdca-step ul li::marker { font-size: 0.8em; }
+
+        /* --- その他調整 --- */
+        .example-quote {
+            display: inline-block;
+            background-color: var(--divider-color);
+            padding: 0.1em 0.5em;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, monospace;
+            font-size: 0.9em;
+            color: var(--sub-text-color);
+            margin: 0 0.1em;
+            border: 1px solid var(--border-color);
+        }
+        hr { border: none; border-top: 1px solid var(--divider-color); margin: var(--section-spacing) 0; }
+
+        /* --- レスポンシブ調整 --- */
+        @media (max-width: 768px) {
+            .container { padding: 4rem 1.5rem; }
+            header { margin-bottom: 2.5rem; padding-bottom: 2rem;}
+            section { margin-bottom: 4.5rem; }
+            /* .grid-container は既に1列なので変更不要 */
+            .callout { flex-direction: column; align-items: flex-start; gap: 0.8em;}
+            .callout .icon { margin-bottom: 0.3em; }
+            .pdca-cycle { padding-left: 1em; }
+        }
+        @media (max-width: 480px) {
+             .container { padding: 3rem 1rem; }
+             header { margin-bottom: 2rem; padding-bottom: 1.5rem;}
+             section { margin-bottom: 3.5rem; }
+             .grid-container { gap: 1.2rem;} /* 縦方向のgapは維持 */
+             .icon-list li { padding-left: 2.2em; }
+             .icon-list li::before { width: 1.3em; }
+             .grid-item { padding: 1.5em; }
+             .grid-item h4 { font-size: 1.1em; }
+             .grid-item p, .grid-item ol, .grid-item ul { font-size: 0.9em; }
+             .pdca-step h5 { font-size: 0.95em; }
+             .pdca-step ul li { font-size: 0.85em; }
+        }
+
+    </style>
 </head>
 <body>
 
-<div class="container">
+    <div class="container">
+        <header>
+            <h1><i class="fa-solid fa-graduation-cap"></i>学びに向かう力 育成ガイド</h1>
+            <p class="subtitle">学習の質を高め、持続的な成長を実現するために</p>
+        </header>
 
-  <section class="section">
-    <h2>基盤となる「学びに向かう力」の育成</h2>
-    <p>ここで紹介する力は互いに関連し合っており、一つの力を伸ばすことが他の力の向上にも繋がります。総合的に育成していくことが重要です。</p>
+        <main>
+            <section id="foundation">
+                <h2><i class="fa-solid fa-layer-group"></i>基盤となる「学びに向かう力」の育成</h2>
+                <p>学力向上のためには、学習時間だけでなく、学習への取り組み方、すなわち<strong class="highlight-blue">「学びに向かう力」</strong>を育てることが極めて重要です。ここで紹介する力は互いに関連し合っており、<strong class="highlight-green">総合的に育成</strong>することで、学習効果は飛躍的に高まります。</p>
 
-    <h3>1. 学習習慣：日々の学習を継続・定着させる基盤</h3>
-    <p class="goal">目標: 無理なく、自律的に学習を継続できる状態を構築する。</p>
-    <h4>具体的な取り組み方：</h4>
-    <ul class="approach-list">
-      <li><strong>「いつ・どこで・何を」の明確化:</strong>
-        <code class="example-quote">「夕食後の30分、自分の机で数学の問題集を2ページやる」</code>のように、具体的な行動計画（If-Thenプランニング）を立てることで、行動に移しやすくなります。単に「勉強しなさい」と考えるのではなく、「いつ、どこで、何をやるか」を具体的に決めましょう。
-      </li>
-      <li><strong>スモールステップの原則:</strong>
-        最初は<code class="example-quote">「毎日15分だけ集中する」</code>など、達成可能な短い時間や量から始め、成功体験を積み重ねることが大切です。徐々に時間や量を増やしていきましょう。<code class="example-quote">「まずは1週間、毎日10分だけ続けてみよう」</code>といった始め方も有効です。
-      </li>
-      <li><strong>環境整備のサポート:</strong>
-        集中できる学習スペースを確保しましょう。机の上を整理し、必要なものだけを置く、スマートフォンなどの誘惑物は視界に入らない場所に置くなど、環境を整えることで集中力が高まります。
-      </li>
-      <li><strong>記録と可視化:</strong>
-        カレンダーや手帳、アプリなどを活用し、学習した時間や内容を記録して「見える化」しましょう。達成度が一目でわかると、モチベーション維持に繋がります。シールを貼る、グラフにするなど、ゲーム感覚を取り入れるのも良い方法です。
-      </li>
-      <li><strong>プロセスへの承認と励まし:</strong>
-        習慣化の途中で難しさを感じたときも、諦めずに継続している自分自身を認め、励ますことが重要です。<code class="example-quote">「毎日続けられていてすごい」「今日は疲れているのに頑張った」</code>など、結果だけでなくプロセスを肯定しましょう。
-      </li>
-    </ul>
+                <div class="grid-container">
+                    <div class="grid-item">
+                        <h4><i class="fa-solid fa-calendar-days"></i>学習習慣</h4>
+                        <div class="content">
+                            <p class="goal">目標：無理なく、自律的に学習を継続できる状態を構築する。</p>
+                            <ul>
+                                <li><strong>行動計画の具体化:</strong> <code class="example-quote">「いつ・どこで・何を」</code>を明確に定義する（If-Thenプランニング）。例: <code class="example-quote">「夕食後30分、自室で数学問題集を2ページ」</code></li>
+                                <li><strong>スモールステップ:</strong> 達成可能な<code class="example-quote">「毎日15分」</code>などから始め、成功体験を積む。</li>
+                                <li><strong>環境整備:</strong> 集中できる学習スペースを作り、スマートフォン等の誘惑物を管理する。</li>
+                                <li><strong>記録と可視化:</strong> カレンダーやアプリで学習記録をつけ、達成度を「見える化」する。</li>
+                                <li><strong>プロセス承認:</strong> 継続している<strong class="highlight-green">努力自体を認識し、肯定</strong>する。</li>
+                            </ul>
+                        </div>
+                    </div>
 
-    <h3>2. 学習方法：効果的・効率的なアプローチを選択・実行する能力</h3>
-    <p class="goal">目標: 課題の性質や自身の理解度に合わせて、最適な学習方法を選び、実行できる能力を養う。</p>
-    <h4>具体的な取り組み方：</h4>
-    <ul class="approach-list">
-      <li><strong>多様な学習法の紹介と試行:</strong>
-        教科や内容に応じて、音読、要約、マインドマップ作成、他者への説明（ティーチング）、問題演習、フラッシュカードなど、様々な学習方法が存在します。それぞれの特徴を理解し、実際に試してみて、自分に合った効果的な方法を見つけましょう。<code class="example-quote">「この単元は、まず音読してから要約してみるのはどうかな？」</code>といった試行も有効です。
-      </li>
-      <li><strong>方法選択の基準を学ぶ:</strong>
-        <code class="example-quote">「暗記が多い場合は反復練習やカードが有効」「原理原則を理解したい場合は図解や自分の言葉での説明が効果的」</code>など、学習の目的と方法を結びつけて考える基準を身につけましょう。
-      </li>
-      <li><strong>効果測定と振り返り:</strong>
-        実行した学習方法が、理解度の向上や知識定着に繋がったかを、小テストの結果や自己評価を通じて客観的に確認しましょう。<code class="example-quote">「この方法で勉強したら、前の小テストより点が上がった。どうしてだと思う？」</code>と自問し、効果を実感することが大切です。
-      </li>
-      <li><strong>成功事例の共有と情報交換:</strong>
-        友人や先輩が実践して効果があった学習方法を参考にしたり、学習方法について情報交換したりする機会を持つことも、新たな発見に繋がります。
-      </li>
-    </ul>
+                    <div class="grid-item">
+                        <h4><i class="fa-solid fa-lightbulb"></i>学習方法</h4>
+                        <div class="content">
+                            <p class="goal">目標：課題や理解度に合わせて最適な学習方法を選択・実行できる能力を養う。</p>
+                             <ul>
+                                <li><strong>多様な方法の試行:</strong> 音読、要約、マインドマップ、他者への説明、問題演習などを試し、<strong class="highlight-yellow">自分に合った手法</strong>を見つける。</li>
+                                <li><strong>目的別選択:</strong> <code class="example-quote">「暗記には反復」「理解には図解や説明」</code>など、目的に応じて方法を選ぶ。</li>
+                                <li><strong>効果測定と振り返り:</strong> 試した方法の効果を小テストや自己評価で確認し、<strong class="highlight-blue">有効性を判断</strong>する。</li>
+                                <li><strong>情報交換:</strong> 他者の成功事例を参考にしたり、学習法について<strong class="highlight-purple">情報交換</strong>したりする。</li>
+                            </ul>
+                        </div>
+                    </div>
 
-    <h3>3. 粘り強さ：困難な課題にも意欲的に取り組み続ける精神力</h3>
-    <p class="goal">目標: 難しい問題や苦手な分野に直面しても、諦めずに粘り強く取り組める状態を目指す。</p>
-    <h4>具体的な取り組み方：</h4>
-    <ul class="approach-list">
-      <li><strong>成長マインドセットの育成:</strong>
-        「能力は努力次第で伸ばせる」という考え方（成長マインドセット）を持ちましょう。失敗や間違いは、学習を進める上での貴重なフィードバックであり、成長の機会と捉えることが重要です。<code class="example-quote">「難しい問題に挑戦していること自体が素晴らしい」「どこまで理解できていて、どこからが不明なのか整理してみよう」</code>といった前向きな姿勢が大切です。
-      </li>
-      <li><strong>目標の細分化:</strong>
-        大きな目標を、達成可能な小さなステップ（小目標）に分解しましょう。<code class="example-quote">「この難しい問題集を全部解く」</code>ではなく、<code class="example-quote">「今日はまず例題を理解する」「次に練習問題を1問解いてみる」</code>といった具体的なステップを設定することで、着実に進んでいる感覚を得やすくなります。
-      </li>
-      <li><strong>プロセスへの注目と承認:</strong>
-        結果だけでなく、困難な課題に取り組んでいる努力、試行錯誤、粘り強さといったプロセス自体を客観的に認識し、肯定しましょう。<code class="example-quote">「諦めずに色々な解き方を試しているな」「難しいのに、よくここまで考え抜いた」</code>といった自己評価が有効です。
-      </li>
-      <li><strong>困難への対処法を学ぶ:</strong>
-        学習中に行き詰まった際には、少し休憩する、別の問題に取り組む、教科書や参考書でヒントを探す、教員や友人に具体的に質問するなど、状況に応じた対処法を知り、試してみることが重要です。
-      </li>
-      <li><strong>ロールモデルの提示:</strong>
-        困難を乗り越えて目標を達成した人物（スポーツ選手、科学者、歴史上の人物など）のストーリーを知ることで、粘り強さの重要性を学び、モチベーションを高めることができます。
-      </li>
-    </ul>
+                    <div class="grid-item">
+                        <h4><i class="fa-solid fa-dumbbell"></i>粘り強さ (Grit)</h4>
+                        <div class="content">
+                            <p class="goal">目標：困難な課題にも意欲を失わず、粘り強く取り組む精神力を涵養する。</p>
+                             <ul>
+                                <li><strong>成長マインドセット:</strong> <code class="example-quote">「能力は努力で伸ばせる」</code>と信じ、<strong class="highlight-red">失敗を学びの機会</strong>と捉える。</li>
+                                <li><strong>目標の細分化:</strong> 大きな目標を達成可能な<strong class="highlight-green">小さなステップ</strong>に分解する。例: <code class="example-quote">「まず例題を理解する」</code></li>
+                                <li><strong>プロセス評価:</strong> 結果だけでなく、<strong class="highlight-blue">挑戦する姿勢や試行錯誤</strong>を肯定する。</li>
+                                <li><strong>対処戦略の準備:</strong> 行き詰まった時の休憩、質問、別課題への転換など、<strong class="highlight-orange">建設的な対処法</strong>を準備・実践する。</li>
+                                <li><strong>ロールモデル参照:</strong> 困難を克服した人物の事例から<strong class="highlight-purple">動機付け</strong>を得る。</li>
+                            </ul>
+                        </div>
+                    </div>
 
-    <h3>4. 自己調整学習：自らの学びを客観的に捉え、計画・実行・評価・改善する能力（メタ認知）</h3>
-    <p class="goal">目標: 自身の学習状況を客観的に把握し、自律的に学習プロセスをコントロールできる状態を確立する。</p>
-    <h4>具体的な取り組み方（Plan-Do-Check-Actサイクル）：</h4>
-    <div class="pdca-cycle">
-      <h4>計画 (Plan)</h4>
-      <ul class="sub-list">
-        <li><strong>目標設定:</strong> SMART原則（具体的、測定可能、達成可能、関連性、期限付き）などを参考に、明確な学習目標を設定します（例: <code class="example-quote">「次のテストで数学80点取る」</code>）。</li>
-        <li><strong>学習計画の立案:</strong> 目標達成のために「何を」「いつまでに」「どのくらい」学習する必要があるかを具体的に考え、計画表（週ごと、日ごとなど）を作成します。タスクの分解、優先順位付け、時間配分も計画に含めます。</li>
-      </ul>
-      <h4>実行 (Do)</h4>
-      <ul class="sub-list">
-        <li><strong>計画に基づく実践:</strong> 立案した計画に沿って学習を進めます。集中力を高めるための工夫（例：ポモドーロテクニックの活用、学習前の環境整備）も取り入れましょう。</li>
-      </ul>
-      <h4>評価 (Check/See)</h4>
-      <ul class="sub-list">
-        <li><strong>学習記録の活用:</strong> 学習時間、内容、集中度、理解度などを記録し、計画通りに進んでいるか、どの程度達成できたかを客観的に把握します。<code class="example-quote">「計画通りに進んでいるか？」「どのくらい理解できたか？」</code>と自問します。</li>
-        <li><strong>自己評価の促進:</strong> 小テストや課題、模試の結果などを利用し、「どこができて、どこができなかったか」「その原因は何か」を具体的に分析します。自己評価シートの活用も有効です。</li>
-      </ul>
-      <h4>改善 (Act)</h4>
-      <ul class="sub-list">
-        <li><strong>振り返りの習慣化:</strong> 週に一度など定期的に、計画と実績を比較し、学習方法や計画の改善点を考えます。<code class="example-quote">「計画通りにいかなかったのはなぜ？」「次はどうすればもっとうまくいく？」</code>といった問いを通じて、具体的な改善策を導き出します。</li>
-        <li><strong>振り返りジャーナルの推奨:</strong> 学習内容、気づき、反省点、改善策などをノートやデジタルツールに書き留めることで、思考が整理され、学習の深化に繋がります。</li>
-      </ul>
+                    <div class="grid-item">
+                        <h4><i class="fa-solid fa-recycle"></i>自己調整学習 (メタ認知)</h4>
+                        <div class="content">
+                            <p class="goal">目標：自身の学習プロセスを客観視し、自律的に計画・実行・評価・改善できる能力を獲得する。</p>
+                            <div class="pdca-cycle">
+                                <div class="pdca-step">
+                                    <h5><i class="fa-solid fa-map"></i>計画 (Plan)</h5>
+                                    <ul>
+                                        <li>明確な目標設定 (SMART原則など)</li>
+                                        <li>具体的な学習計画立案 (タスク分解、優先順位付け、時間配分)</li>
+                                    </ul>
+                                </div>
+                                <div class="pdca-step">
+                                    <h5><i class="fa-solid fa-person-running"></i>実行 (Do)</h5>
+                                    <ul>
+                                        <li>計画に基づく学習の実践</li>
+                                        <li>集中力を高める工夫</li>
+                                    </ul>
+                                </div>
+                                <div class="pdca-step">
+                                    <h5><i class="fa-solid fa-magnifying-glass-chart"></i>評価 (Check/See)</h5>
+                                    <ul>
+                                        <li>学習記録による客観的状況把握</li>
+                                        <li>テスト結果等の分析と自己評価 (<code class="example-quote">「何ができて、なぜできなかったか」</code>)</li>
+                                    </ul>
+                                </div>
+                                 <div class="pdca-step">
+                                    <h5><i class="fa-solid fa-wrench"></i>改善 (Act)</h5>
+                                     <ul>
+                                        <li>定期的な振り返りによる改善点の発見 (<code class="example-quote">「次はどうすれば良いか」</code>)</li>
+                                        <li>計画や方法の修正と実行</li>
+                                        <li>振り返りジャーナルの活用推奨</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <hr>
+
+            <section id="quality-actions">
+                <h2><i class="fa-solid fa-bullseye"></i>差がつくポイント：「質の高い学習行動」の実践</h2>
+                <p>学力上位層で特に実践率が高いとされる以下の行動は、<strong class="highlight-orange">意識的な導入</strong>によって誰もが習得可能です。学習効果をさらに高めるために、これらの行動を積極的に取り入れていきましょう。</p>
+
+                 <div class="grid-container">
+                     <div class="grid-item">
+                         <h4><i class="fa-solid fa-vial-circle-check"></i>間違い分析＆対策</h4>
+                         <div class="content">
+                             <p class="learning-point">学習ポイント：間違いを「失敗」ではなく、改善のための貴重な「データ」と捉え、次に活かす。</p>
+                             <ul>
+                                 <li><strong>エラー分析の徹底:</strong> <code class="example-quote">「なぜ間違えたか」</code>を具体的に分析（ケアレスミス、知識不足、理解不足等）。</li>
+                                 <li><strong>「間違いノート」活用:</strong> <strong class="highlight-yellow">①問題 ②誤答 ③正答 ④原因 ⑤対策</strong>の5項目を記録・分析する。</li>
+                                 <li><strong>具体的対策立案:</strong> <code class="example-quote">「見直し手順を決める」「用語カード作成」「類題演習」</code>など、行動レベルでの計画を立てる。</li>
+                                 <li><strong>フィードバック活用:</strong> 教員等に分析や対策を見てもらい、<strong class="highlight-blue">客観的なアドバイス</strong>を得る。</li>
+                             </ul>
+                         </div>
+                     </div>
+
+                     <div class="grid-item">
+                         <h4><i class="fa-solid fa-brain"></i>理解重視の学習</h4>
+                         <div class="content">
+                            <p class="learning-point">学習ポイント：表面的な暗記から脱却し、「なぜそうなるのか」という本質や知識間の関連性を追求する。</p>
+                            <ul>
+                                <li><strong>「なぜ？」の探求:</strong> 公式や事象の<strong class="highlight-purple">背景・理由・仕組み</strong>を常に問いかける。</li>
+                                <li><strong>自己説明の実践:</strong> 学習内容を<strong class="highlight-yellow">自分の言葉で要約・説明</strong>し、理解度を確認する。</li>
+                                <li><strong>知識の構造化:</strong> 図、マインドマップ等で知識を<strong class="highlight-blue">関連付け、体系化</strong>する。</li>
+                                <li><strong>具体例・応用考察:</strong> 抽象的な概念を<strong class="highlight-green">具体例</strong>に当てはめたり、<strong class="highlight-orange">応用場面</strong>を考えたりする。</li>
+                            </ul>
+                         </div>
+                     </div>
+
+                     <div class="grid-item">
+                         <h4><i class="fa-solid fa-clipboard-list"></i>計画と振り返り</h4>
+                         <div class="content">
+                            <p class="learning-point">学習ポイント：目的意識を持ち、計画的な学習サイクル（Plan-Do-Check-Act）を確立・継続する。</p>
+                            <ul>
+                                <li><strong>PDCAサイクル統合:</strong> 自己調整学習と連動させ、学習プロセスに<strong class="highlight-blue">計画と振り返り</strong>を組み込む。</li>
+                                <li><strong>定期的レビュー実施:</strong> <code class="example-quote">「週に一度」</code>など、計画・実績を比較し、<strong class="highlight-yellow">改善点を見つける</strong>時間を設ける。</li>
+                                <li><strong>記録ツールの活用:</strong> 手帳やアプリで学習時間・内容・集中度等を記録し、<strong class="highlight-green">客観的な評価</strong>を可能にする。</li>
+                                <li><strong>多角的視点の導入:</strong> <code class="example-quote">「目標達成度」「時間配分」「効果」</code>など、具体的な問いで<strong class="highlight-purple">多角的に分析</strong>する。</li>
+                            </ul>
+                         </div>
+                     </div>
+
+                     <div class="grid-item">
+                         <h4><i class="fa-solid fa-comments"></i>疑問点の積極的解消</h4>
+                         <div class="content">
+                             <p class="learning-point">学習ポイント：不明点を放置せず、知的好奇心と捉え、主体的に解決しようとする姿勢とスキルを養う。</p>
+                             <ul>
+                                 <li><strong>質問の推奨:</strong> 質問は<strong class="highlight-green">学習意欲の証</strong>と捉え、心理的安全性を確保する。</li>
+                                 <li><strong>疑問点の記録:</strong> 不明点を<code class="example-quote">「わからないことリスト」</code>としてメモし、管理する。</li>
+                                 <li><strong>効果的な質問スキル:</strong> <code class="example-quote">「どこまで理解し、何が不明か」</code>を明確にして質問する。</li>
+                                 <li><strong>多様な解決手段:</strong> 質問だけでなく、教科書、参考書、信頼できる情報源での<strong class="highlight-blue">自己解決能力</strong>も育成する。</li>
+                                 <li><strong>即時解決の意識:</strong> <code class="example-quote">「疑問はその日のうちに」</code>解決を目指すか、次のアクションを決める。</li>
+                             </ul>
+                         </div>
+                     </div>
+                 </div>
+
+                 <div class="callout orange" style="margin-top: 3em;">
+                     <span class="icon"><i class="fa-solid fa-lightbulb"></i></span>
+                     <p>これらの<strong class="highlight-orange">「質の高い学習行動」</strong>を実践することで、学習の効率と効果は大きく向上します。ぜひ、日々の学習に取り入れてみてください。</p>
+                 </div>
+
+            </section>
+
+            <section class="final-section" style="padding-top: 0; margin-top: 0; border-top: none;">
+                 <p class="large-text" style="font-size: clamp(1.2rem, 3vw, 1.6rem); margin-top: 1em;">
+                    <strong class="highlight-blue">「学びに向かう力」</strong>を高めることは、<br>
+                    学力向上だけでなく、<strong class="highlight-green">将来にわたって役立つ問題解決能力や自己管理能力</strong>を育むことに繋がります。
+                 </p>
+                 <p>日々の学習において、これらの視点を意識し、粘り強く実践していくことが、皆さんの持続的な成長を支えるでしょう。</p>
+                 <p><a href="https://tbt-beginner.github.io/dxclasses/studyreport.html">レポートに戻る</a></p>
+            </section>
+
+        </main>
     </div>
-  </section>
-
-  <hr>
-
-  <section class="section">
-    <h2>差がつくポイント：「質の高い学習行動」の実践</h2>
-    <p>学力上位層で実践率が高いとされる以下の行動は、意識的に取り組むことで確実に習得可能です。学習の質をさらに高めるために、ぜひ参考にしてください。</p>
-
-    <h3>1. 間違い分析＆対策</h3>
-    <p class="learning-point">学習ポイント: 間違いを単なる「失敗」と捉えず、自身の理解度や弱点を把握するための貴重な「学びの機会」と捉える。</p>
-    <h4>具体的な取り組み方：</h4>
-    <ul class="approach-list">
-      <li><strong>「間違いノート（エラーログ）」の作成:</strong>
-        単に正答を書き写すだけでなく、<code class="example-quote">①問題 ②自分の（間違えた）解答 ③正しい解答 ④なぜ間違えたか（原因分析） ⑤次にどうするか（具体的な対策）</code>の5項目を記録・分析することを推奨します。
-      </li>
-      <li><strong>原因分析の視点を持つ:</strong>
-        間違いの原因を「ケアレスミス」「知識不足」「理解不足」「応用力不足」などに分類し、それぞれに応じた具体的な対策を考えます。（例：ケアレスミス→見直し方法の改善、知識不足→教科書等での再確認、理解不足→質問や参考書の読み込み、応用力不足→類題演習）
-      </li>
-      <li><strong>「次にどうするか」を具体化する:</strong>
-        <code class="example-quote">「もっと注意する」</code>のような曖昧な対策ではなく、<code class="example-quote">「計算問題では必ず途中式を書き、見直しをする」「混同しやすい用語は単語カードを作って覚える」「このパターンの問題は、類題をあと3問解いてみる」</code>など、行動レベルでの具体的な対策を立てましょう。
-      </li>
-      <li><strong>フィードバックの活用:</strong>
-        作成した間違いノートを教員等に見てもらい、原因分析や対策の立て方についてアドバイスをもらうことも有効です。
-      </li>
-    </ul>
-
-    <h3>2. 理解重視の学習</h3>
-    <p class="learning-point">学習ポイント: 表面的な暗記に留まらず、「なぜそうなるのか」という原理原則や、知識間の関連性を深く理解しようと努める。</p>
-    <h4>具体的な取り組み方：</h4>
-    <ul class="approach-list">
-      <li><strong>「なぜ？」を問いかける習慣:</strong>
-        公式や事象に対して、<code class="example-quote">「なぜそうなるんだろう？」「どういう仕組みなの？」</code>と常に問いかけることを心がけましょう。背景や理由を理解することで、知識がより深く定着します。
-      </li>
-      <li><strong>自分の言葉で説明する（自己説明）:</strong>
-        学習した内容を、自分の言葉で言い換えたり、他の人に説明したりする機会を持つことで、理解の曖昧な点が明確になります。<code class="example-quote">「この公式の意味を、友人に説明してみよう」</code>といった試みが有効です。
-      </li>
-      <li><strong>知識の関連付け・構造化:</strong>
-        新しい知識を学ぶ際に、既習事項と関連付けたり、図やマインドマップなどを使って知識の全体像や関係性を整理したりすることで、断片的な知識が体系的な理解へと変わります。<code class="example-quote">「これって、前に習った〇〇と似ているな。どこが同じでどこが違うだろう？」</code>
-      </li>
-      <li><strong>具体例・応用例を考える:</strong>
-        抽象的な概念を学ぶ際に、具体的な例を挙げたり、学んだ知識が実社会でどのように応用されているかを考えたりすることで、理解が深まります。
-      </li>
-      <li><strong>確認方法の工夫:</strong>
-        単純な知識再生型の問いだけでなく、理由を説明させたり、応用的な場面設定で考えさせたりするような課題に取り組むことで、深い理解が促されます。
-      </li>
-    </ul>
-
-    <h3>3. 計画と振り返り</h3>
-    <p class="learning-point">学習ポイント: 行き当たりばったりの学習から脱却し、目的意識を持った計画的な学習サイクルを確立し、継続的に改善する。</p>
-    <h4>具体的な取り組み方：</h4>
-    <ul class="approach-list">
-      <li><strong>自己調整学習サイクルとの連動:</strong>
-        上記の「自己調整学習」で述べたPlan-Do-Check-Actのサイクルを意識し、計画と振り返りを学習プロセスに組み込みます。
-      </li>
-      <li><strong>定期的・具体的な計画と振り返りの時間設定:</strong>
-        <code class="example-quote">「毎週日曜日の夜15分間」</code>など、計画立案と振り返りのための時間を具体的に確保し、習慣化します。
-      </li>
-      <li><strong>計画・記録ツールの活用:</strong>
-        手帳、計画シート、学習ログアプリなどを活用し、学習時間だけでなく、内容、集中度、達成度なども記録することで、客観的な振り返りが可能になります。テンプレートの活用も有効です。
-      </li>
-      <li><strong>振り返りの視点の提供:</strong>
-        <code class="example-quote">「目標は達成できたか？」「計画通りに進んだか？」「時間配分は適切だったか？」「学習方法は効果的だったか？」「集中できたか？」「次回の改善点は何か？」</code>といった具体的な問いかけリストを用いて、多角的に学習を評価します。
-      </li>
-      <li><strong>対話による支援の活用:</strong>
-        一人で振り返るのが難しい場合は、教員や保護者、友人などと対話し、「どうだった？」「次はどうしたい？」と一緒に考え、計画修正のサポートを得ることも有効です。
-      </li>
-    </ul>
-
-    <h3>4. 疑問点の積極的解消</h3>
-    <p class="learning-point">学習ポイント: 不明点を放置せず、それを学習機会と捉え、主体的に解決しようとする姿勢とスキルを育成する。</p>
-    <h4>具体的な取り組み方：</h4>
-    <ul class="approach-list">
-      <li><strong>質問しやすい環境の認識と活用:</strong>
-        質問することは、理解しようとする意欲の表れです。心理的なハードルを感じず、「どんな質問でも大丈夫」「質問できるのは良いこと」と捉え、積極的に質問しましょう（心理的安全性）。
-      </li>
-      <li><strong>「わからないことリスト」の活用:</strong>
-        授業中や自習中に疑問に思ったことをメモしておく習慣をつけることで、質問や調査がしやすくなります。
-      </li>
-      <li><strong>効果的な質問の仕方を意識する:</strong>
-        「何がわからないのか」「どこまでは理解できているのか」を明確にして質問することで、自身の思考整理にも繋がり、より的確なアドバイスを得やすくなります。
-      </li>
-      <li><strong>多様な解決手段の活用:</strong>
-        教員や友人への質問だけでなく、教科書、参考書、信頼できるウェブサイトなどを活用して自分で調べるスキルも重要です。
-      </li>
-      <li><strong>ピアラーニング（相互学習）の促進:</strong>
-        友人同士で教え合うことは、教える側・教わる側双方の理解を深める効果的な方法です。
-      </li>
-      <li><strong>「その日のうちに解決」を目指す意識:</strong>
-        わからないことを溜め込まないよう、「疑問はその日のうちに解決する」という目標意識を持つことが理想です。すぐに解決できない場合でも、いつ誰に聞くか、いつ調べるかを決めておくことが大切です。
-      </li>
-    </ul>
-  </section>
-
-</div>
 
 </body>
 </html>
