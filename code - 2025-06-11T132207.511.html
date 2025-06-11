@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>フランクフルトキャッチゲーム</title>
+    <style>
+        /* 基本スタイル */
+        :root {
+            --blue-400: #60a5fa;
+            --green-400: #4ade80;
+            --orange-400: #fb923c;
+            --orange-500: #f97316;
+            --orange-600: #ea580c;
+            --red-400: #f87171;
+            --red-600: #dc2626;
+            --yellow-400: #facc15;
+            --yellow-500: #eab308;
+            --yellow-600: #ca8a04;
+            --sky-200: #bae6fd;
+            --brown-400: #a16207; /* 独自定義 */
+            --gray-100: #f3f4f6;
+            --gray-300: #d1d5db;
+            --gray-600: #4b5563;
+        }
+
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(to bottom, var(--blue-400), var(--green-400));
+            padding: 1rem;
+            box-sizing: border-box;
+        }
+
+        /* カードコンポーネントのスタイル */
+        .card {
+            width: 100%;
+            max-width: 24rem; /* 384px */
+            margin: 0 0.5rem;
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .card-header {
+            text-align: center;
+            padding: 1.5rem 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .card-title {
+            font-size: 1.5rem; /* md:text-2xl */
+            font-weight: 700;
+            color: var(--orange-600);
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .text-center { text-align: center; }
+        .space-y-4 > * + * { margin-top: 1rem; }
+        .space-x-4 > * + * { margin-left: 1rem; }
+
+        /* ボタンのスタイル */
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            padding: 0.75rem 1.5rem;
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .button-primary {
+            background-color: var(--orange-500);
+            color: white;
+        }
+        .button-primary:hover {
+            background-color: var(--orange-600);
+        }
+        
+        .button-outline {
+            border-color: #d1d5db;
+            background-color: white;
+            color: #1f2937;
+        }
+        .button-outline:hover {
+            background-color: #f3f4f6;
+        }
+
+
+        /* ゲームエリアのスタイル */
+        #game-container {
+            display: none; /* 初期状態は非表示 */
+        }
+
+        .game-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+        .game-info .font-bold { font-weight: 700; }
+        
+        #game-area {
+            position: relative;
+            background-color: var(--sky-200);
+            border: 4px solid var(--brown-400);
+            overflow: hidden;
+            margin: 0 auto;
+            max-width: 100%;
+        }
+
+        /* ゲームオブジェクトのスタイル */
+        .game-object {
+            position: absolute;
+        }
+
+        #player {
+            background: linear-gradient(to bottom, var(--yellow-400), var(--orange-500));
+            border-radius: 0.5rem;
+            border: 2px solid var(--yellow-600);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        .frankfurt {
+            background-color: var(--orange-400);
+            border-radius: 9999px;
+            border: 2px solid var(--red-400);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+        }
+        
+        .ground {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 2rem;
+            background-color: var(--green-400);
+        }
+        
+        /* モバイル用コントロール */
+        .touch-controls {
+            display: none; /* デスクトップでは非表示 */
+        }
+        
+        .touch-area {
+            position: absolute;
+            top: 0;
+            width: 50%;
+            height: 100%;
+            z-index: 20;
+            -webkit-user-select: none; /* Safari */
+            -ms-user-select: none; /* IE 10+ */
+            user-select: none;
+            touch-action: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .touch-area-left {
+            left: 0;
+            background-color: rgba(254, 202, 202, 0.3); /* red-200 with opacity */
+        }
+
+        .touch-area-right {
+            right: 0;
+            background-color: rgba(191, 219, 254, 0.3); /* blue-200 with opacity */
+        }
+
+        .touch-arrow {
+            font-size: 4rem;
+            opacity: 0.5;
+        }
+
+        /* ゲームオーバー画面のスタイル */
+        #game-over-screen .text-red-600 { color: var(--red-600); }
+        #game-over-screen .text-yellow-600 { color: var(--yellow-600); }
+        #game-over-screen .text-green-600 { color: var(--green-600); }
+        #game-over-screen .font-bold { font-weight: 700; }
+        #game-over-screen .result-message {
+            background-color: var(--gray-100);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border: 2px solid var(--gray-300);
+            font-size: 1.5rem;
+        }
+
+        /* メディアクエリ for mobile */
+        @media (max-width: 768px) {
+            .card-title {
+                font-size: 1.25rem; /* text-xl */
+            }
+            .game-info {
+                font-size: 0.875rem; /* text-sm */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <div class="card-header">
+            <h1 class="card-title">🌭 フランクフルトキャッチゲーム 🌭</h1>
+        </div>
+        <div class="card-content">
+            
+            <!-- メニュー画面 -->
+            <div id="menu-screen" class="text-center space-y-4">
+                <p style="font-size: 1.125rem;">落ちてくるフランクフルトをキャッチしよう！</p>
+                <p id="controls-info" style="font-size: 0.875rem; color: var(--gray-600);"></p>
+                <p style="font-size: 0.875rem; font-weight: 600;">ハイスコア: <span id="high-score">0</span>点</p>
+                <button id="start-button" class="button button-primary" style="padding: 0.75rem 2rem;">ゲーム開始</button>
+            </div>
+
+            <!-- プレイ画面 -->
+            <div id="game-container" class="space-y-4">
+                <div class="game-info">
+                    <span class="font-bold">スコア: <span id="score">0</span>点</span>
+                    <span>残り時間: <span id="remaining-time">15</span>秒</span>
+                </div>
+
+                <div id="game-area">
+                    <div id="player" class="game-object">🧑‍🍳</div>
+                    <div class="ground"></div>
+                    
+                    <div id="touch-controls" class="touch-controls">
+                        <div id="touch-left" class="touch-area touch-area-left">
+                            <div class="touch-arrow">←</div>
+                        </div>
+                        <div id="touch-right" class="touch-area touch-area-right">
+                            <div class="touch-arrow">→</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- ゲームオーバー画面 -->
+            <div id="game-over-screen" class="text-center space-y-4" style="display: none;">
+                <h2 style="font-size: 1.5rem; font-weight: 700;" class="text-red-600">ゲーム終了！</h2>
+                <p style="font-size: 1.25rem;">最終スコア: <span id="final-score">0</span>点</p>
+                <p id="new-record-message" style="font-size: 1.125rem; color: var(--yellow-600); font-weight: 700; display: none;">🎉 新記録達成！ 🎉</p>
+                
+                <div id="result-message" class="result-message"></div>
+
+                <div class="space-x-4">
+                    <button id="back-to-menu-button" class="button button-outline">メニューに戻る</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+<script>
+    // --- DOM要素の取得 ---
+    const menuScreen = document.getElementById('menu-screen');
+    const gameContainer = document.getElementById('game-container');
+    const gameOverScreen = document.getElementById('game-over-screen');
+    
+    const startButton = document.getElementById('start-button');
+    const backToMenuButton = document.getElementById('back-to-menu-button');
+    
+    const highScoreDisplay = document.getElementById('high-score');
+    const scoreDisplay = document.getElementById('score');
+    const remainingTimeDisplay = document.getElementById('remaining-time');
+    const finalScoreDisplay = document.getElementById('final-score');
+    const newRecordMessage = document.getElementById('new-record-message');
+    const resultMessage = document.getElementById('result-message');
+    const controlsInfo = document.getElementById('controls-info');
+
+    const gameArea = document.getElementById('game-area');
+    const playerElement = document.getElementById('player');
+    const touchControls = document.getElementById('touch-controls');
+    const touchLeft = document.getElementById('touch-left');
+    const touchRight = document.getElementById('touch-right');
+
+    // --- ゲーム設定 ---
+    const FRANKFURT_SPAWN_RATE = 1000; // ms
+    const GAME_DURATION = 15000; // 15 seconds
+
+    // --- ゲーム状態変数 ---
+    let gameState = 'menu'; // 'menu', 'playing', 'gameOver'
+    let score = 0;
+    let highScore = 0;
+    let remainingTime = 15;
+    
+    let player = { x: 175, y: 240, width: 60, height: 40, speed: 5 };
+    let frankfurts = [];
+    let keys = {};
+    let isMobile = false;
+    let touchMove = null; // 'left', 'right', or null
+
+    let gameLoopId;
+    let timeUpdateId;
+    let frankfurtIdCounter = 1;
+    let lastFrankfurtSpawn = 0;
+    let startTime = 0;
+
+    let GAME_WIDTH, GAME_HEIGHT;
+
+    // --- ゲームロジック ---
+
+    function checkIsMobile() {
+        const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+        return /android|webos/i.test(userAgent.toLowerCase()) || window.innerWidth < 768;
+    }
+
+    function setGameDimensions() {
+        isMobile = checkIsMobile();
+        GAME_WIDTH = isMobile ? Math.min(300, window.innerWidth - 80) : 400;
+        GAME_HEIGHT = isMobile ? 200 : 300;
+
+        gameArea.style.width = `${GAME_WIDTH}px`;
+        gameArea.style.height = `${GAME_HEIGHT}px`;
+
+        if (isMobile) {
+            controlsInfo.innerHTML = '画面の左右をタップして移動<br>15秒で100点目指せ！';
+        } else {
+            controlsInfo.innerHTML = '← → キーまたは A D キーで移動<br>15秒で100点目指せ！';
+        }
+    }
+
+    function updateDOM() {
+        // プレイヤーの位置を更新
+        playerElement.style.left = `${player.x}px`;
+        playerElement.style.top = `${player.y}px`;
+        playerElement.style.width = `${player.width}px`;
+        playerElement.style.height = `${player.height}px`;
+
+        // 既存のフランクフルト要素をクリア
+        gameArea.querySelectorAll('.frankfurt').forEach(el => el.remove());
+
+        // フランクフルトを再描画
+        frankfurts.forEach(frankfurt => {
+            const frankfurtEl = document.createElement('div');
+            frankfurtEl.className = 'game-object frankfurt';
+            frankfurtEl.style.left = `${frankfurt.x}px`;
+            frankfurtEl.style.top = `${frankfurt.y}px`;
+            frankfurtEl.style.width = `${frankfurt.width}px`;
+            frankfurtEl.style.height = `${frankfurt.height}px`;
+            frankfurtEl.textContent = '🌭';
+            frankfurtEl.dataset.id = frankfurt.id;
+            gameArea.appendChild(frankfurtEl);
+        });
+
+        // スコアと時間を更新
+        scoreDisplay.textContent = score;
+        remainingTimeDisplay.textContent = remainingTime;
+    }
+    
+    function switchScreen(screen) {
+        menuScreen.style.display = 'none';
+        gameContainer.style.display = 'none';
+        gameOverScreen.style.display = 'none';
+        
+        if (screen === 'menu') {
+            menuScreen.style.display = 'block';
+            highScoreDisplay.textContent = highScore;
+        } else if (screen === 'playing') {
+            gameContainer.style.display = 'block';
+            touchControls.style.display = isMobile ? 'block' : 'none';
+        } else if (screen === 'gameOver') {
+            gameOverScreen.style.display = 'block';
+            finalScoreDisplay.textContent = score;
+            newRecordMessage.style.display = score > highScore ? 'block' : 'none';
+            
+            if (score >= 100) {
+                resultMessage.innerHTML = '<p class="text-green-600 font-bold">🎊 キーワードはビだよ 🎊</p>';
+            } else {
+                resultMessage.innerHTML = '<p class="text-red-600 font-bold">残念</p>';
+            }
+        }
+    }
+
+    function checkCollision(obj1, obj2) {
+        return (
+            obj1.x < obj2.x + obj2.width &&
+            obj1.x + obj1.width > obj2.x &&
+            obj1.y < obj2.y + obj2.height &&
+            obj1.y + obj1.height > obj2.y
+        );
+    }
+    
+    function updateTimer() {
+        if (gameState !== 'playing') return;
+
+        const elapsed = Date.now() - startTime;
+        const remaining = Math.max(0, Math.ceil((GAME_DURATION - elapsed) / 1000));
+        remainingTime = remaining;
+
+        if (remaining <= 0) {
+            endGame();
+        } else {
+            timeUpdateId = requestAnimationFrame(updateTimer);
+        }
+    }
+    
+    function endGame() {
+        gameState = 'gameOver';
+        if (score > highScore) {
+            highScore = score;
+        }
+        cancelAnimationFrame(gameLoopId);
+        cancelAnimationFrame(timeUpdateId);
+        switchScreen('gameOver');
+    }
+
+    function gameLoop() {
+        if (gameState !== 'playing') return;
+
+        const currentTime = Date.now();
+
+        // プレイヤーの移動
+        let newX = player.x;
+        if (keys['ArrowLeft'] || keys['a'] || keys['A'] || touchMove === 'left') {
+            newX = Math.max(0, player.x - player.speed);
+        }
+        if (keys['ArrowRight'] || keys['d'] || keys['D'] || touchMove === 'right') {
+            newX = Math.min(GAME_WIDTH - player.width, player.x + player.speed);
+        }
+        player.x = newX;
+
+        // フランクフルトの生成
+        if (currentTime - lastFrankfurtSpawn > FRANKFURT_SPAWN_RATE) {
+            const newFrankfurt = {
+                id: frankfurtIdCounter++,
+                x: Math.random() * (GAME_WIDTH - 40),
+                y: -30,
+                width: 40,
+                height: 20,
+                speed: 2 + Math.random() * 3,
+            };
+            frankfurts.push(newFrankfurt);
+            lastFrankfurtSpawn = currentTime;
+        }
+
+        // フランクフルトの移動と衝突判定
+        const collectedFrankfurtIds = new Set();
+        frankfurts = frankfurts
+            .map(f => ({ ...f, y: f.y + f.speed }))
+            .filter(f => {
+                if (checkCollision(player, f)) {
+                    collectedFrankfurtIds.add(f.id);
+                    score += 10;
+                    return false; // 衝突したら配列から削除
+                }
+                return f.y < GAME_HEIGHT + 50; // 画面外に出たら削除
+            });
+
+        updateDOM();
+        gameLoopId = requestAnimationFrame(gameLoop);
+    }
+
+    function startGame() {
+        setGameDimensions();
+        
+        gameState = 'playing';
+        score = 0;
+        remainingTime = 15;
+        player.x = (GAME_WIDTH - player.width) / 2;
+        player.y = isMobile ? 160 : 240;
+        player.speed = 5;
+        frankfurts = [];
+        frankfurtIdCounter = 1;
+        startTime = Date.now();
+        lastFrankfurtSpawn = Date.now();
+        
+        switchScreen('playing');
+        
+        gameLoopId = requestAnimationFrame(gameLoop);
+        timeUpdateId = requestAnimationFrame(updateTimer);
+    }
+    
+    // --- イベントリスナーの設定 ---
+    window.addEventListener('keydown', (e) => { keys[e.key] = true; });
+    window.addEventListener('keyup', (e) => { keys[e.key] = false; });
+    
+    touchLeft.addEventListener('touchstart', (e) => { e.preventDefault(); if (gameState === 'playing') touchMove = 'left'; });
+    touchRight.addEventListener('touchstart', (e) => { e.preventDefault(); if (gameState === 'playing') touchMove = 'right'; });
+    touchLeft.addEventListener('touchend', (e) => { e.preventDefault(); touchMove = null; });
+    touchRight.addEventListener('touchend', (e) => { e.preventDefault(); touchMove = null; });
+    
+    startButton.addEventListener('click', startGame);
+    backToMenuButton.addEventListener('click', () => {
+        gameState = 'menu';
+        switchScreen('menu');
+    });
+
+    window.addEventListener('resize', setGameDimensions);
+    
+    // --- 初期化 ---
+    document.addEventListener('DOMContentLoaded', () => {
+        setGameDimensions();
+        switchScreen('menu');
+    });
+
+</script>
+</body>
+</html>
