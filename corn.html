@@ -149,9 +149,9 @@
         }
         #game-over-overlay .button-container {
             display: flex;
-        }
-        #game-over-overlay .button-container > * + * {
-            margin-left: 1rem;
+            flex-wrap: wrap; /* スマホでボタンが改行されるように */
+            justify-content: center;
+            gap: 1rem;
         }
 
         .button {
@@ -163,6 +163,7 @@
             cursor: pointer;
             transition: background-color 0.2s;
             border: 1px solid transparent;
+            text-decoration: none;
         }
         .button-lg { padding: 0.75rem 1.5rem; font-size: 1rem; }
         .button-sm { padding: 0.25rem 0.75rem; font-size: 0.875rem; }
@@ -194,7 +195,9 @@
                 <p id="game-over-message"></p>
                 <div class="button-container">
                     <button id="restart-button" class="button button-lg button-primary">もう一度プレイ</button>
-                    <button id="end-game-button" class="button button-lg button-outline">タイトルに戻る</button>
+                    <!-- ▼ここに追加しました▼ -->
+                    <a href="https://tbt-beginner.github.io/dxclasses/" class="button button-lg button-outline">報告書に戻る</a>
+                    <!-- ▲ここまで▲ -->
                 </div>
             </div>
         </div>
@@ -215,7 +218,6 @@
     const gameOverTitle = document.getElementById('game-over-title');
     const gameOverMessage = document.getElementById('game-over-message');
     const restartButton = document.getElementById('restart-button');
-    const endGameButton = document.getElementById('end-game-button');
     const hitboxToggleButton = document.getElementById('hitbox-toggle-button');
 
     // --- Game State ---
@@ -388,10 +390,6 @@
     });
     
     restartButton.addEventListener('click', initGame);
-
-    endGameButton.addEventListener('click', () => {
-        alert("タイトル画面に戻ります（実装に応じて動作を変更してください）");
-    });
 
     hitboxToggleButton.addEventListener('click', () => {
         showHitboxes = !showHitboxes;
