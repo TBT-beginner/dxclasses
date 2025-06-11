@@ -343,7 +343,7 @@
         clearInterval(timerInterval);
         
         gameOverTitle.textContent = win ? "勝利！" : "時間切れ！";
-        gameOverMessage.textContent = win ? "おめでとう！一文字目のキーワードはトです！" : `${score}匹のおばけを退治しました`;
+        gameOverMessage.textContent = win ? "一文字目のキーワードはトです！" : `${score}匹のおばけを退治しました`;
         
         restartButton.style.display = win ? 'none' : 'inline-flex';
         gameOverOverlay.style.display = 'flex';
