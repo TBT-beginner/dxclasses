@@ -1,4 +1,387 @@
-<html>
-<title>index</title>
-<body>this is index</body>
+<!DOCTYPE html>
+<html lang="ja-JP-u-ca-japanese">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>【學術報告】文明開化ノ味覺探訪</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- 日本語・英語・インドネシア語用のフォント -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Zen+Old+Mincho:wght@700;900&display=swap" rel="stylesheet">
+    <!-- 中国語（簡体字）用のフォント -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- 明治風新聞スタイル --- */
+        :root {
+            --bg-color: #f2efe8;
+            --text-color: #1c1c1c;
+            --border-color-light: #b0a89a;
+            --border-color-dark: #3c3c3c;
+            --accent-color: #8c2323;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Noto Serif JP', serif;
+            background-color: #4a4a4a;
+            color: var(--text-color);
+            line-height: 1.8;
+            font-size: 15px;
+            display: flex;
+            justify-content: center;
+            padding: 2rem 1rem;
+            transition: font-family 0.3s ease;
+        }
+
+        /* 言語ごとのフォント設定 */
+        html[lang="zh"] body { font-family: 'Noto Serif SC', serif; }
+
+        .poster-container {
+            background-color: var(--bg-color);
+            width: 100%;
+            max-width: 1200px;
+            padding: 30px;
+            border: 3px double #fff;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+            position: relative;
+        }
+
+        /* --- 言語切替トグル --- */
+        .language-toggle {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+        }
+        .language-toggle label {
+            margin-right: 8px;
+            font-family: 'Zen Old Mincho', serif;
+        }
+        #lang-select {
+            font-family: 'Noto Serif JP', serif;
+            border: 1px solid var(--border-color-light);
+            background-color: var(--bg-color);
+            padding: 3px;
+            border-radius: 0;
+            cursor: pointer;
+        }
+
+        /* --- ヘッダー（題字エリア） --- */
+        header {
+            text-align: center;
+            padding-bottom: 15px;
+            margin: 25px 0;
+            border-bottom: 5px solid var(--border-color-dark);
+            border-image: linear-gradient(to right, var(--bg-color), var(--border-color-dark), var(--bg-color)) 1 100%;
+        }
+        
+        header .meta-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid var(--border-color-light);
+            font-family: 'Zen Old Mincho', serif;
+        }
+
+        h1 {
+            font-family: 'Zen Old Mincho', serif;
+            font-weight: 900;
+            transition: all 0.5s ease;
+            margin: 0 auto 20px;
+        }
+
+        /* 縦書きタイトルスタイル */
+        .vertical-title {
+            font-size: 4rem;
+            line-height: 1.1;
+            letter-spacing: 0.1em;
+            writing-mode: vertical-rl;
+            padding: 20px 10px;
+            border-right: 1px solid var(--border-color-light);
+            border-left: 1px solid var(--border-color-light);
+            height: 280px;
+            text-orientation: upright;
+            -webkit-text-orientation: upright;
+        }
+        /* 横書きタイトルスタイル */
+        .horizontal-title {
+            font-size: 3rem;
+            writing-mode: horizontal-tb;
+            height: auto;
+            padding: 10px 0;
+            border: none;
+        }
+
+        header .subtitle {
+            font-size: 1.2rem;
+            font-family: 'Zen Old Mincho', serif;
+            font-weight: 700;
+        }
+
+        /* --- セクションと段組み --- */
+        section {
+            margin-bottom: 25px;
+        }
+        
+        h2 {
+            font-family: 'Zen Old Mincho', serif;
+            font-size: 1.8rem;
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 15px;
+            padding: 5px 0;
+            border-top: 2px solid var(--border-color-dark);
+            border-bottom: 2px solid var(--border-color-dark);
+        }
+        
+        .multi-column {
+            column-count: 3;
+            column-gap: 25px;
+            column-rule: 1px solid var(--border-color-light);
+        }
+
+        p {
+            margin-bottom: 1em;
+            text-align: justify;
+        }
+        
+        .multi-column > p:first-of-type::first-letter {
+            font-family: 'Zen Old Mincho', serif;
+            font-size: 4.5em;
+            float: left;
+            line-height: 0.8;
+            margin: 0.1em 0.1em 0 0;
+            color: var(--text-color);
+        }
+        
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            border-top: 1px solid var(--border-color-dark);
+            border-bottom: 1px solid var(--border-color-dark);
+            padding: 20px 0;
+        }
+
+        .case-study {
+            border-right: 1px solid var(--border-color-light);
+            padding-right: 25px;
+        }
+        .case-study:last-child {
+            border-right: none;
+            padding-right: 0;
+        }
+        
+        h3 {
+            font-size: 1.6rem;
+            text-align: center;
+            border-bottom: 2px solid var(--border-color-dark);
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+        }
+        
+        figure { margin: 15px 0; border: 1px solid var(--text-color); padding: 4px; background: #fff; }
+        figure img { width: 100%; height: 250px; object-fit: cover; display: block; }
+        figcaption { font-size: 0.8rem; text-align: right; padding: 4px 2px 0; color: #555; }
+        
+        h4 { font-family: 'Zen Old Mincho', serif; font-weight: 700; margin: 15px 0 5px; font-size: 1.1rem; }
+
+        .column { border: 2px double #555; padding: 10px; margin-top: 15px; background: rgba(0,0,0,0.02); text-align: center; }
+        .column strong { font-family: 'Zen Old Mincho', serif; font-weight: 900; display: block; margin-bottom: 5px; font-size: 1.1rem; }
+        
+        .hidden-link { color: var(--accent-color); text-decoration: underline; font-weight: 700; cursor: pointer; }
+        .hidden-link:hover { text-decoration: none; background-color: var(--text-color); color: var(--bg-color); }
+        
+        footer { text-align: center; margin-top: 20px; font-size: 0.8rem; border-top: 1px solid var(--border-color-light); padding-top: 10px; }
+
+        @media (max-width: 992px) {
+            .multi-column { column-count: 2; }
+            .vertical-title { font-size: 3rem; height: 210px; }
+            .horizontal-title { font-size: 2.5rem; }
+        }
+        
+        @media (max-width: 768px) {
+            .language-toggle { position: static; justify-content: center; margin-bottom: 20px; }
+            header { margin-top: 0; }
+            h1.vertical-title { display: none; }
+            h1.horizontal-title { font-size: 2rem; }
+            header .subtitle { font-size: 1.2rem; }
+            .multi-column { column-count: 1; }
+            .comparison-grid { grid-template-columns: 1fr; }
+            .case-study { border-right: none; padding-right: 0; padding-bottom: 20px; border-bottom: 1px dashed var(--border-color-light); }
+            .case-study:last-child { border-bottom: none; padding-bottom: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="poster-container">
+        
+        <div class="language-toggle">
+            <label for="lang-select" data-meiji="言語切替" data-ja="言語切替" data-en="Language" data-zh="语言" data-id="Bahasa">言語切替</label>
+            <select id="lang-select">
+                <option value="meiji">明治風日本語</option>
+                <option value="ja">現代日本語</option>
+                <option value="en">English (英語)</option>
+                <option value="zh">中文 (中国語)</option>
+                <option value="id">Bahasa Indonesia (インドネシア語)</option>
+            </select>
+        </div>
+
+        <header>
+            <div class="meta-info">
+                <span id="author"
+                    data-meiji="發行：DX科 學術調査班"
+                    data-ja="発行：DXコース 学術調査班"
+                    data-en="Issued by: DX Course, Academic Research Unit"
+                    data-zh="发行：DX科 学术调查组"
+                    data-id="Diterbitkan oleh: Unit Riset Akademik, Jurusan DX"
+                >發行：DX科 學術調査班</span>
+                <span id="date"
+                    data-meiji="令和七年六月十四日"
+                    data-ja="令和七年六月十四日"
+                    data-en="June 14, Reiwa 7"
+                    data-zh="令和七年六月十四日"
+                    data-id="14 Juni, Reiwa 7"
+                >令和七年六月十四日</span>
+            </div>
+            <h1 id="main-title" class="vertical-title"
+                data-meiji="味覺探訪"
+                data-ja="味覚探訪"
+                data-en="A Culinary Expedition"
+                data-zh="味觉探访"
+                data-id="Ekspedisi Rasa"
+            >味覺探訪</h1>
+            <p id="subtitle" class="subtitle"
+                data-meiji="舶來ノ味 對 和魂ノ味<br>夏祭ニ於ケル二大巨頭ノ比較對照報告"
+                data-ja="舶来の味 対 和魂の味<br>夏祭りにおける二大巨頭の比較対照報告"
+                data-en="Imported Flavor vs. The Japanese Spirit<br>A Comparative Report on the Two Giants of Summer Festivals"
+                data-zh="舶来之味 对 和魂之味<br>关于夏日祭两大巨头的比较报告"
+                data-id="Rasa Impor vs. Jiwa Jepang<br>Laporan Perbandingan Dua Raksasa di Festival Musim Panas"
+            >舶來ノ味 對 和魂ノ味<br>夏祭ニ於ケル二大巨頭ノ比較對照報告</p>
+        </header>
+
+        <main>
+            <section id="intro" class="multi-column">
+                <p data-meiji="夏ノ訪レト共ニ、我々ノ心ヲ捉ヘテ離サヌ二ツノ香リアリ。一ツハ、肉ノ旨味ト香辛料ノ凝縮サレタル「フランクフルテル」。モウ一ツハ、醬油ノ焦ゲル香バシサガ郷愁ヲ誘フ「燒キ玉蜀黍（やきとうもろこし）」ナリ。此レ等ハ單ナル屋臺ノ食ヒ物ニ留マラズ、日本ノ夏ノ原風景ヲ構成スル重要ナル文化的記號ト云ツテモ過言ニ非ズ。本報告ニ於テハ、此ノ二大巨頭ガ有スル魔力的妙味ノ構造ヲ多角的ニ解剖シ、何故我々ガ此レ程マデニ惹キ着ケラルルノカ、其ノ深層心理ニ迫ルモノナリ。" data-ja="夏の訪れとともに、我々の心を捉えて離さない二つの香りがあります。一つは、肉の旨味とスパイスが凝縮された「フランクフルト」。もう一つは、醤油の焦げる香ばしさが郷愁を誘う「焼きとうもろこし」です。これらは単なる屋台の食べ物に留まらず、日本の夏の原風景を構成する重要な文化的記号と言っても過言ではありません。本報告では、この二大巨頭が持つ魔力的な魅力の構造を多角的に解剖し、なぜ我々がこれほどまでに惹きつけられるのか、その深層心理に迫るものです。" data-en="With the arrival of summer, there are two scents that capture our hearts and never let go. One is the 'Frankfurter,' a condensation of savory meat and spices. The other is 'Yaki Tomorokoshi' (grilled corn), whose nostalgic aroma of scorching soy sauce beckons. These are not merely street food stall snacks; it is no exaggeration to say they are vital cultural symbols that constitute the quintessential summer scenery of Japan. In this report, we will dissect from multiple angles the structure of the magical charm these two giants possess, and delve into the deep psychology of why we are so irresistibly drawn to them." data-zh="随着夏天的到来，有两种香气俘获了我们的心，再也无法释怀。其一是浓缩了肉的鲜美与香料的“法兰克福香肠”。其二是酱油烧焦的香气引人乡愁的“烤玉米”。这些不仅是路边摊的食物，更可以说是构成日本夏日原始风景的重要文化符号。在本报告中，我们将从多个角度剖析这两大巨头所拥有的魔力魅力的构造，并探究我们为何如此被它们吸引的深层心理。" data-id="Dengan datangnya musim panas, ada dua aroma yang memikat hati kita. Satu adalah 'Frankfurter', perpaduan rasa daging gurih dan rempah-rempah. Satunya lagi adalah 'Yaki Tomorokoshi' (jagung bakar), dengan aroma kecap asin hangus yang membangkitkan nostalgia. Keduanya bukan sekadar jajanan kaki lima; tidak berlebihan jika dikatakan bahwa mereka adalah simbol budaya penting yang membentuk pemandangan musim panas Jepang. Dalam laporan ini, kami akan membedah dari berbagai sudut struktur daya tarik magis yang dimiliki kedua raksasa ini, dan menyelami psikologi mendalam mengapa kita begitu tertarik pada mereka.">
+                    夏ノ訪レト共ニ、我々ノ心ヲ捉ヘテ離サヌ二ツノ香リアリ。一ツハ、肉ノ旨味ト香辛料ノ凝縮サレタル「フランクフルテル」。モウ一ツハ、醬油ノ焦ゲル香バシサガ郷愁ヲ誘フ「燒キ玉蜀黍（やきとうもろこし）」ナリ。此レ等ハ單ナル屋臺ノ食ヒ物ニ留マラズ、日本ノ夏ノ原風景ヲ構成スル重要ナル文化的記號ト云ツテモ過言ニ非ズ。本報告ニ於テハ、此ノ二大巨頭ガ有スル魔力的妙味ノ構造ヲ多角的ニ解剖シ、何故我々ガ此レ程マデニ惹キ着ケラルルノカ、其ノ深層心理ニ迫ルモノナリ。
+                </p>
+            </section>
+
+            <section id="comparison">
+                <div class="comparison-grid">
+                    <article class="case-study">
+                        <h3 data-meiji="舶來腸詰" data-ja="舶来ソーセージ" data-en="Imported Sausage" data-zh="舶来香肠" data-id="Sosis Impor">舶來腸詰</h3>
+                        <figure>
+                            <img src="https://images.unsplash.com/photo-1624772398061-bbfa87ec6b5a?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="屋台で焼かれているフランクフルトの写真">
+                            <figcaption data-meiji="鐵板ニテ香バシク燒カルル舶來腸詰ノ圖。" data-ja="鉄板で香ばしく焼かれる舶来ソーセージの図。" data-en="A depiction of imported sausages being grilled fragrantly on an iron plate." data-zh="铁板上香喷喷地烤着的舶来香肠之图。" data-id="Gambar sosis impor yang dipanggang harum di atas wajan besi.">鐵板ニテ香バシク燒カルル舶來腸詰ノ圖。</figcaption>
+                        </figure>
+                        <h4 data-meiji="其ノ來歴" data-ja="その来歴" data-en="Its Origin" data-zh="其来历" data-id="Asal-usulnya">其ノ來歴</h4>
+                        <p data-meiji="起源ハ獨逸（ドイツ）國フランクフルト・アム・マイン市。豚肉ヲ主原料トシ、燻製ニヨリテ獨特ノ風味ヲ生ミ出ス此ノ腸詰ハ、海ヲ越エ、我ガ國ノ祭文化ト融合。手軽ニ食セル串刺シノ樣式ヘト進化ヲ遂ゲタリ。" data-ja="起源はドイツ国フランクフルト・アム・マイン市。豚肉を主原料とし、燻製によって独特の風味を生み出すこのソーセージは、海を越え、我が国の祭り文化と融合。手軽に食べられる串刺しの様式へと進化を遂げました。" data-en="Its origin is the city of Frankfurt am Main in Germany. This sausage, primarily made from pork and given a distinctive flavor through smoking, crossed the seas and merged with the festival culture of our nation, evolving into the convenient skewer style." data-zh="其起源为德意志国法兰克福市。这种以猪肉为主要原料、通过熏制产生独特风味的香肠，跨越重洋，与我国的祭典文化相融合，进化成了方便食用的串烧形式。" data-id="Asal-usulnya dari kota Frankfurt am Main di Jerman. Sosis ini, yang bahan utamanya adalah daging babi dan diberi rasa khas melalui proses pengasapan, menyeberangi lautan dan menyatu dengan budaya festival di negara kita, berevolusi menjadi gaya sate yang mudah disantap.">起源ハ獨逸（ドイツ）國フランクフルト・アム・マイン市。豚肉ヲ主原料トシ、燻製ニヨリテ獨特ノ風味ヲ生ミ出ス此ノ腸詰ハ、海ヲ越エ、我ガ國ノ祭文化ト融合。手軽ニ食セル串刺シノ樣式ヘト進化ヲ遂ゲタリ。</p>
+                        <h4 data-meiji="理化學的考察" data-ja="理化学的考察" data-en="Physicochemical Analysis" data-zh="理化學考察" data-id="Analisis Fisikokimia">理化學的考察</h4>
+                        <p data-meiji="妙味ノ核心ハ所謂「メイラード反應」ニ在リ。アミノ酸ト糖ガ反應シ、香バシキ燒キ色ト複雜ナル風味ヲ生ム。一口噛ンダ瞬間ニ溢レ出ス肉汁ハ、皮ガ旨味ト水分ヲ閉ジ込メル事デ實現サレル、計算サレ盡クシタ物理的現象ナリ。" data-ja="魅力の核心は所謂「メイラード反応」にあります。アミノ酸と糖が反応し、香ばしい焼き色と複雑な風味を生み出します。一口噛んだ瞬間に溢れ出す肉汁は、皮が旨味と水分を閉じ込めることで実現される、計算され尽くした物理的現象です。" data-en="The core of its charm lies in the so-called 'Maillard reaction.' Amino acids and sugars react to create a fragrant browning and a complex flavor. The juices that burst forth upon the first bite are a meticulously calculated physical phenomenon, realized by the casing locking in the flavor and moisture." data-zh="其魅力的核心在于所谓的“美拉德反应”。氨基酸与糖发生反应，产生香喷喷的烤色和复杂的风味。第一口咬下去时迸发出的肉汁，是由于肠衣将鲜味和水分锁住而实现的，这是一个经过精心计算的物理现象。" data-id="Inti dari pesonanya terletak pada apa yang disebut 'reaksi Maillard'. Asam amino dan gula bereaksi untuk menciptakan warna kecoklatan yang harum dan rasa yang kompleks. Sari daging yang muncrat pada gigitan pertama adalah fenomena fisik yang diperhitungkan dengan cermat, terwujud karena selongsong sosis mengunci rasa dan kelembapan di dalamnya.">妙味ノ核心ハ所謂「メイラード反應」ニ在リ。アミノ酸ト糖ガ反應シ、香バシキ燒キ色ト複雜ナル風味ヲ生ム。一口噛ンダ瞬間ニ溢レ出ス肉汁ハ、皮ガ旨味ト水分ヲ閉ジ込メル事デ實現サレル、計算サレ盡クシタ物理的現象ナリ。</p>
+                        <div class="column">
+                            <strong data-meiji="讀者諸賢ヘ：腕競ベ遊戯" data-ja="読者の皆様へ：腕試しゲーム" data-en="To Our Readers: A Game of Skill" data-zh="致读者：技巧游戏" data-id="Untuk Pembaca: Permainan Keterampilan">讀者諸賢ヘ：腕競ベ遊戯</strong>
+                            <p data-meiji="名人藝ト謳ハルル燒キ加減、貴殿モ體驗セヌカ？ 我コソハト云フ猛者ハ" data-ja="名人芸と謳われる焼き加減、あなたも体験しませんか？ 我こそはという猛者は" data-en="The masterful grilling technique, would you not like to experience it? Those brave souls who say 'I am the one' should" data-zh="被誉为名人绝技的烤制火候，您不想体验一下吗？自认是高手的勇者们，" data-id="Teknik memanggang yang disebut sebagai keahlian master, tidakkah Anda ingin mencobanya? Para pemberani yang berkata 'Sayalah orangnya' harus" style="display:inline;">名人藝ト謳ハルル燒キ加減、貴殿モ體驗セヌカ？ 我コソハト云フ猛者ハ</p><a href="https://tbt-beginner.github.io/dxclasses/frank.html" target="_blank" class="hidden-link" data-meiji="此ノ挑戦状ヲ受ケ取ルベシ。" data-ja="この挑戦状を受け取るべし。" data-en="accept this challenge." data-zh="就接受这个挑战书吧。" data-id="terima tantangan ini.">此ノ挑戦状ヲ受ケ取ルベシ。</a>
+                        </div>
+                    </article>
+
+                    <article class="case-study">
+                        <h3 data-meiji="燒キ玉蜀黍" data-ja="焼きとうもろこし" data-en="Grilled Corn" data-zh="烤玉米" data-id="Jagung Bakar">燒キ玉蜀黍</h3>
+                         <figure>
+                            <img src="https://images.unsplash.com/photo-1578652903016-b78571b87410?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="醤油が香ばしい焼きとうもろこしの写真">
+                            <figcaption data-meiji="醬油ヲ纏ヒ、黄金色ニ輝ク燒キ玉蜀黍。祭ノ風物詩ナリ。" data-ja="醤油を纏い、黄金色に輝く焼きとうもろこし。祭りの風物詩です。" data-en="Grilled corn, cloaked in soy sauce and shining golden. A staple of the festival." data-zh="裹着酱油、闪耀着金黄色光芒的烤玉米。是祭典的风景诗。" data-id="Jagung bakar, berbalut kecap asin dan berkilau keemasan. Sebuah pemandangan khas festival.">醬油ヲ纏ヒ、黄金色ニ輝ク燒キ玉蜀黍。祭ノ風物詩ナリ。</figcaption>
+                        </figure>
+                        <h4 data-meiji="其ノ來歴" data-ja="その来歴" data-en="Its Origin" data-zh="其来历" data-id="Asal-usulnya">其ノ來歴</h4>
+                        <p data-meiji="原産ハ中南米。大航海時代ヲ經テ世界中ニ廣マリ、日本ヘハ十六世紀ニ南蠻人ニヨリテ傳ヘラル。當初ハ飼料用ガ主デアツタガ、品種改良ガ進ミ甘味ノ強イ品種ガ登場。醬油デ燒クト云フ調理法ハ、和魂が生ンダ偉大ナル發明デアル。" data-ja="原産は中南米。大航海時代を経て世界中に広まり、日本へは16世紀に南蛮人によって伝えられました。当初は飼料用が主でしたが、品種改良が進み甘味の強い品種が登場。醤油で焼くという調理法は、和魂が生んだ偉大な発明です。" data-en="Originating in Central and South America, it spread worldwide during the Age of Discovery and was introduced to Japan in the 16th century by the Nanban (southern barbarians). Initially used mainly as animal feed, new, sweeter varieties emerged through breeding. The method of grilling it with soy sauce is a great invention born of the Japanese spirit." data-zh="原产于中南美洲，经由大航海时代传播至世界各地，于16世纪由南蛮人传入日本。最初主要用作饲料，但随着品种改良，出现了甜味更强的品种。用酱油烤制的烹饪方法，是和魂所孕育的伟大发明。" data-id="Berasal dari Amerika Tengah dan Selatan, menyebar ke seluruh dunia selama Zaman Penjelajahan dan diperkenalkan ke Jepang pada abad ke-16 oleh orang Nanban. Awalnya digunakan sebagai pakan ternak, varietas yang lebih manis kemudian muncul melalui pemuliaan. Metode memanggang dengan kecap asin adalah penemuan hebat yang lahir dari jiwa Jepang.">原産ハ中南米。大航海時代ヲ經テ世界中ニ廣マリ、日本ヘハ十六世紀ニ南蠻人ニヨリテ傳ヘラル。當初ハ飼料用ガ主デアツタガ、品種改良ガ進ミ甘味ノ強イ品種ガ登場。醬油デ燒クト云フ調理法ハ、和魂が生ンダ偉大ナル發明デアル。</p>
+                        <h4 data-meiji="理化學的考察" data-ja="理化学的考察" data-en="Physicochemical Analysis" data-zh="理化學考察" data-id="Analisis Fisikokimia">理化學的考察</h4>
+                        <p data-meiji="妙味ノ第一ハ其ノ甘味。收穫後ノ時間經過デ糖ガ澱粉ニ變化スル爲、鮮度ガ命トサル。然シテ醬油ノ焦ゲル香リ。醬油ノアミノ酸ト、玉蜀黍ノ糖分ガ加熱サルル事デ、食慾ヲ強烈ニ刺激スル香氣成分ガ生成サルルノダ。" data-ja="魅力の第一はその甘み。収穫後の時間経過で糖が澱粉に変化するため、鮮度が命とされます。そして醤油の焦げる香り。醤油のアミノ酸と、とうもろこしの糖分が加熱されることで、食欲を強烈に刺激する香気成分が生成されるのです。" data-en="The primary charm is its sweetness. Freshness is key, as the sugars convert to starch over time after harvest. And then, the aroma of scorching soy sauce. The amino acids in the soy sauce and the sugars in the corn, when heated, generate aromatic compounds that intensely stimulate the appetite." data-zh="其魅力的第一要素是甜味。收获后随着时间推移，糖分会转化为淀粉，因此新鲜度至关重要。再者是酱油烧焦的香气。酱油中的氨基酸和玉米中的糖分受热，会产生强烈刺激食欲的香气成分。" data-id="Daya tarik utamanya adalah rasa manisnya. Kesegaran adalah kunci, karena gula akan berubah menjadi pati seiring berjalannya waktu setelah panen. Lalu, aroma kecap asin yang hangus. Asam amino dalam kecap asin dan gula dalam jagung, ketika dipanaskan, menghasilkan senyawa aromatik yang sangat merangsang nafsu makan.">妙味ノ第一ハ其ノ甘味。收穫後ノ時間經過デ糖ガ澱粉ニ變化スル爲、鮮度ガ命トサル。然シテ醬油ノ焦ゲル香リ。醬油ノアミノ酸ト、玉蜀黍ノ糖分ガ加熱サルル事デ、食慾ヲ強烈ニ刺激スル香氣成分ガ生成サルルノダ。</p>
+                         <div class="column">
+                            <strong data-meiji="讀者諸賢ヘ：燒キ師ヘノ道" data-ja="読者の皆様へ：焼き師への道" data-en="To Our Readers: The Path of the Grill Master" data-zh="致读者：烤制大师之路" data-id="Untuk Pembaca: Jalan Menuju Master Panggangan">讀者諸賢ヘ：燒キ師ヘノ道</strong>
+                            <p data-meiji="焦ガサズ、然レド芯マデ熱ク。醬油ノ塗リ加減ガ勝負ヲ分ケル。此ノ時間トノ戰ヒヲ制シ、" data-ja="焦がさず、けれど芯まで熱く。醤油の塗り加減が勝負を分けます。この時間との戦いを制し、" data-en="Do not burn, yet heat to the core. The application of soy sauce decides the match. Conquer this battle against time and" data-zh="不要烤焦，但要热透到芯。酱油的涂抹程度决定胜负。战胜这场与时间的战斗，" data-id="Jangan sampai hangus, namun panas hingga ke intinya. Pengolesan kecap asin menentukan hasilnya. Taklukkan pertarungan melawan waktu ini dan" style="display:inline;">焦ガサズ、然レド芯マデ熱ク。醬油ノ塗リ加減ガ勝負ヲ分ケル。此ノ時間トノ戰ヒヲ制シ、</p><a href="https://tbt-beginner.github.io/dxclasses/corn.html" target="_blank" class="hidden-link" data-meiji="傳説ノ燒キ師ヲ目指セ。" data-ja="伝説の焼き師を目指せ。" data-en="aim to become the legendary grill master." data-zh="以成为传说中的烤制大师为目标吧。" data-id="jadilah master panggangan legendaris.">傳説ノ燒キ師ヲ目指セ。</a>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <section id="discussion">
+                <h2 data-meiji="總括：人ハ何故、選擇ヲ迫ラルルノカ" data-ja="総括：人はなぜ、選択を迫られるのか" data-en="Conclusion: Why Are We Forced to Choose?" data-zh="总结：人为何被迫选择？" data-id="Kesimpulan: Mengapa Kita Dipaksa Memilih?">總括：人ハ何故、選擇ヲ迫ラルルノカ</h2>
+                <div class="multi-column">
+                <p data-meiji="舶來腸詰ト燒キ玉蜀黍ハ、屢々「何レカ一ツ」ト云フ究極ノ選擇ヲ我々ニ強イル。本調査ニヨレバ、此ノ選擇ハ個人ノ氣分ヤ體調ノミナラズ、ヨリ深層的ナル心理狀態ト關聯シテイル可能性ガ示唆サレタ。血氣盛ンナル時ハ舶來腸詰ヲ選ブ傾向ニアル。肉ヲ喰ラフ獸的ナル滿足感、明確ナル鹽味ト脂ノコクガ、高揚シタ氣分ニ合致スルノデアロウ。一方、物思ヒニ沈ム時ハ燒キ玉蜀黍ニ手ガ伸ビル。醬油ノ香リガ齎ラス安心感ト、何處カ懐カシイ甘味ガ、穩ヤカナ心持チニ寄リ添フノダ。兩者ヲ手ニ持ツ事ハ、祭ヲ最大限ニ樂シム「完全體」ヘノ到達ヲ意味スルガ、胃袋ノ容量ト云フ物理的制約ガ、我々ニ毎度此ノ悩マシクモ樂シイ問ヒヲ投ゲカケルノデアル。" data-ja="フランクフルトと焼きとうもろこしは、しばしば「どちらか一つ」という究極の選択を我々に強います。本調査によれば、この選択は個人の気分や体調のみならず、より深層的な心理状態と関連している可能性が示唆されました。血気盛んな時はフランクフルトを選ぶ傾向にあります。肉を喰らう獣的な満足感、明確な塩味と脂のコクが、高揚した気分に合致するのでしょう。一方、物思いに沈む時は焼きとうもろこしに手が伸びます。醤油の香りがもたらす安心感と、どこか懐かしい甘みが、穏やかな心持ちに寄り添うのです。両者を手に持つことは、祭りを最大限に楽しむ「完全体」への到達を意味しますが、胃袋の容量という物理的制約が、我々に毎度この悩ましくも楽しい問いを投げかけるのです。" data-en="Frankfurters and grilled corn often force upon us the ultimate choice of 'one or the other.' According to our research, this choice is suggested to be related not only to an individual's mood and physical condition but also to a deeper psychological state. When feeling vigorous and spirited, there is a tendency to choose the frankfurter. The primal satisfaction of eating meat, the distinct saltiness, and the richness of the fat likely correspond with an elated mood. On the other hand, when in a contemplative mood, one's hand reaches for the grilled corn. The sense of security brought by the aroma of soy sauce and a somewhat nostalgic sweetness accompany a calm state of mind. To hold both is to achieve a 'complete form' of enjoying the festival to the fullest, but the physical constraint of stomach capacity poses this vexing yet delightful question to us every time." data-zh="法兰克福香肠和烤玉米常常迫使我们做出“二选一”的终极选择。根据本调查，这一选择不仅与个人的心情和身体状况有关，更可能与更深层次的心理状态相关。血气方刚时，人们倾向于选择法兰克福香腸。吃肉的野性满足感，明确的咸味和脂肪的浓郁，或许正与高涨的情绪相吻合。另一方面，当陷入沉思时，手会伸向烤玉米。酱油的香气带来的安心感，以及那份怀旧的甜味，温柔地贴近平静的心境。两者兼得意味着达到尽情享受祭典的“完全体”，但胃容量这一物理限制，每次都向我们抛出这个既烦恼又有趣的问题。" data-id="Frankfurter dan jagung bakar sering kali memaksa kita pada pilihan utama 'salah satu saja'. Menurut penelitian kami, pilihan ini tidak hanya berkaitan dengan suasana hati dan kondisi fisik seseorang, tetapi juga diduga terkait dengan kondisi psikologis yang lebih dalam. Saat merasa bersemangat, ada kecenderungan untuk memilih frankfurter. Kepuasan primal dari memakan daging, rasa asin yang jelas, dan kekayaan lemaknya mungkin sesuai dengan suasana hati yang gembira. Di sisi lain, saat sedang dalam suasana kontemplatif, tangan akan meraih jagung bakar. Rasa aman yang dibawa oleh aroma kecap asin dan rasa manis yang bernuansa nostalgia menyertai keadaan pikiran yang tenang. Memegang keduanya berarti mencapai 'bentuk lengkap' dalam menikmati festival secara maksimal, tetapi batasan fisik kapasitas perut setiap kali mengajukan pertanyaan yang membingungkan namun menyenangkan ini kepada kita.">
+                    舶來腸詰ト燒キ玉蜀黍ハ、屢々「何レカ一ツ」ト云フ究極ノ選擇ヲ我々ニ強イル。本調査ニヨレバ、此ノ選擇ハ個人ノ氣分ヤ體調ノミナラズ、ヨリ深層的ナル心理狀態ト關聯シテイル可能性ガ示唆サレタ。血氣盛ンナル時ハ舶來腸詰ヲ選ブ傾向ニアル。肉ヲ喰ラフ獸的ナル滿足感、明確ナル鹽味ト脂ノコクガ、高揚シタ氣分ニ合致スルノデアロウ。一方、物思ヒニ沈ム時ハ燒キ玉蜀黍ニ手ガ伸ビル。醬油ノ香リガ齎ラス安心感ト、何處カ懐カシイ甘味ガ、穩ヤカナ心持チニ寄リ添フノダ。兩者ヲ手ニ持ツ事ハ、祭ヲ最大限ニ樂シム「完全體」ヘノ到達ヲ意味スルガ、胃袋ノ容量ト云フ物理的制約ガ、我々ニ毎度此ノ悩マシクモ樂シイ問ヒヲ投ゲカケルノデアル。
+                </p>
+                </div>
+            </section>
+        </main>
+        
+        <footer id="footer-text"
+            data-meiji="版權所有 DX科 學術調査班"
+            data-ja="版権所有 DXコース 学術調査班"
+            data-en="Copyright © DX Course, Academic Research Unit. All rights reserved."
+            data-zh="版权所有 DX科 学术调查组"
+            data-id="Hak Cipta © Unit Riset Akademik, Jurusan DX"
+        >
+            <p>版權所有 DX科 學術調査班</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const langSelect = document.getElementById('lang-select');
+            const translatableElements = document.querySelectorAll('[data-meiji]');
+            const mainTitle = document.getElementById('main-title');
+            const htmlTag = document.documentElement;
+
+            function switchLanguage(lang) {
+                // Set html lang attribute
+                const langMap = {
+                    meiji: 'ja-JP-u-ca-japanese',
+                    ja: 'ja-JP',
+                    en: 'en',
+                    zh: 'zh-CN',
+                    id: 'id'
+                };
+                htmlTag.lang = langMap[lang] || 'ja-JP-u-ca-japanese';
+
+                // Switch text content
+                translatableElements.forEach(el => {
+                    if (el.dataset[lang]) {
+                        // For elements that might contain <br>, use innerHTML
+                        if (el.innerHTML.includes('<br>')) {
+                             el.innerHTML = el.dataset[lang];
+                        } else {
+                             el.textContent = el.dataset[lang];
+                        }
+                    }
+                });
+                
+                // Handle title's writing mode
+                if (lang === 'meiji') {
+                    mainTitle.classList.add('vertical-title');
+                    mainTitle.classList.remove('horizontal-title');
+                } else {
+                    mainTitle.classList.remove('vertical-title');
+                    mainTitle.classList.add('horizontal-title');
+                }
+            }
+
+            langSelect.addEventListener('change', (event) => {
+                switchLanguage(event.target.value);
+            });
+
+            // Set initial state
+            switchLanguage('meiji');
+        });
+    </script>
+</body>
 </html>
