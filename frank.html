@@ -79,6 +79,7 @@
             border: 1px solid transparent;
             cursor: pointer;
             transition: background-color 0.2s;
+            text-decoration: none; /* aタグのアンダーラインを消す */
         }
 
         .button-primary {
@@ -229,6 +230,9 @@
                 <p id="controls-info" style="font-size: 0.875rem; color: var(--gray-600);"></p>
                 <p style="font-size: 0.875rem; font-weight: 600;">ハイスコア: <span id="high-score">0</span>点</p>
                 <button id="start-button" class="button button-primary" style="padding: 0.75rem 2rem;">ゲーム開始</button>
+                <!-- ▼ここに追加しました▼ -->
+                <a href="https://tbt-beginner.github.io/dxclasses/" class="button button-outline">メインページへ戻る</a>
+                <!-- ▲ここまで▲ -->
             </div>
 
             <!-- プレイ画面 -->
