@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>キラーコーン退治ゲーム</title>
+    <style>
+        /* --- Tailwind CSS Base & Theme --- */
+        :root {
+            --background: 0 0% 100%;
+            --foreground: 222.2 84% 4.9%;
+            --card: 0 0% 100%;
+            --card-foreground: 222.2 84% 4.9%;
+            --popover: 0 0% 100%;
+            --popover-foreground: 222.2 84% 4.9%;
+            --primary: 222.2 47.4% 11.2%;
+            --primary-foreground: 210 40% 98%;
+            --secondary: 210 40% 96.1%;
+            --secondary-foreground: 222.2 47.4% 11.2%;
+            --muted: 210 40% 96.1%;
+            --muted-foreground: 215.4 16.3% 46.9%;
+            --accent: 210 40% 96.1%;
+            --accent-foreground: 222.2 47.4% 11.2%;
+            --destructive: 0 84.2% 60.2%;
+            --destructive-foreground: 210 40% 98%;
+            --border: 214.3 31.8% 91.4%;
+            --input: 214.3 31.8% 91.4%;
+            --ring: 222.2 84% 4.9%;
+            --radius: 0.5rem;
+        }
+        
+        * {
+            box-sizing: border-box;
+            border-color: var(--border);
+        }
+
+        body {
+            /* Using dark theme colors from your CSS file */
+            background-color: hsl(222.2 84% 4.9%);
+            color: hsl(210 40% 98%);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 1rem;
+        }
+
+        /* --- Custom Game Styles --- */
+        #game-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .game-stats {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+            color: white;
+        }
+
+        #game-area {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background-color: #1f2937; /* bg-gray-900 */
+            border-radius: 0.5rem;
+            overflow: hidden;
+            cursor: none;
+        }
+
+        .ghost {
+            position: absolute;
+            transition: left 0.3s ease-out, top 0.3s ease-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.9;
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translate(-50%, -50%) translateY(-10%);
+                animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+            }
+            50% {
+                transform: translate(-50%, -50%) translateY(0);
+                animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+            }
+        }
+        
+        #cursor-light {
+            position: absolute;
+            pointer-events: none;
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,200,0.8) 40%, rgba(255,255,0,0) 70%);
+            border-radius: 50%;
+            filter: blur(2px);
+            transition: box-shadow 0.1s ease-out, opacity 0.1s ease-out;
+            opacity: 0.7;
+        }
+        #cursor-light.flashing {
+            opacity: 1;
+            box-shadow: 0 0 20px 10px rgba(255,255,200,0.8);
+        }
+
+        #cursor-hitbox {
+            position: absolute;
+            pointer-events: none;
+            width: 240px;
+            height: 240px;
+            border: 2px dashed rgba(0, 255, 255, 0.8);
+            border-radius: 50%;
+            transition: opacity 0.1s ease-out;
+            opacity: 0.6;
+            display: none;
+        }
+        #cursor-hitbox.flashing {
+             opacity: 1;
+        }
+        
+        #game-over-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        #game-over-overlay h2 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 1rem;
+        }
+        #game-over-overlay p {
+            font-size: 1.5rem;
+            color: white;
+            margin-bottom: 2rem;
+        }
+        #game-over-overlay .button-container {
+            display: flex;
+        }
+        #game-over-overlay .button-container > * + * {
+            margin-left: 1rem;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            border: 1px solid transparent;
+        }
+        .button-lg { padding: 0.75rem 1.5rem; font-size: 1rem; }
+        .button-sm { padding: 0.25rem 0.75rem; font-size: 0.875rem; }
+        .button-primary { background-color: #7c3aed; color: white; }
+        .button-primary:hover { background-color: #6d28d9; }
+        .button-outline { border-color: hsl(var(--border)); background-color: transparent; color: white; }
+        .button-outline:hover { background-color: hsla(210, 40%, 98%, 0.1); }
+        
+        .hitbox-toggle-container {
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="game-wrapper">
+        <div class="game-stats">
+            <div>スコア: <span id="score-display">0</span>/10</div>
+            <div>残り時間: <span id="time-left-display">12</span>秒</div>
+        </div>
+
+        <div id="game-area">
+            <!-- Ghosts will be added here by JavaScript -->
+            <div id="cursor-light"></div>
+            <div id="cursor-hitbox"></div>
+
+            <div id="game-over-overlay">
+                <h2 id="game-over-title"></h2>
+                <p id="game-over-message"></p>
+                <div class="button-container">
+                    <button id="restart-button" class="button button-lg button-primary">もう一度プレイ</button>
+                    <button id="end-game-button" class="button button-lg button-outline">タイトルに戻る</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="hitbox-toggle-container">
+            <button id="hitbox-toggle-button" class="button button-sm button-outline">当たり判定を非表示</button>
+        </div>
+    </div>
+
+<script>
+    // --- DOM Elements ---
+    const gameArea = document.getElementById('game-area');
+    const scoreDisplay = document.getElementById('score-display');
+    const timeLeftDisplay = document.getElementById('time-left-display');
+    const cursorLight = document.getElementById('cursor-light');
+    const cursorHitbox = document.getElementById('cursor-hitbox');
+    const gameOverOverlay = document.getElementById('game-over-overlay');
+    const gameOverTitle = document.getElementById('game-over-title');
+    const gameOverMessage = document.getElementById('game-over-message');
+    const restartButton = document.getElementById('restart-button');
+    const endGameButton = document.getElementById('end-game-button');
+    const hitboxToggleButton = document.getElementById('hitbox-toggle-button');
+
+    // --- Game State ---
+    let ghosts = [];
+    let score = 0;
+    let timeLeft = 12;
+    let gameOver = false;
+    let win = false;
+    let cursorPosition = { x: 0, y: 0 };
+    let showHitboxes = true;
+    
+    let moveInterval;
+    let timerInterval;
+
+    // --- Game Logic ---
+    function createGhost(id) {
+        return {
+            id: id,
+            x: Math.random() * 100,
+            y: Math.random() * 100,
+            size: 50 + Math.random() * 30,
+            speed: 1.0 + Math.random() * 2.0,
+            hit: false,
+        };
+    }
+
+    function initGame() {
+        score = 0;
+        timeLeft = 12;
+        gameOver = false;
+        win = false;
+        ghosts = [];
+        
+        for (let i = 0; i < 10; i++) {
+            ghosts.push(createGhost(i));
+        }
+
+        gameOverOverlay.style.display = 'none';
+        updateStats();
+        renderGhosts();
+        
+        clearInterval(moveInterval);
+        clearInterval(timerInterval);
+        moveInterval = setInterval(moveGhosts, 50);
+        timerInterval = setInterval(updateTimer, 1000);
+    }
+
+    function renderGhosts() {
+        gameArea.querySelectorAll('.ghost').forEach(g => g.remove());
+
+        ghosts.forEach(ghost => {
+            if (ghost.hit) return;
+
+            const ghostEl = document.createElement('div');
+            ghostEl.className = 'ghost';
+            ghostEl.id = `ghost-${ghost.id}`;
+            ghostEl.style.left = `${ghost.x}%`;
+            ghostEl.style.top = `${ghost.y}%`;
+            ghostEl.style.width = `${ghost.size}px`;
+            ghostEl.style.height = `${ghost.size}px`;
+            ghostEl.innerHTML = `
+                <svg width="${ghost.size}" height="${ghost.size}" viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <ellipse cx="50" cy="80" rx="25" ry="35" fill="#FFD700" stroke="#FFA500" strokeWidth="2" />
+                    <circle cx="40" cy="70" r="3" fill="#FFA500" /> <circle cx="50" cy="65" r="3" fill="#FFA500" />
+                    <circle cx="60" cy="70" r="3" fill="#FFA500" /> <circle cx="35" cy="80" r="3" fill="#FFA500" />
+                    <circle cx="45" cy="75" r="3" fill="#FFA500" /> <circle cx="55" cy="75" r="3" fill="#FFA500" />
+                    <circle cx="65" cy="80" r="3" fill="#FFA500" /> <circle cx="40" cy="85" r="3" fill="#FFA500" />
+                    <circle cx="50" cy="85" r="3" fill="#FFA500" /> <circle cx="60" cy="85" r="3" fill="#FFA500" />
+                    <circle cx="45" cy="95" r="3" fill="#FFA500" /> <circle cx="55" cy="95" r="3" fill="#FFA500" />
+                    <circle cx="42" cy="55" r="4" fill="#000" /> <circle cx="58" cy="55" r="4" fill="#000" />
+                    <circle cx="43" cy="54" r="1.5" fill="#FFF" /> <circle cx="59" cy="54" r="1.5" fill="#FFF" />
+                    <path d="M 45 62 Q 50 67 55 62" stroke="#000" strokeWidth="2" fill="none" />
+                    <path d="M 35 45 Q 30 35 25 30 Q 35 35 40 45" fill="#228B22" />
+                    <path d="M 50 40 Q 50 25 45 15 Q 55 25 55 40" fill="#228B22" />
+                    <path d="M 65 45 Q 70 35 75 30 Q 65 35 60 45" fill="#228B22" />
+                </svg>`;
+            gameArea.appendChild(ghostEl);
+        });
+    }
+    
+    function moveGhosts() {
+        if (gameOver) return;
+        ghosts.forEach(ghost => {
+            if (ghost.hit) return;
+
+            const newX = ghost.x + (Math.random() - 0.5) * ghost.speed * 1.5;
+            const newY = ghost.y + (Math.random() - 0.5) * ghost.speed * 1.5;
+            ghost.x = Math.max(0, Math.min(100, newX));
+            ghost.y = Math.max(0, Math.min(100, newY));
+            
+            const ghostEl = document.getElementById(`ghost-${ghost.id}`);
+            if (ghostEl) {
+                ghostEl.style.left = `${ghost.x}%`;
+                ghostEl.style.top = `${ghost.y}%`;
+            }
+        });
+    }
+
+    function updateTimer() {
+        if (gameOver) return;
+        timeLeft--;
+        updateStats();
+        if (timeLeft <= 0) {
+            endGame(false);
+        }
+    }
+
+    function updateStats() {
+        scoreDisplay.textContent = score;
+        timeLeftDisplay.textContent = timeLeft;
+    }
+    
+    function checkWinCondition() {
+        if (score >= 10 && !gameOver) {
+            endGame(true);
+        }
+    }
+
+    function endGame(isWin) {
+        gameOver = true;
+        win = isWin;
+        clearInterval(moveInterval);
+        clearInterval(timerInterval);
+        
+        gameOverTitle.textContent = win ? "勝利！" : "時間切れ！";
+        gameOverMessage.textContent = win ? "おめでとう！一文字目のキーワードはトです！" : `${score}匹のおばけを退治しました`;
+        
+        restartButton.style.display = win ? 'none' : 'inline-flex';
+        gameOverOverlay.style.display = 'flex';
+    }
+
+    // --- Event Handlers ---
+    gameArea.addEventListener('mousemove', (e) => {
+        const rect = gameArea.getBoundingClientRect();
+        cursorPosition = {
+            x: ((e.clientX - rect.left) / rect.width) * 100,
+            y: ((e.clientY - rect.top) / rect.height) * 100,
+        };
+
+        const transformStyle = `translate(-50%, -50%) translate(${e.clientX - rect.left}px, ${e.clientY - rect.top}px)`;
+        cursorLight.style.transform = transformStyle;
+        cursorHitbox.style.transform = transformStyle;
+    });
+
+    gameArea.addEventListener('click', () => {
+        if (gameOver) return;
+
+        cursorLight.classList.add('flashing');
+        if (showHitboxes) cursorHitbox.classList.add('flashing');
+        setTimeout(() => {
+            cursorLight.classList.remove('flashing');
+            if (showHitboxes) cursorHitbox.classList.remove('flashing');
+        }, 100);
+
+        ghosts.forEach(ghost => {
+            if (ghost.hit) return;
+            
+            const distance = Math.sqrt(Math.pow(ghost.x - cursorPosition.x, 2) + Math.pow(ghost.y - cursorPosition.y, 2));
+            const hitRadius = (ghost.size / 100) * 10; // Hitbox radius in percentage units
+
+            if (distance < hitRadius) {
+                ghost.hit = true;
+                score++;
+                updateStats();
+                const ghostEl = document.getElementById(`ghost-${ghost.id}`);
+                if (ghostEl) ghostEl.remove();
+                checkWinCondition();
+            }
+        });
+    });
+    
+    restartButton.addEventListener('click', initGame);
+
+    endGameButton.addEventListener('click', () => {
+        alert("タイトル画面に戻ります（実装に応じて動作を変更してください）");
+    });
+
+    hitboxToggleButton.addEventListener('click', () => {
+        showHitboxes = !showHitboxes;
+        if (showHitboxes) {
+            hitboxToggleButton.textContent = '当たり判定を非表示';
+            cursorHitbox.style.display = 'block';
+        } else {
+            hitboxToggleButton.textContent = '当たり判定を表示';
+            cursorHitbox.style.display = 'none';
+        }
+    });
+
+    // --- Initial Setup ---
+    document.addEventListener('DOMContentLoaded', () => {
+        if (showHitboxes) {
+            cursorHitbox.style.display = 'block';
+        }
+        initGame();
+    });
+
+</script>
+</body>
+</html>
