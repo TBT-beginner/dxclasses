@@ -157,6 +157,7 @@
             line-height: 1.7;
             text-align: center;
             margin-top: 10px;
+            margin-bottom: 0;
         }
         .secret-stamp {
             position: absolute;
@@ -296,6 +297,15 @@
                 <span class="secret-stamp" data-meiji="秘" data-ja="秘" data-en="Top Secret">秘</span>
                 <h2 data-meiji="読者限定・特別御優待" data-ja="読者限定・特別割引" data-en="Readers Only: Special Offer">読者限定・特別御優待</h2>
                 <p data-meiji="合言葉はゲヱムの中に！ この言葉を係の者に伝えし者には、特別なる割引を約束せん！ さあ、勇気を出して申し出給え！" data-ja="合言葉はゲームの中に！ この言葉を店員に伝えた方には、特別割引をお約束します！ さあ、勇気を出して伝えてください！" data-en="The secret phrase is in the games above! To those who tell this to our staff, a special discount shall be promised! Now, summon your courage and speak up!">合言葉はゲヱムの中に！ この言葉を係の者に伝えし者には、特別なる割引を約束せん！ さあ、勇気を出して申し出給え！</p>
+                
+                <div class="column" style="border-style: dotted; margin-top: 20px; background: transparent;">
+                    <strong data-meiji="更なる挑戦状" data-ja="さらなる挑戦状" data-en="A Further Challenge">更なる挑戦状</strong>
+                    <p data-meiji="焼きの腕のみならず、頭脳も試されたし。我らが仕掛けた<a href='https://tbt-beginner.github.io/dxclasses/number.html' target='_blank' class='hidden-link'>『数字の謎』</a>を解き明かし、己の才覚を示せ。"
+                       data-ja="焼く腕前だけでなく、頭脳も試してみてください。我々が仕掛けた<a href='https://tbt-beginner.github.io/dxclasses/number.html' target='_blank' class='hidden-link'>『数字の謎』</a>を解き明かし、あなたの才能を示してください。"
+                       data-en="Test not only your grilling skills, but your mind as well. Take on the <a href='https://tbt-beginner.github.io/dxclasses/number.html' target='_blank' class='hidden-link'>'Number Puzzle'</a> we have devised and prove your brilliance.">
+                       焼きの腕のみならず、頭脳も試されたし。我らが仕掛けた<a href='https://tbt-beginner.github.io/dxclasses/number.html' target='_blank' class='hidden-link'>『数字の謎』</a>を解き明かし、己の才覚を示せ。
+                    </p>
+                </div>
             </section>
 
         </main>
@@ -321,11 +331,8 @@
 
                 translatableElements.forEach(el => {
                     if (el.dataset[lang]) {
-                        if (el.innerHTML.includes('<br>')) {
-                             el.innerHTML = el.dataset[lang];
-                        } else {
-                             el.textContent = el.dataset[lang];
-                        }
+                        // data属性にHTMLタグが含まれる場合も考慮し、常にinnerHTMLで書き換える
+                        el.innerHTML = el.dataset[lang];
                     }
                 });
                 
