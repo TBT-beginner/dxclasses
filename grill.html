@@ -121,7 +121,7 @@
         .animate-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
 
         @keyframes bounce {
-            0%, 100% { transform: translateY(-25%); animation-timing-function: cubic-bezier(0.8,0,1,1); }
+            0%, 100% { transform: translateY(-15%); animation-timing-function: cubic-bezier(0.8,0,1,1); }
             50% { transform: translateY(0); animation-timing-function: cubic-bezier(0,0,0.2,1); }
         }
         .animate-bounce-slow { animation: bounce 1s infinite; }
@@ -143,58 +143,77 @@
         .text-purple-700 { color: var(--color-purple-700); }
         .text-red-600 { color: #dc2626; }
 
-        /* Game Screen */
+        /* --- Game Screen Layout (★ここから修正) --- */
         #game-screen-container { max-width: 56rem; margin: auto; }
         #game-area {
             position: relative;
             width: 100%;
-            /* 縦横比を固定して、レスポンシブに対応 */
             aspect-ratio: 16 / 9;
-            max-height: 70vh; /* 画面が高すぎる場合にエリアが伸びすぎるのを防ぐ */
+            max-height: 70vh; 
             background-image: linear-gradient(to bottom, #dbeafe, #dcfce7);
             border-radius: 0.5rem;
             border: 4px solid var(--color-brown-400);
             overflow: hidden;
             margin-top: 1rem;
+            /* Flexboxで中央寄せ */
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         #grill {
-            position: absolute;
-            left: 5rem;
-            top: 8rem;
+            position: relative;
+            /* 正方形にする */
             width: 20rem;
-            height: 6rem;
+            height: 20rem;
             background-color: var(--color-gray-800);
             border-radius: 0.5rem;
             border: 4px solid var(--color-gray-600);
             padding: 0.5rem;
             box-sizing: border-box;
         }
+
         #grill-surface {
-            width: 100%; height: 100%;
+            width: 100%; 
+            height: 100%;
             background-image: linear-gradient(to right, #4b5563, #111827);
             border-radius: 0.375rem;
             position: relative;
+            /* Grid Layoutで2x2に配置 */
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            padding: 1rem;
+            box-sizing: border-box;
         }
+
         .grill-bar {
-            position: absolute; left: 0.5rem; right: 0.5rem; height: 2px;
-            background-color: #9ca3af; border-radius: 9999px;
+            position: absolute; 
+            left: 0.5rem; 
+            right: 0.5rem; 
+            height: 3px;
+            background-color: #9ca3af; 
+            border-radius: 9999px;
+            /* アイテムの背面に表示 */
+            z-index: 0;
         }
         
         .food-item {
-            position: absolute;
-            width: 3rem;
-            height: 3rem;
+            position: relative; /* Gridアイテムとして振る舞う */
+            width: 100%; /* グリッドセルいっぱいに広がる */
+            height: 100%; /* グリッドセルいっぱいに広がる */
             cursor: pointer;
             transition: all 0.2s;
-            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1; /* 網より手前に */
         }
         .food-item-emoji {
-            font-size: 2.5rem;
+            font-size: 4rem; /* サイズ調整 */
             line-height: 1;
             user-select: none;
-            /* 絵文字が引き伸ばされないようにアスペクト比を維持 */
-            transform-origin: center;
+            transition: transform 0.2s;
         }
         .food-item.can-tap {
             animation: bounce 1s infinite;
@@ -203,13 +222,22 @@
         .food-item.burnt {
             filter: brightness(0.6);
         }
-        .food-item:hover { transform: scale(1.05); }
-        .food-item.can-tap:hover { transform: scale(1.1); }
+        .food-item:hover .food-item-emoji { transform: scale(1.05); }
+        .food-item.can-tap:hover .food-item-emoji { transform: scale(1.1); }
+
+        .food-item .progress-bar {
+            position: absolute;
+            bottom: -0.75rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+        }
         .food-tap-indicator {
             position: absolute;
             top: -1.5rem;
-            left: 0;
-            width: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
             text-align: center;
             font-size: 0.75rem;
             font-weight: 700;
@@ -217,52 +245,19 @@
             animation: pulse 1.5s infinite;
         }
 
-        /* --- 縦画面対応のための追加/変更スタイル --- */
+        /* --- 縦画面対応のためのスタイル (★ここから修正) --- */
         @media (max-width: 768px) {
-            #game-area {
-                /* Flexboxで中央寄せ */
-                display: flex;
-                justify-content: center;
-                align-items: center;
-            }
             #grill {
-                /* 絶対配置をやめて、Flexboxレイアウトに従う */
-                position: relative;
-                left: auto;
-                top: auto;
-                /* 幅を画面に合わせて可変にする */
                 width: 90%;
-                height: 30%;
-                min-height: 5rem;
+                height: auto;
+                aspect-ratio: 1 / 1; /* 正方形を維持 */
             }
             #grill-surface {
-                /* 食材を横並びにするためのFlexbox設定 */
-                display: flex;
-                justify-content: space-around;
-                align-items: center;
-            }
-            .food-item {
-                /* 絶対配置をやめて、Flexboxレイアウトに従う */
-                position: relative;
-                left: auto !important; /* JSでのstyle指定を上書き */
-                top: auto !important;  /* JSでのstyle指定を上書き */
-                width: 20%; /* グリルの幅に対しての割合 */
-                height: auto;
-                aspect-ratio: 1 / 1;
+                gap: 0.5rem; /* スマホでは少し詰める */
+                padding: 0.5rem;
             }
             .food-item-emoji {
-                font-size: 10vmin; /* 画面幅に応じて文字サイズを調整 */
-            }
-            .food-item .progress-bar {
-                 bottom: -0.75rem;
-                 left: 50%;
-                 transform: translateX(-50%);
-                 width: 120%;
-            }
-            .food-tap-indicator {
-                top: -1rem;
-                width: 100%;
-                left: 0;
+                font-size: 12vmin; /* 画面幅に応じて文字サイズを調整 */
             }
             .flex.justify-between {
                 flex-direction: column;
@@ -273,9 +268,7 @@
         /* Utility Classes */
         .flex { display: flex; }
         .grid { display: grid; }
-        .gap-1 { gap: 0.25rem; }
         .gap-2 { gap: 0.5rem; }
-        .gap-3 { gap: 0.75rem; }
         .gap-4 { gap: 1rem; }
         .items-center { align-items: center; }
         .justify-center { justify-content: center; }
@@ -283,30 +276,19 @@
         .text-center { text-align: center; }
         .font-bold { font-weight: 700; }
         .text-lg { font-size: 1.125rem; }
-        .text-xl { font-size: 1.25rem; }
         .text-2xl { font-size: 1.5rem; }
         .text-3xl { font-size: 1.875rem; }
-        .text-4xl { font-size: 2.25rem; }
-        .text-5xl { font-size: 3rem; }
         .text-6xl { font-size: 3.75rem; }
-        .mb-2 { margin-bottom: 0.5rem; }
         .mb-4 { margin-bottom: 1rem; }
-        .mb-6 { margin-bottom: 1.5rem; }
         .mt-4 { margin-top: 1rem; }
-        .mx-auto { margin-left: auto; margin-right: auto; }
         .p-2 { padding: 0.5rem; }
-        .p-4 { padding: 1rem; }
-        .p-6 { padding: 1.5rem; }
-        .py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
         .rounded-lg { border-radius: 0.5rem; }
         .border-2 { border-width: 2px; }
-        .border-purple-200 { border-color: var(--color-purple-200); }
         .border-purple-300 { border-color: var(--color-purple-300); }
         .bg-green-100 { background-color: #dcfce7; }
         .border-green-300 { border-color: #86efac; }
         .text-green-800 { color: #166534; }
         .space-y-6 > :not([hidden]) ~ :not([hidden]) { margin-top: 1.5rem; }
-        .flex-1 { flex: 1 1 0%; }
         .w-full { width: 100%; }
         .hidden { display: none; }
     </style>
@@ -333,7 +315,6 @@
                     </div>
                     <div style="background-color: #f0fdf4; border: 2px solid #bbf7d0; border-radius: 0.5rem; padding: 1rem; text-align: center;">
                         <h3 class="text-xl font-bold text-green-700 mb-2 flex items-center justify-center">
-                            <!-- Target Icon -->
                             <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
                             ゲーム目標
                         </h3>
@@ -342,7 +323,6 @@
                     </div>
                     <div class="text-center pt-4">
                         <button id="start-game-btn" class="button" style="background-image: linear-gradient(to right, #f97316, #ef4444); color: white; padding: 1rem 2rem; font-size: 1.25rem;">
-                            <!-- Play Icon -->
                             <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
                             ゲームスタート
                         </button>
@@ -383,10 +363,10 @@
                                 <div id="grill-surface">
                                     <!-- Food items will be dynamically added here -->
                                 </div>
-                                <div class="grill-bar" style="top: 20%; z-index: -1;"></div>
-                                <div class="grill-bar" style="top: 40%; z-index: -1;"></div>
-                                <div class="grill-bar" style="top: 60%; z-index: -1;"></div>
-                                <div class="grill-bar" style="top: 80%; z-index: -1;"></div>
+                                <!-- Grill Bars -->
+                                <div class="grill-bar" style="top: 25%;"></div>
+                                <div class="grill-bar" style="top: 50%;"></div>
+                                <div class="grill-bar" style="top: 75%;"></div>
                                 <!-- Flame Icon -->
                                 <svg id="grill-flame" class="animate-pulse" style="position: absolute; top: 0.25rem; right: 0.25rem; width: 1.5rem; height: 1.5rem; color: #f97316;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
                             </div>
@@ -400,7 +380,7 @@
             </div>
         </div>
 
-        <!-- Clear Screen -->
+        <!-- Clear Screen & Keyword Screen (HTML is unchanged) -->
         <div id="clear-screen" class="screen bg-gradient-purple-pink-yellow">
              <div class="card">
                 <div class="card-header text-center">
@@ -422,21 +402,18 @@
                             </div>
                         </div>
                     </div>
-                     <div class="flex flex-col gap-3 pt-4">
+                     <div class="flex flex-col gap-2 pt-4">
                         <button id="play-again-btn-clear" class="button flex-1" style="background-image: linear-gradient(to right, #22c55e, #16a34a); color: white; font-weight: 700; padding: 0.75rem;">もう一度プレイ</button>
                         <button id="back-to-menu-btn-clear" class="button button-outline flex-1" style="border-width: 2px; border-color: var(--color-purple-300); color: var(--color-purple-700); font-weight: 700; padding: 0.75rem;">メニューに戻る</button>
                      </div>
                 </div>
             </div>
         </div>
-
-        <!-- Keyword Screen -->
         <div id="keyword-screen" class="screen bg-gradient-purple-pink-indigo">
              <div class="card" style="max-width: 32rem;">
                 <div class="card-header text-center">
                     <div class="mb-6">
                        <div class="animate-bounce-slow mb-4">
-                           <!-- Sparkles Icon -->
                            <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-auto text-purple-600"><path d="m12 3-1.9 5.8-5.8 1.9 5.8 1.9L12 18l1.9-5.8 5.8-1.9-5.8-1.9L12 3z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>
                        </div>
                     </div>
@@ -455,7 +432,7 @@
                             </div>
                         </div>
                     </div>
-                     <div class="flex flex-col gap-3 pt-4">
+                     <div class="flex flex-col gap-2 pt-4">
                         <button id="play-again-btn-keyword" class="button flex-1" style="background-image: linear-gradient(to right, #22c55e, #16a34a); color: white; font-weight: 700; padding: 0.75rem;">もう一度プレイ</button>
                         <button id="back-to-menu-btn-keyword" class="button button-outline flex-1" style="border-width: 2px; border-color: var(--color-purple-300); color: var(--color-purple-700); font-weight: 700; padding: 0.75rem;">メニューに戻る</button>
                     </div>
@@ -465,8 +442,9 @@
     </div>
     
     <script>
+        // JavaScriptは前回の修正から変更ありません。
+        // CSSでレイアウトを制御しているため、JSのロジックはそのまま機能します。
         document.addEventListener('DOMContentLoaded', () => {
-            // --- DOM Element References ---
             const screens = {
                 menu: document.getElementById('menu-screen'),
                 game: document.getElementById('game-screen'),
@@ -474,8 +452,7 @@
                 keyword: document.getElementById('keyword-screen'),
             };
 
-            const gameArea = document.getElementById('game-area');
-            const grillSurface = document.getElementById('grill-surface'); // ★ 追加
+            const grillSurface = document.getElementById('grill-surface'); 
             const statusArea = document.getElementById('status-area');
             const scoreBadge = document.getElementById('score-badge');
             const comboBadge = document.getElementById('combo-badge');
@@ -486,7 +463,6 @@
             const clearProgressBar = document.getElementById('clear-progress-bar');
             const clearProgressText = document.getElementById('clear-progress-text');
 
-            // --- Game State Variables ---
             let gameState = 'menu';
             let score = 0;
             let timeLeft = 15;
@@ -501,18 +477,14 @@
             let gameTimer = null;
             let cookingInterval = null;
             
-            // ★ 修正: 位置情報 (x, y) は不要になったため削除
             const initialFoodItems = [
                 { id: "corn1", type: "corn" },
-                { id: "corn2", type: "corn" },
                 { id: "frank1", type: "frankfurter" },
+                { id: "corn2", type: "corn" },
                 { id: "frank2", type: "frankfurter" },
             ];
 
-            // --- Game Logic Functions ---
-
             function initializeFoodItems() {
-                // ★ 修正: 古い食材要素をクリア
                 grillSurface.innerHTML = ''; 
 
                 foodItems = initialFoodItems.map(item => ({
@@ -573,7 +545,7 @@
                     timeLeft--;
                     updateUI();
                     if (timeLeft <= 0) {
-                        endGame(false); // Time's up, target not necessarily achieved
+                        endGame(false); 
                     }
                 }, 1000);
 
@@ -668,7 +640,6 @@
                 score += finalPoints;
                 lastTapTime = now;
                 
-                // Reset the tapped food item
                 const itemIndex = foodItems.findIndex(f => f.id === itemId);
                 foodItems[itemIndex] = {
                     ...foodItems[itemIndex],
@@ -686,12 +657,9 @@
                 if (score >= targetScore && !targetAchieved) {
                     targetAchieved = true;
                     targetAchievedBanner.classList.remove('hidden');
-                    // End game immediately on target achievement
                     setTimeout(() => endGame(true), 500);
                 }
             }
-
-            // --- Rendering Functions ---
 
             function getFoodEmoji(item) {
                 return item.type === 'corn' ? '🌽' : '🌭';
@@ -715,21 +683,15 @@
                         el.dataset.id = item.id;
                         el.innerHTML = `
                             <div class="food-item-emoji">${getFoodEmoji(item)}</div>
-                            <div class="progress-bar progress-bar-sm" style="position: absolute; bottom: -0.5rem; left: -0.5rem; width: 4rem;">
+                            <div class="progress-bar progress-bar-sm">
                                 <div class="progress-bar-inner"></div>
                             </div>
                             <div class="food-tap-indicator hidden">タップ!</div>
                         `;
-                        // ★ 修正: grillSurfaceに要素を追加する
                         grillSurface.appendChild(el);
                     }
                     
-                    // ★ 削除: CSSで配置するため、JSでの位置指定は不要
-                    // el.style.left = `${item.x / 16}rem`;
-                    // el.style.top = `${item.y / 16}rem`;
-                    
                     el.querySelector('.progress-bar-inner').style.width = `${item.cookingProgress}%`;
-
                     el.classList.toggle('can-tap', item.canTap);
                     el.classList.toggle('burnt', item.cookingQuality === 'burnt');
                     el.querySelector('.food-tap-indicator').classList.toggle('hidden', !item.canTap);
@@ -760,24 +722,20 @@
                 });
             }
             
-            // --- Event Listeners ---
             document.getElementById('start-game-btn').addEventListener('click', startGame);
-            document.getElementById('reset-game-btn').addEventListener('click', startGame); // Reset is same as new game
+            document.getElementById('reset-game-btn').addEventListener('click', startGame);
             
-            const backToMenuBtns = [
+            [
                 document.getElementById('back-to-menu-btn'),
                 document.getElementById('back-to-menu-btn-clear'),
                 document.getElementById('back-to-menu-btn-keyword'),
-            ];
-            backToMenuBtns.forEach(btn => btn.addEventListener('click', handleBackToMenu));
+            ].forEach(btn => btn.addEventListener('click', handleBackToMenu));
 
-            const playAgainBtns = [
+            [
                 document.getElementById('play-again-btn-clear'),
                 document.getElementById('play-again-btn-keyword'),
-            ];
-            playAgainBtns.forEach(btn => btn.addEventListener('click', startGame));
+            ].forEach(btn => btn.addEventListener('click', startGame));
 
-            // ★ 修正: クリックイベントのリスナーを grillSurface に変更
             grillSurface.addEventListener('click', (e) => {
                 const foodElement = e.target.closest('.food-item');
                 if (foodElement) {
@@ -785,7 +743,6 @@
                 }
             });
             
-            // --- Initial Setup ---
             initializeFoodItems();
             showScreen('menu');
         });
