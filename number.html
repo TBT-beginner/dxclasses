@@ -176,7 +176,7 @@
         updateAttemptsBadge();
 
         if (guessNumber === targetNumber) {
-          messageEl.innerHTML = `🎉 正解です！${attempts}回で当てました！<br>キーワードは「トビタＴ」です。`; // innerHTMLで改行<br>を反映
+          messageEl.innerHTML = `🎉 正解です！${attempts}回で当てました！<br>キーワードは「トビタＴ」です。<br>他のゲームにもトライ！`; // innerHTMLで改行<br>を反映
           gameWon = true;
           triggerConfetti();
           endGame();
