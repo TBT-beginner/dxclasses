@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高校生のための総合探究テーマ例</title>
+    <style>
+        /* CSS: ページのデザイン */
+        :root {
+            --primary-color: #005ab5;
+            --secondary-color: #f0f8ff;
+            --accent-color-1: #e6f7ff; /* 着眼点 */
+            --accent-color-2: #fffbe6; /* 事例 */
+            --border-color-1: #91d5ff; /* 着眼点 */
+            --border-color-2: #ffe58f; /* 事例 */
+            --font-color: #333;
+            --border-color: #ddd;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', 'Arial', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Meiryo', sans-serif;
+            line-height: 1.7;
+            color: var(--font-color);
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 3px solid var(--primary-color);
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 2em;
+            margin: 0;
+        }
+
+        h2 {
+            font-size: 1.8em;
+            color: var(--primary-color);
+            border-left: 5px solid var(--primary-color);
+            padding-left: 15px;
+            margin-top: 50px;
+            margin-bottom: 25px;
+        }
+
+        .how-to-section {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 25px 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 6px var(--shadow-color);
+        }
+        
+        .how-to-section h3 {
+            font-size: 1.5em;
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+
+        .how-to-section ol {
+            padding-left: 20px;
+            list-style: none;
+            counter-reset: step-counter;
+        }
+        
+        .how-to-section li {
+            counter-increment: step-counter;
+            margin-bottom: 20px;
+            position: relative;
+            padding-left: 45px;
+        }
+
+        .how-to-section li::before {
+            content: "STEP " counter(step-counter);
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: bold;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: inline-block;
+            text-align: center;
+            line-height: 30px;
+            font-size: 0.8em;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        
+        .how-to-section li strong {
+            font-size: 1.1em;
+            color: var(--primary-color);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .theme-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .theme-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px var(--shadow-color);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .theme-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px var(--shadow-color);
+        }
+
+        .theme-card h3 {
+            margin-top: 0;
+            font-size: 1.2em;
+            color: var(--primary-color);
+            cursor: pointer;
+        }
+
+        .theme-card .description {
+            font-size: 0.9em;
+            flex-grow: 1;
+            margin-bottom: 15px;
+        }
+
+        .focus-point, .example {
+            font-size: 0.85em;
+            padding: 10px 15px;
+            margin-top: 10px;
+            border-radius: 4px;
+        }
+
+        .focus-point {
+            background-color: var(--accent-color-1);
+            border-left: 3px solid var(--border-color-1);
+        }
+        .focus-point::before {
+            content: "🤔 こんな「困った感」から";
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+            color: #096dd9;
+        }
+
+        .example {
+            background-color: var(--accent-color-2);
+            border-left: 3px solid var(--border-color-2);
+        }
+        .example::before {
+            content: "💡 こんなプロジェクトへ";
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+            color: #d46b08;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            background-color: #e9ecef;
+        }
+        
+        .search-more-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1em;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .search-more-btn:hover {
+            background-color: #00448a;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>高校生のための総合探究テーマ例</h1>
+            <p>興味のあるテーマのタイトルをクリックして、さらに詳しく調べてみよう！</p>
+        </header>
+
+        <section class="how-to-section">
+            <h3>探究課題の見つけ方と進め方</h3>
+            <p>探究学習は、身の回りの「なぜ？」「もっとこうだったらいいのに」という小さな気づき（＝困った感）から始まります。以下のステップを参考に、自分だけの課題を見つけてみましょう。</p>
+            <ol>
+                <li>
+                    <strong>「もやもや」を見つける（課題発見）</strong>
+                    日常生活で感じる「不便だな」「もったいないな」「なんだかおかしいぞ」という気持ちが探究のタネです。まずは自分のアンテナを立てて、そうした「もやもや」をメモしてみましょう。
+                </li>
+                <li>
+                    <strong>「問い」の形にする（課題設定）</strong>
+                    「もやもや」を具体的な「問い（リサーチクエスチョン）」に変えてみましょう。例えば、「商店街に元気がない」→「若者が集まる商店街にするには、何が必要だろうか？」のように、調べたり考えたりできる形にします。
+                </li>
+                <li>
+                    <strong>情報を集める（調査・情報収集）</strong>
+                    問いの答えを探すために、本やインターネットで調べたり、関係者にインタビューしたり、アンケートを取ったりします。信頼できる情報かを見極めることも大切です。
+                </li>
+                <li>
+                    <strong>考えを深める（分析・考察）</strong>
+                    集めた情報を整理し、「何が言えるか」「原因は何か」「自分ならどうするか」を考えます。グラフを作ったり、情報を分類したりして、自分なりの解決策のアイデアを練りましょう。
+                </li>
+                <li>
+                    <strong>形にして伝える（表現・発表）</strong>
+                    考えたことや提案を、レポートやプレゼンテーション、ポスター、制作物などで表現します。「誰に、何を伝えたいか」を意識して、分かりやすく伝える工夫をしましょう。
+                </li>
+            </ol>
+        </section>
+
+        <main>
+            <!-- 身近な地域の社会問題 -->
+            <section>
+                <h2>身近な地域の社会問題</h2>
+                <div class="theme-grid">
+                    <div class="theme-card">
+                        <h3 data-keyword="空き家問題 探究学習 高校生">空き家問題</h3>
+                        <p class="description">自分ごと化しやすく、人口減少や相続など様々な要因が絡む総合的な課題。自治体や専門家との対話を通じて多角的に探究できます。</p>
+                        <p class="focus-point">近所に使われていない家があって、もったいないし景観も悪いな。この古い建物を何かに活かせないだろうか？</p>
+                        <p class="example">古民家をリノベーションして交流スペースを作成。地域の不動産会社と連携し、改装から運営まで手がけた。</p>
+                    </div>
+                    <div class="theme-card">
+                        <h3 data-keyword="商店街 活性化 探究学習 高校生">商店街の活性化</h3>
+                        <p class="description">地域経済と文化の両面からアプローチできるテーマ。店主へのインタビューを通じ、地域の歴史や経済の変化を学べます。</p>
+                        <p class="focus-point">いつも通る商店街、シャッターが閉まってる店が増えたな。もっと同世代が集まる場所になったらいいのに。</p>
+                        <p class="example">地元商店街で期間限定の高校生カフェを開業。SNSでの情報発信からメニュー開発、運営まで一貫して取り組んだ。</p>
+                    </div>
+                    <div class="theme-card">
+                        <h3 data-keyword="高齢者 買い物支援 探究学習 高校生">高齢者の買い物支援</h3>
+                        <p class="description">高齢化社会における喫緊の課題。社会的孤立や健康管理など、より深い社会課題とも結びついています。</p>
+                        <p class="focus-point">おばあちゃんが重い荷物を持って坂道を歩いていて大変そう。近くにスーパーがなくて困っている人がいるんじゃないか？</p>
+                        <p class="example">移動販売車の運行ルート設計や商品選定に参画。高齢者へのヒアリングを重ね、実用的なサービスを作り上げた。</p>
+                    </div>
+                    <div class="theme-card">
+                        <h3 data-keyword="通学路 安全対策 探究学習 高校生">通学路の安全対策</h3>
+                        <p class="description">自身の生活に直結し、危険箇所の特定から行政への提言まで一連のプロセスを体験できます。データ収集や多様な関係者への聞き取りが重要です。</p>
+                        <p class="focus-point">この交差点、見通しが悪くて危ないな。雨の日に車がすごいスピードで走ってきてヒヤッとした。</p>
+                        <p class="example">危険箇所をマッピングし、行政へ提言。実際に信号機の設置につながった。</p>
+                    </div>
+                    <div class="theme-card">
+                        <h3 data-keyword="祭り 担い手不足 探究学習 高校生">祭りの担い手不足</h3>
+                        <p class="description">地域の文化的アイデンティティに関わるテーマ。伝統と革新のバランスを考えながら、持続可能な継承方法を検討できます。</p>
+                        <p class="focus-point">地元の祭りに参加してるの、年配の方ばかりだな。このままだと、お祭りがなくなっちゃうかも？</p>
+                        <p class="example">伝統行事を若者向けにアレンジした新しい祭りを企画。SNSでの発信により、若い参加者の増加に成功した。</p>
+                    </div>
+                    <div class="theme-card">
+                        <h3 data-keyword="ゴミ分別 社会問題 探究学習 高校生">ゴミ分別の社会問題</h3>
+                        <p class="description">環境問題への入り口として最適。身近ながら資源循環などグローバルな視点も可能。行動科学的なアプローチも有効です。</p>
+                        <p class="focus-point">ゴミの分別ルール、地域によって違うし複雑でよくわからない。みんなちゃんと分別できてるのかな？</p>
+                        <p class="example">正しい分別方法を簡単に検索できるアプリを開発。市役所と連携し、実用化された。</p>
+                    </div>
+                    <div class="theme-card">
+                        <h3 data-keyword="野良猫問題 TNR 探究学習 高校生">野良猫問題</h3>
+                        <p class="description">生命倫理や地域コミュニティの在り方を考えるテーマ。科学的アプローチと多様な価値観の理解が求められます。</p>
+                        <p class="focus-point">野良猫はかわいいけど、フン害などで困っている人もいるみたい。猫も人も幸せに暮らせる方法はないのかな？</p>
+                        <p class="example">地域住民と協力して実態調査を行い、TNR活動（捕獲→不妊手術→元の場所に戻す）の支援システムを構築した。</p>
+                    </div>
+                    <div class="theme-card">
+                        <h3 data-keyword="公園 利用率低下 探究学習 高校生">公園の利用率低下</h3>
+                        <p class="description">都市計画とライフスタイルの変化を考察できるテーマ。公共空間の在り方を多面的に検討できます。</p>
+                        <p class="focus-point">家の近くの公園、遊具も古いし誰も使ってなくて寂しい。もっと色々な人が集まる楽しい場所にならないかな？</p>
+                        <p class="example">利用者へのアンケートをもとに新しい公園の使い方を提案。実際にイベントを開催して効果を検証した。</p>
+                    </div>
+                    <div class="theme-card">
+                        <h3 data-keyword="待機児童問題 探究学習 高校生">待機児童問題</h3>
+                        <p class="description">教育・福祉・労働など複数の課題が絡むテーマ。データ分析と実地調査の両面からアプローチできます。</p>
+                        <p class="focus-point">小さい子がいる親戚が、保育園に入れなくて困っていた。働きたいのに働けないお母さんがいるのはなぜだろう？</p>
+                        <p class="example">空き教室を活用した一時預かり施設を提案。高校生がボランティアスタッフとして参加する仕組みを考案した。</p>
+                    </div>
+                    <div class="theme-card">
+                        <h3 data-keyword="観光資源 活用不足 探究学習 高校生">観光資源の活用不足</h3>
+                        <p class="description">地域の魅力再発見と経済活性化を結びつけるテーマ。体験型観光やストーリー性のあるルート開発など、深い価値創造を目指せます。</p>
+                        <p class="focus-point">うちの町、ガイドブックに載ってないけど良い所がたくさんあるのにもったいない。どうすれば魅力が伝わるんだろう？</p>
+                        <p class="example">地域の隠れた観光スポットを発掘し、観光マップを作成。外国人観光客向けの多言語対応も実現した。</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- デジタル社会における社会問題 -->
+            <section>
+                <h2>デジタル社会における社会問題</h2>
+                <div class="theme-grid">
+                    <div class="theme-card">
+                        <h3 data-keyword="SNS依存問題 探究学習 高校生">SNS依存問題</h3>
+                        <p class="description">当事者として実感を持って取り組めるテーマ。自身の経験を客観的に分析し、心理学的な知見も踏まえた探究が可能です。</p>
+                        <p class="focus-point">気づいたら何時間もスマホを見てしまう。これって勉強にも影響してるんじゃないか？上手な付き合い方はないのかな。</p>
+                        <p class="example">「スマホ・デトックス・プロジェクト」を立ち上げ。使用時間の可視化アプリを開発し、総合的なプログラムを作成した。</p>
+                    </div>
+                    <div class="theme-card">
+                        <h3 data-keyword="オンライン詐欺 対策 探究学習 高校生">オンライン詐欺</h3>
+                        <p class="description">情報リテラシーと世代間格差の解消という観点からアプローチ可能。専門機関との連携も有効です。</p>
+                        <p class="focus-point">祖父母が「怪しいメールが来た」と不安そうにしていた。高齢者を狙った詐欺からどうやって守ればいいんだろう？</p>
+                        <p class="example">高齢者向けのデジタル教室を開催。詐欺事例をもとに予防マニュアルを作成し、定期的な講座を実施した。</p>
+                    </div>
+                    <div class="theme-card">
+                        <h3 data-keyword="デジタルデバイド 情報格差 探究学習">デジタルデバイド</h3>
+                        <p class="description">技術の進歩と社会的包摂の関係を考察できる重要テーマ。行政のデジタル化に伴う課題に焦点を当てることができます。</p>
+                        <p class="focus-point">役所の手続きがオンライン化されて便利になったけど、スマホが苦手な人はどうしてるんだろう？取り残されてない？</p>
+                        <p class="example">地域の高齢者向けスマートフォン教室を運営し、行政手続きのオンライン化などをサポートした。</p>
+                    </div>
+                    <div class="theme-card">
+                        <h3 data-keyword="ネットいじめ 対策 探究学習 高校生">ネットいじめ</h3>
+                        <p class="description">現代の生徒が直面する切実な問題。匿名性や拡散性といった特徴を踏まえ、テクノロジーを活用した新しい対策が求められます。</p>
+                        <p class="focus-point">顔が見えないからこそ、言葉のナイフは深く刺さる。悩んでいる友達が気軽に相談できる場所はないだろうか。</p>
+                        <p class="example">匿名性を活かした相談システムを構築。LINE公式アカウントを活用し、同世代のピアサポーターとして活動した。</p>
+                    </div>
+                    <div class="theme-card">
+                        <h3 data-keyword="個人情報流出 対策 探究学習">個人情報の流出</h3>
+                        <p class="description">デジタル社会を生きる上で必須のリテラシー。技術的側面と人的側面、法的な側面から多角的にアプローチできます。</p>
+                        <p class="focus-point">アプリの利用規約、読まずに同意しちゃってるけど大丈夫かな？自分の情報がどう使われているか不安。</p>
+                        <p class="example">プライバシー保護に関する啓発動画を制作。TikTokなどのSNSを活用して同世代に向けた情報発信を行った。</p>
+                    </div>
+                    <div class="theme-card">
+                        <h3 data-keyword="オンラインゲーム依存 探究学習">オンラインゲーム依存</h3>
+                        <p class="description">医学的・心理的・社会的な観点を組み合わせた学際的なアプローチが可能な現代的な健康問題です。</p>
+                        <p class="focus-point">友達が夜中までゲームしてて学校で眠そう。楽しいけど、やりすぎは良くないってどう伝えればいいんだろう。</p>
+                        <p class="example">依存度チェックツールの開発や、適切な利用ガイドラインを作成し、当事者視点を活かした対策を提案した。</p>
+                    </div>
+                     <div class="theme-card">
+                        <h3 data-keyword="デジタル学習格差 探究学習">デジタル学習格差</h3>
+                        <p class="description">コロナ禍で顕在化した教育の公平性に関わるテーマ。家庭環境や活用能力の違いなど、多角的な実態把握が重要です。</p>
+                        <p class="focus-point">うちはPCもWi-Fiもあるけど、そうじゃない友達もいる。オンライン授業で差がついちゃうのは不公平じゃない？</p>
+                        <p class="example">生徒同士の学び合いを促す学習支援プラットフォームの構築や、機器の使用方法講座を開催した。</p>
+                    </div>
+                    <div class="theme-card">
+                        <h3 data-keyword="フェイクニュース メディアリテラシー 探究学習">フェイクニュース問題</h3>
+                        <p class="description">メディアリテラシーを実践的に学べるテーマ。なぜ拡散されるのか、その心理的・社会的メカニズムの理解も重要です。</p>
+                        <p class="focus-point">SNSで見た衝撃的なニュース、本当かな？嘘の情報に騙されたり、広めちゃったりするのは怖い。</p>
+                        <p class="example">ファクトチェックの手法を学び、実際の事例を検証。結果を分かりやすく発信する活動や、チェックリストを作成した。</p>
+                    </div>
+                    <div class="theme-card">
+                        <h3 data-keyword="キャッシュレス決済 社会問題 探究学習">電子決済の普及と社会問題</h3>
+                        <p class="description">利便性向上と新たな課題の両面から探究できるテーマ。高齢者や地域商店への影響など、社会的な視点での考察が可能です。</p>
+                        <p class="focus-point">キャッシュレスは便利だけど、お年寄りが使えなくて困ってるのを見た。誰でも使えるようにするには？</p>
+                        <p class="example">地域商店街と連携したキャッシュレス導入支援や、高齢者向けの使い方講座を開催した。</p>
+                    </div>
+                    <div class="theme-card">
+                        <h3 data-keyword="デジタル著作権 探究学習 高校生">デジタル著作権</h3>
+                        <p class="description">創作活動とその保護について考える良い機会。SNSや二次創作が一般化する現代において、適切な利用ルールの理解は不可欠です。</p>
+                        <p class="focus-point">好きなアニメのイラストを描いてSNSにアップしたいけど、どこまでがOKなんだろう？ルールが複雑でわからない。</p>
+                        <p class="example">わかりやすい著作権ガイドラインを作成。クリエイティブ・コモンズなど新しい考え方も学び、同世代に啓発活動を行った。</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- 若者特有の社会問題 -->
+            <section>
+                <h2>若者特有の社会問題</h2>
+                <div class="theme-grid">
+                    <div class="theme-card">
+                        <h3 data-keyword="制服 在り方 ジェンダー 探究学習">制服の在り方</h3>
+                        <p class="description">ジェンダー、環境、経済性など複数の視点から探究できる現代的なテーマ。当事者として主体的に取り組めます。</p>
+                        <p class="focus-point">女子はスカート、男子はズボンって決まってるのはなぜ？もっと自由に選べたらいいのに。値段も高いし…。</p>
+                        <p class="example">サステナブルな素材研究や再利用システムを構築。生徒会と連携し、新しい制服の導入を提案した。</p>
+                    </div>
+                    <div class="theme-card">
+                        <h3 data-keyword="高校生 アルバイト 労働問題 探究学習">高校生の就労問題</h3>
+                        <p class="description">労働法規や権利意識など、社会人として必要な知識を実践的に学べます。身近な問題として探究を深められます。</p>
+                        <p class="focus-point">バイト先で休憩が取れなかったり、急なシフト変更を頼まれたり。これって普通なのかな？断りにくい…。</p>
+                        <p class="example">同世代向けの労働権利ハンドブックを作成。地域の労働基準監督署や企業と連携し、課題分析を行った。</p>
+                    </div>
+                    <div class="theme-card">
+                        <h3 data-keyword="高校生 食生活 乱れ 探究学習">食生活の乱れ</h3>
+                        <p class="description">健康や学習効率に直結するテーマ。栄養学的な知識と、現実的な制約を考慮した実践的なアプローチが可能です。</p>
+                        <p class="focus-point">朝ごはんを食べる時間がない。お昼はコンビニのパンばかり…。もっと手軽で健康的な食事はないかな？</p>
+                        <p class="example">簡単で栄養価の高いレシピを開発。SNSでの情報発信や、学食メニューの改善提案を行った。</p>
+                    </div>
+                    <div class="theme-card">
+                        <h3 data-keyword="若者 政治参加 18歳選挙権 探究学習">若者の政治参加</h3>
+                        <p class="description">民主主義の担い手として必要な知識と行動力を育める重要テーマ。18歳選挙権により現実的な課題となっています。</p>
+                        <p class="focus-point">選挙に行こうって言われても、誰に投票したらいいかわからない。政治って難しくて自分には関係ないと思ってしまう。</p>
+                        <p class="example">模擬投票の実施や政策討論会を企画運営。SNSを活用し、若者向けの選挙情報発信を行った。</p>
+                    </div>
+                    <div class="theme-card">
+                        <h3 data-keyword="部活動改革 地域移行 探究学習">部活動改革</h3>
+                        <p class="description">教育制度と地域社会の関係性を考察できるテーマ。教員の働き方改革や地域人材の活用など、持続可能な活動モデルを構築します。</p>
+                        <p class="focus-point">先生が忙しそうで、専門的な指導を受けられない。もっと練習したいけど、場所も時間も限られている…。</p>
+                        <p class="example">地域のスポーツクラブや文化団体と連携し、新しい活動形態のモデル事業を実施した。</p>
+                    </div>
+                    <div class="theme-card">
+                        <h3 data-keyword="進路選択 悩み 探究学習 高校生">進路選択の悩み</h3>
+                        <p class="description">同世代が共通して抱える重要課題。情報技術を活用した支援の可能性を探れます。</p>
+                        <p class="focus-point">将来やりたいことが見つからない。周りはどんどん決まっていくのに焦る。もっと色々な選択肢を知りたい。</p>
+                        <p class="example">先輩の進路選択体験をデータベース化したアプリのアイデアや、オンライン相談会を運営した。</p>
+                    </div>
+                    <div class="theme-card">
+                        <h3 data-keyword="若者 睡眠不足 探究学習">若者の睡眠不足</h3>
+                        <p class="description">学習効率や心身の健康に直結する身近な課題。科学的知見と実践的な改善策を組み合わせた探究ができます。</p>
+                        <p class="focus-point">夜更かししてしまって、授業中に眠い…。みんなも同じなのかな？どうすればちゃんと眠れるんだろう。</p>
+                        <p class="example">スマートフォンアプリを活用した睡眠管理システムを構築し、学校全体での「快眠プロジェクト」を展開した。</p>
+                    </div>
+                    <div class="theme-card">
+                        <h3 data-keyword="コミュニケーション不安 探究学習">コミュニケーション不安</h3>
+                        <p class="description">オンライン化が進む社会で特に重要なテーマ。対面とオンラインの特性を活かした新しいコミュニケーション手法を考えます。</p>
+                        <p class="focus-point">新しいクラスで、なかなか友達の輪に入れない。グループワークで発言するのも緊張する。</p>
+                        <p class="example">オンラインとオフラインを組み合わせたハイブリッドな交流の場を設計・運営した。</p>
+                    </div>
+                    <div class="theme-card">
+                        <h3 data-keyword="若者 経済教育 金融リテラシー 探究学習">若者の経済教育</h3>
+                        <p class="description">将来の経済的自立に不可欠な金融リテラシー。同世代の視点を活かした実践的な教育プログラムを開発します。</p>
+                        <p class="focus-point">お金の管理や将来のための貯金、どうすればいいんだろう？学校ではあまり教えてくれない…。</p>
+                        <p class="example">体験型の金融教育講座を企画・運営。シミュレーションゲームの開発やSNSでの情報発信も行った。</p>
+                    </div>
+                    <div class="theme-card">
+                        <h3 data-keyword="メンタルヘルス 探究学習 高校生">メンタルヘルス</h3>
+                        <p class="description">予防と対策の両面からアプローチできる現代的な健康課題。ストレス要因の分析やセルフケア方法の研究が重要です。</p>
+                        <p class="focus-point">ちょっとしたことで落ち込んだり、やる気が出なかったりする。心の調子が悪い時、誰に相談したらいいんだろう？</p>
+                        <p class="example">スクールカウンセラーと協働し、具体的な支援システムを構築。ストレス要因の分析やセルフケア方法を研究した。</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- 環境・サステナビリティの社会問題 -->
+            <section>
+                <h2>環境・サステナビリティの社会問題</h2>
+                <div class="theme-grid">
+                    <div class="theme-card">
+                        <h3 data-keyword="給食廃棄物 削減 食品ロス 探究学習">給食廃棄物の削減</h3>
+                        <p class="description">日々の食生活から環境問題を考えられるテーマ。食品ロスという世界的な課題と身近な活動を結びつけられます。</p>
+                        <p class="focus-point">給食、毎日たくさんの食べ残しが出ている。これってすごくもったいないんじゃない？</p>
+                        <p class="example">残食量を調査し、コンポスト化による循環システムを構築。食育プログラムも開発した。</p>
+                    </div>
+                    <div class="theme-card">
+                        <h3 data-keyword="制服 リサイクル 探究学習">制服のリサイクル</h3>
+                        <p class="description">衣類の環境負荷に学校という場からアプローチ。経済的支援の側面も持ち、社会的意義が高い活動です。</p>
+                        <p class="focus-point">卒業したら着なくなる制服、捨てるのはもったいない。後輩が安く手に入れられたら喜ぶのに。</p>
+                        <p class="example">デジタルプラットフォームを構築し、需要と供給をマッチング。クリーニング業者とも連携した。</p>
+                    </div>
+                    <div class="theme-card">
+                        <h3 data-keyword="学校 省エネルギー 探究学習">校内の省エネルギー</h3>
+                        <p class="description">データに基づいた提案と効果検証が可能な実践的テーマ。IoT技術などを活用し、先端技術と環境問題を結びつけられます。</p>
+                        <p class="focus-point">教室の電気、誰もいないのに点けっぱなし。学校全体でどれくらい無駄な電気を使っているんだろう？</p>
+                        <p class="example">電力使用量を測定・分析し、具体的な削減策を立案・実施。PDCAサイクルを回して効果を検証した。</p>
+                    </div>
+                    <div class="theme-card">
+                        <h3 data-keyword="マイクロプラスチック問題 探究学習">マイクロプラスチック問題</h3>
+                        <p class="description">地域の環境活動から地球規模の課題へと視野を広げられるテーマ。海洋汚染という深刻な問題に具体的なアクションで取り組めます。</p>
+                        <p class="focus-point">ペットボトルやレジ袋が問題になってるけど、もっと小さなプラスチックごみもあるはず。どこから来て、どこへ行くんだろう？</p>
+                        <p class="example">海岸清掃で実態を把握し、地域の事業者と協力して脱プラスチックの取り組みや代替製品を提案した。</p>
+                    </div>
+                    <div class="theme-card">
+                        <h3 data-keyword="地産地消 給食 探究学習">地産地消の推進</h3>
+                        <p class="description">食と環境の関係性を給食から学べるテーマ。フードマイレージの削減にもつながります。</p>
+                        <p class="focus-point">給食の野菜ってどこから来ているんだろう？地元の農家さんが作った野菜を食べられたら、もっとおいしいかも。</p>
+                        <p class="example">地元野菜を使った給食メニューを提案。生産者と生徒の交流給食を企画した。</p>
+                    </div>
+                    <div class="theme-card">
+                        <h3 data-keyword="生物多様性 保全 探究学習">生物多様性の保全</h3>
+                        <p class="description">校庭など身近な環境から探究可能。生態系の観察を通じて、環境保全の重要性を実感的に学べます。</p>
+                        <p class="focus-point">昔は学校の周りにもっと虫や鳥がいた気がする。身近な自然が減っているんじゃないか？</p>
+                        <p class="example">校内の植物や昆虫を記録・観察し、在来種を植える活動や観察会を開催した。</p>
+                    </div>
+                    <div class="theme-card">
+                        <h3 data-keyword="再生可能エネルギー 活用 探究学習">再生可能エネルギーの活用</h3>
+                        <p class="description">学校の電力使用量という具体的なデータを基に考察できるテーマ。環境とエネルギーの関係を実践的に学べます。</p>
+                        <p class="focus-point">学校の屋上って日当たりがいいのに、何にも使われてなくて空いている。太陽光パネルを置けないのかな？</p>
+                        <p class="example">ミニソーラーパネルを使った発電実験や、自然光の活用促進キャンペーンを実施した。</p>
+                    </div>
+                    <div class="theme-card">
+                        <h3 data-keyword="古着 アップサイクル 探究学習">古着のアップサイクル</h3>
+                        <p class="description">ファッションという親しみやすい題材から環境問題にアプローチ。創造的な活動を通じて資源の有効活用を考えます。</p>
+                        <p class="focus-point">もう着ない服がタンスにたくさんある。捨てるのは簡単だけど、何か新しいものに生まれ変わらせられないかな？</p>
+                        <p class="example">古着を使ったエコバッグ作りや、小物のリメイク教室を開催。文化祭で展示・販売も行った。</p>
+                    </div>
+                    <div class="theme-card">
+                        <h3 data-keyword="食品ロス対策 フードバンク 探究学習">食品ロス対策</h3>
+                        <p class="description">家庭や学校から取り組める環境問題。フードバンク活動との連携で、環境保護と社会貢献を同時に学べます。</p>
+                        <p class="focus-point">まだ食べられるのに捨てられてしまう食べ物がたくさんあると聞いた。一方で、食事に困っている人もいるのはおかしい。</p>
+                        <p class="example">フードドライブを実施。家庭で余っている食品の持ち寄り会を企画し、レシピ集も作成した。</p>
+                    </div>
+                    <div class="theme-card">
+                        <h3 data-keyword="廃棄物削減 リユース 探究学習">廃棄物の削減</h3>
+                        <p class="description">学校生活の中で日常的に取り組めるテーマ。特に文化祭などの行事で具体的な改善策を考えやすいです。</p>
+                        <p class="focus-point">文化祭が終わると、すごい量のごみが出る。もっと環境に優しいイベントにできないかな？</p>
+                        <p class="example">分別ポスターを作成し、文化祭でリユース食器の導入や環境配慮ガイドラインを提案した。</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- テクノロジーと社会問題 -->
+            <section>
+                <h2>テクノロジーと社会問題</h2>
+                <div class="theme-grid">
+                    <div class="theme-card">
+                        <h3 data-keyword="独居高齢者 見守りシステム 開発 探究学習">独居高齢者の見守りシステム</h3>
+                        <p class="description">高齢化社会における見守りをテクノロジーで改善。技術力を社会貢献に直接つなげられます。</p>
+                        <p class="focus-point">一人暮らしのおじいちゃん、元気にしているかな？毎日電話するのは大変だけど、何かあったら心配だ。</p>
+                        <p class="example">センサー技術やLINE APIを活用し、簡単な動作検知からプロトタイプを作成。フィードバックを得ながら改善した。</p>
+                    </div>
+                    <div class="theme-card">
+                        <h3 data-keyword="防災情報共有アプリ 開発 探究学習">防災情報共有アプリ</h3>
+                        <p class="description">災害時の情報格差解消など、テクノロジーが貢献できる分野。情報共有の重要性を学べます。</p>
+                        <p class="focus-point">災害が起きた時、どこが安全で、どこに避難すればいいかすぐわかるかな？正しい情報が欲しい。</p>
+                        <p class="example">避難所マップの作成から始め、情報共有機能を追加。防災訓練での実証実験も行った。</p>
+                    </div>
+                    <div class="theme-card">
+                        <h3 data-keyword="観光案内 チャットボット 開発 探究学習">観光案内チャットボット</h3>
+                        <p class="description">地域の魅力発信とテクノロジーを結びつけるテーマ。多言語対応などグローバルな視点も学べます。</p>
+                        <p class="focus-point">駅前で外国人の観光客が道に迷っていた。言葉が通じなくても、簡単に案内できる方法があればいいのに。</p>
+                        <p class="example">オープンソースのプラットフォームを活用し、基本的な質疑応答機能から実装。観光協会とも連携した。</p>
+                    </div>
+                    <div class="theme-card">
+                        <h3 data-keyword="図書館 電子化 デジタルアーカイブ 探究学習">図書館の電子化支援</h3>
+                        <p class="description">地域の文化資産を未来に残す重要な取り組み。情報保存と公開の意義を学べます。</p>
+                        <p class="focus-point">図書館にある古い郷土資料、破れたり汚れたりして読めなくなったらどうしよう。ずっと残す方法はないかな。</p>
+                        <p class="example">郷土資料を中心に資料をスキャンし、メタデータを整理。閲覧システムを構築した。</p>
+                    </div>
+                    <div class="theme-card">
+                        <h3 data-keyword="オンライン学習支援 不登校 探究学習">オンライン学習支援</h3>
+                        <p class="description">教育のデジタル化と不登校支援を結びつけたテーマ。身近な学習環境の改善に取り組めます。</p>
+                        <p class="focus-point">学校に行けなくても、勉強は続けたいと思っている子がいるはず。家からでも安心して学べる場所が必要だ。</p>
+                        <p class="example">既存のビデオ会議システムなどを組み合わせ、学習支援のプロトタイプを作成。利用者からのFBで改善した。</p>
+                    </div>
+                    <div class="theme-card">
+                        <h3 data-keyword="農業DX 生育管理システム 開発 探究学習">農作物の生育管理システム</h3>
+                        <p class="description">農業のデジタル化と地域の基幹産業支援を組み合わせたテーマ。センサー技術やデータ分析を実践的に学べます。</p>
+                        <p class="focus-point">農家さんって、経験と勘で大変な作業をしている。もっと楽に、効率よく作物を育てられないだろうか。</p>
+                        <p class="example">地元農家の課題を調査し、センサーでデータを収集・可視化。実際の現場で実証実験を行った。</p>
+                    </div>
+                    <div class="theme-card">
+                        <h3 data-keyword="バリアフリーマップアプリ 開発 探究学習">バリアフリーマップアプリ</h3>
+                        <p class="description">地域のバリアフリー環境改善と情報技術を結びつけた、社会貢献性の高いテーマ。身近な情報収集から始められます。</p>
+                        <p class="focus-point">車椅子の人が、このお店に入れるかな？段差があるかどうか、行く前に分かればいいのに。</p>
+                        <p class="example">学校周辺の施設のバリアフリー情報を収集・データベース化。紙の地図やウェブサイトにまとめた。</p>
+                    </div>
+                    <div class="theme-card">
+                        <h3 data-keyword="商店街 デジタル化支援 探究学習">商店街デジタル化支援</h3>
+                        <p class="description">地域の商店街活性化とデジタル技術を結びつけた身近なテーマ。具体的な改善策を考えやすいのが特徴です。</p>
+                        <p class="focus-point">あのお店の定食、おいしいのにSNSをやってないから知られていない。デジタルを使えばもっとお客さんが来るかも。</p>
+                        <p class="example">数店舗を対象に、無料の予約フォーム作成やSNSでの商品紹介を手伝い、徐々に対象を拡大した。</p>
+                    </div>
+                    <div class="theme-card">
+                        <h3 data-keyword="医療情報 可視化 探究学習">医療情報の可視化</h3>
+                        <p class="description">地域の医療アクセス向上とデータ活用を組み合わせた、社会的意義の高いテーマ。身近な医療機関の情報を整理・発信することから始められます。</p>
+                        <p class="focus-point">急に熱が出た！近くで今日やっている病院はどこ？待ち時間も分かると助かるんだけど…。</p>
+                        <p class="example">学校周辺の医療機関の情報を収集し、診療時間や対応保険などを地図と組み合わせて見やすく表示した。</p>
+                    </div>
+                    <div class="theme-card">
+                        <h3 data-keyword="交通データ分析 公共交通 探究学習">交通データ分析</h3>
+                        <p class="description">公共交通の利便性向上とデータ活用を結びつけた実践的なテーマ。日常的に利用する交通機関の観察から始められます。</p>
+                        <p class="focus-point">このバス、いつも遅れるし、すごく混んでる。もっと便利なダイヤにならないかな？</p>
+                        <p class="example">特定のバス路線の乗車人数や所要時間を記録・分析し、バス会社に増便やルート変更を提案した。</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <footer>
+            <p>ここにないテーマも探してみよう！</p>
+            <button class="search-more-btn" id="searchMore">さらに探究テーマを探す (Google検索)</button>
+        </footer>
+
+    </div>
+
+    <script>
+        // JavaScript: クリックイベントの処理
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeTitles = document.querySelectorAll('.theme-card h3');
+            
+            themeTitles.forEach(title => {
+                title.addEventListener('click', () => {
+                    const keyword = title.dataset.keyword;
+                    if (keyword) {
+                        const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(keyword)}`;
+                        window.open(searchUrl, '_blank');
+                    }
+                });
+            });
+
+            const searchMoreButton = document.getElementById('searchMore');
+            searchMoreButton.addEventListener('click', () => {
+                const searchUrl = `https://www.google.com/search?q=${encodeURIComponent('総合的な探究の時間 テーマ 一覧')}`;
+                window.open(searchUrl, '_blank');
+            });
+        });
+    </script>
+</body>
+</html>
