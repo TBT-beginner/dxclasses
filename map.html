@@ -10,6 +10,7 @@
      crossorigin=""/>
     
     <style>
+        /* CSSは変更ありません */
         html, body {
             height: 100%; margin: 0; padding: 0; font-family: 'Helvetica Neue', Arial, sans-serif; overflow: hidden;
         }
@@ -73,41 +74,46 @@
     <script>
         const map = L.map('map', { crs: L.CRS.Simple, minZoom: -4 });
         
-        const imageUrl = "https://tbt-beginner.github.io/dxclasses/3997fda9-0b27-49a7-ac88-1cea7ed0ccb8-page-001.jpg";
+        // ★★★ 修正点 ① ★★★
+        // 表示する「KIRYOフェア」の地図画像のURLを指定します。
+        // ※必ずこの地図に対応した座標を使います。
+        const imageUrl = "input_file_0.png"; // ← お使いのKIRYOフェアの地図URLに設定してください
         
-        // 座標の基準となる、正しい画像サイズ
-        const imageWidth = 1240; 
-        const imageHeight = 1754;
+        // ★★★ 修正点 ② ★★★
+        // KIRYOフェア地図の正しいサイズを設定します。
+        const imageWidth = 616; 
+        const imageHeight = 876;
         const bounds = [[0, 0], [imageHeight, imageWidth]];
         L.imageOverlay(imageUrl, bounds).addTo(map);
 
-        // ご指定の初期座標
-        const initialPoint = [225, 145]; 
-        const initialZoom = 2;
+        // ★★★ 修正点 ③ ★★★
+        // KIRYOフェア地図の「現在地」の正しい座標に設定します。
+        const initialPoint = [700, 225]; 
+        const initialZoom = 1;
         map.setView(initialPoint, initialZoom);
         
-        // ご指摘のマーカー作成ブロック（この記述で正しいです）
         const currentLocationIcon = L.divIcon({
             className: 'marker-pulse-red',
             iconSize: [22, 22],
-            iconAnchor: [11, 11],
+            iconAnchor: [11, 11], // これで中心が座標に合います
             popupAnchor: [0, -14]
         });
         const currentLocationMarker = L.marker(initialPoint, { icon: currentLocationIcon }).addTo(map)
             .bindPopup(`<b>現在地</b>`)
             .openPopup();
 
-        // ご指定の教室座標データ
+        // ★★★ 修正点 ④ ★★★
+        // すべての教室の座標を「KIRYOフェア」の地図に合わせて再設定します。
         const locations = [
-            { name: "A教室 医歯薬コース", floor: 2, coords: [460, 110], description: "2階 医歯薬コースの説明会です" },
-            { name: "B教室", floor: 2, coords: [490, 110], description: "2階 特進iコースの説明会です" },
-            { name: "C教室", floor: 2, coords: [480, 185], description: "2階 DXコースの説明会です" },
-            { name: "D教室", floor: 1, coords: [345, 150], description: "1階 QQ Englishの教室です。" },
-            { name: "E教室", floor: 2, coords: [400, 235], description: "2階 渡り廊下の手前です。" },
-            { name: "F教室", floor: 2, coords: [400, 270], description: "2階 渡り廊下の手前です。" },
-            { name: "G教室", floor: 2, coords: [400, 345], description: "2階 渡り廊下の奥です。" },
-            { name: "H教室", floor: 2, coords: [550, 80], description: "2階 階段を上がってすぐです。" },
-            { name: "I教室", floor: 2, coords: [555, 150], description: "2階 階段を上がってすぐです。" },
+            { name: "A教室", floor: 2, coords: [425, 150], description: "2階の教室です。" },
+            { name: "B教室", floor: 2, coords: [475, 150], description: "2階の教室です。" },
+            { name: "C教室", floor: 2, coords: [475, 240], description: "2階 フレンドリールーム隣です。" },
+            { name: "D教室", floor: 1, coords: [560, 220], description: "1階 QQ Englishの教室です。" },
+            { name: "E教室", floor: 2, coords: [500, 350], description: "2階 渡り廊下の手前です。" },
+            { name: "F教室", floor: 2, coords: [500, 400], description: "2階 渡り廊下の手前です。" },
+            { name: "G教室", floor: 2, coords: [500, 475], description: "2階 渡り廊下の奥です。" },
+            { name: "H教室", floor: 2, coords: [350, 150], description: "2階 階段を上がってすぐです。" },
+            { name: "I教室", floor: 2, coords: [350, 220], description: "2階 階段を上がってすぐです。" },
             { name: "J教室", floor: 1, coords: [700, 430], description: "1階 インフォメーションの奥です。" },
             { name: "K教室", floor: 1, coords: [560, 310], description: "1階 アートホールの隣です。" },
             { name: "L教室", floor: 1, coords: [700, 530], description: "1階 体育館へ向かう通路にあります。" },
