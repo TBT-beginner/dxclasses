@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaflet.js Map with GSAP Sonar Marker</title>
+    
+    <!-- Leaflet.jsのCSSを読み込み -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+    
+    <!-- GSAPライブラリを読み込み -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        #map {
+            width: 100%;
+            height: 100%;
+            background-color: #f0f0f0;
+        }
+
+        /* ★★★ GSAPで動かすソナーマーカーのCSS ★★★ */
+
+        /* divIconのデフォルトスタイルを上書きしないためのラッパー */
+        .sonar-icon-wrapper .leaflet-marker-icon {
+            background: transparent;
+            border: none;
+        }
+
+        /* マーカー全体のコンテナ */
+        .sonar-marker {
+            position: relative;
+            width: 60px;
+            height: 60px;
+        }
+
+        /* 波紋を発生させる中心点 */
+        .sonar-emitter {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background-color: #4A89F3; /* 中心の色 */
+            border: 2px solid #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+            transform: scale(0.3); /* 中心点の大きさを調整 */
+        }
+        
+        /* 広がっていく波紋 */
+        .sonar-wave {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background-color: #4A89F3;
+            opacity: 0;
+            z-index: -1;
+            /* GSAPで scale と opacity をアニメーションさせる */
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="map"></div>
+
+    <!-- Leaflet.jsのJavaScriptを読み込み -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
+
+    <script>
+        // 1. マップの初期化
+        const map = L.map('map', {
+            crs: L.CRS.Simple,
+            minZoom: -4,
+        });
+
+        // 2. 画像の情報を設定
+        const imageUrl = 'https://tbt-beginner.github.io/dxclasses/3997fda9-0b27-49a7-ac88-1cea7ed0ccb8-page-001.jpg';
+        const imageWidth = 1240; 
+        const imageHeight = 1754;
+
+        // 3. 画像の境界を設定
+        const bounds = [[0, 0], [imageHeight, imageWidth]];
+
+        // 4. 画像をオーバーレイとしてマップに追加
+        L.imageOverlay(imageUrl, bounds).addTo(map);
+
+        // 5. 初期表示位置とズームレベルを設定
+        const initialPoint = [360, 310];
+        const initialZoom = 1;
+        map.setView(initialPoint, initialZoom);
+        
+        // 6. ★★★ GSAPで動かすカスタムアイコンを作成 ★★★
+        const sonarIcon = L.divIcon({
+            // ラッパー用のクラス名と、アイコン自体のHTMLを定義
+            className: 'sonar-icon-wrapper', 
+            html: `
+                <div class="sonar-marker">
+                    <div class="sonar-wave"></div>
+                    <div class="sonar-wave"></div>
+                    <div class="sonar-wave"></div>
+                    <div class="sonar-emitter"></div>
+                </div>
+            `,
+            iconSize: [60, 60],
+            iconAnchor: [30, 30], // アイコンの中心を基点にする
+            popupAnchor: [0, -35]  // ポップアップの表示位置を調整
+        });
+
+        // 7. ★★★ カスタムアイコンを使ってマーカーを設置 ★★★
+        const sonarMarker = L.marker(initialPoint, { icon: sonarIcon }).addTo(map)
+            .bindPopup(`<b>現在地はこちら</b><br>y: ${initialPoint[0]}, x: ${initialPoint[1]}`)
+            .openPopup();
+        
+        // 8. ★★★ マーカーがマップに追加されたらGSAPアニメーションを開始 ★★★
+        sonarMarker.on('add', function () {
+            // .sonar-waveクラスを持つすべての要素をターゲットに
+            gsap.to(".sonar-wave", {
+                scale: 5,        // 5倍の大きさに
+                opacity: 0,      // 透明にする
+                duration: 2.5,     // アニメーション時間
+                repeat: -1,      // 無限に繰り返す
+                stagger: 0.7,    // 0.7秒ずつずらして開始
+                ease: "power1.out", // イージング（滑らかな動き）
+            });
+        });
+
+        // マップクリックで座標を取得するヘルパー機能はそのまま
+        map.on('click', function(e) {
+            const y = Math.round(e.latlng.lat);
+            const x = Math.round(e.latlng.lng);
+            console.log(`マップ上のクリック座標 (y, x): ${y}, ${x}`);
+            L.marker([y, x]).addTo(map)
+               .bindPopup(`クリック座標<br>y: ${y}, x: ${x}`).openPopup();
+        });
+    </script>
+
+</body>
+</html>
