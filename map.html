@@ -150,7 +150,6 @@
             listItem.dataset.name = loc.name;
             locationListElement.appendChild(listItem);
             
-            // ★★★ 修正点: 全てのマーカーを標準の青いマーカーで作成 ★★★
             const marker = L.marker(loc.coords)
                 .bindPopup(`<b>${loc.name}</b><br>${loc.description}`)
                 .addTo(map);
