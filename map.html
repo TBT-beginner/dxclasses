@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>構内マップ</title>
+    <title>構内マップ - KIRYOフェア</title>
     
     <!-- Leaflet.jsのCSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -11,21 +11,101 @@
      crossorigin=""/>
     
     <style>
-        /* CSSは変更ありません */
-        html, body { height: 100%; margin: 0; padding: 0; font-family: 'Helvetica Neue', Arial, sans-serif; overflow: hidden; }
-        #app-container { display: flex; height: 100%; }
-        #sidebar { width: 280px; min-width: 240px; background-color: #f8f9fa; border-right: 1px solid #dee2e6; padding: 15px; box-shadow: 2px 0 5px rgba(0,0,0,0.1); z-index: 1000; display: flex; flex-direction: column; }
-        #map { flex-grow: 1; height: 100%; background-color: #f0f0f0; }
-        #sidebar h2 { margin-top: 0; font-size: 1.5em; color: #333; }
-        .control-buttons button { width: 100%; padding: 10px; margin-bottom: 10px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 1em; transition: background-color 0.2s; }
-        .control-buttons button:hover { background-color: #0056b3; }
-        .locations-container { flex-grow: 1; overflow-y: auto; }
-        #locations-list { list-style-type: none; padding: 0; margin: 0; }
-        #locations-list li { padding: 12px; border-bottom: 1px solid #e9ecef; cursor: pointer; transition: background-color 0.2s; }
-        #locations-list li:hover { background-color: #e9ecef; }
-        .coords-display { position: fixed; bottom: 10px; right: 10px; background-color: rgba(0, 0, 0, 0.6); color: white; padding: 5px 10px; border-radius: 4px; font-size: 0.9em; z-index: 1001; }
-        @keyframes pulse-red { 0% { transform: scale(0.9); opacity: 1; } 50% { transform: scale(1.2); opacity: 0.5; } 100% { transform: scale(0.9); opacity: 1; } }
-        .marker-pulse-red { background-color: #ff4136; border-radius: 50%; border: 3px solid #fff; box-shadow: 0 0 10px rgba(0,0,0,0.5); animation: pulse-red 1.5s infinite ease-in-out; }
+        /* --- 全体レイアウト --- */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            overflow: hidden;
+        }
+        #app-container {
+            display: flex;
+            height: 100%;
+        }
+        #sidebar {
+            width: 280px;
+            min-width: 240px;
+            background-color: #f8f9fa;
+            border-right: 1px solid #dee2e6;
+            padding: 15px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+        }
+        #map {
+            flex-grow: 1;
+            height: 100%;
+            background-color: #f0f0f0;
+        }
+
+        /* --- サイドバーのスタイル --- */
+        #sidebar h2 {
+            margin-top: 0;
+            font-size: 1.5em;
+            color: #333;
+        }
+        .control-buttons button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.2s;
+        }
+        .control-buttons button:hover {
+            background-color: #0056b3;
+        }
+        .locations-container {
+            flex-grow: 1;
+            overflow-y: auto; /* リストが長くなった場合にスクロール */
+        }
+        #locations-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        #locations-list li {
+            padding: 12px;
+            border-bottom: 1px solid #e9ecef;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        #locations-list li:hover {
+            background-color: #e9ecef;
+        }
+
+        /* --- 座標表示のスタイル --- */
+        .coords-display {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            z-index: 1001;
+        }
+        
+        /* --- 「現在地」マーカーのCSS --- */
+        @keyframes pulse-red {
+            0% { transform: scale(0.9); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.5; }
+            100% { transform: scale(0.9); opacity: 1; }
+        }
+        .marker-pulse-red {
+            background-color: #ff4136;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            animation: pulse-red 1.5s infinite ease-in-out;
+        }
     </style>
 </head>
 <body>
@@ -59,16 +139,17 @@
             minZoom: -4,
         });
         
-        const imageUrl = "https://tbt-beginner.github.io/dxclasses/3997fda9-0b27-49a7-ac88-1cea7ed0ccb8-page-001.jpg";
-        // ★★★ この地図画像の正しいサイズに修正 ★★★
-        const imageWidth = 1240; 
-        const imageHeight = 1754;
+        // ★★★【重要】★★★ 新しい地図画像の情報に更新
+        // このHTMLファイルを保存した後、必ずアップロードした画像のURLに書き換えてください。
+        const imageUrl = "https://tbt-beginner.github.io/dxclasses/3997fda9-0b27-49a7-ac88-1cea7ed0ccb8-page-001.jpg"; // ← ここのURLが地図の画像！
+        const imageWidth = 616; 
+        const imageHeight = 876;
         const bounds = [[0, 0], [imageHeight, imageWidth]];
         L.imageOverlay(imageUrl, bounds).addTo(map);
 
-        // --- 2. ★★★ 初期位置とズームレベルを正しい座標に修正 ★★★ ---
-        const initialPoint = [225, 145]; // 地図上の「現在地」の正しい座標
-        const initialZoom = 1; // 見やすいようにズームレベルを調整
+        // --- 2. 初期位置とズームレベル ---
+        const initialPoint = [225, 145]; // 地図上の「現在地」の座標
+        const initialZoom = 2;
         map.setView(initialPoint, initialZoom);
         
         // --- 3. 「現在地」マーカーの作成 ---
@@ -82,22 +163,31 @@
             .bindPopup(`<b>現在地</b>`)
             .openPopup();
 
-        // --- 4. ★★★ 教室データを表示中の地図に合わせて修正 ★★★ ---
+        // --- 4. ★★★ 全教室のデータを地図に合わせて更新 ★★★ ---
         const locations = [
-            { name: "正面玄関 / 出入口", coords: [1590, 755], description: "メインの出入口です。" },
-            { name: "インフォメーション", coords: [1430, 840], description: "ご用の方はこちらへ。" },
-            { name: "D教室 (QQ English)", coords: [600, 755], description: "D教室です。" },
-            { name: "N教室 (スタディルーム)", coords: [850, 620], description: "N教室です。" },
-            { name: "アートホール", coords: [950, 755], description: "ペッパーくんがいます。" }
+            { name: "A教室 医歯薬コース", floor: 2, coords: [460, 110], description: "2階 医歯薬コースの説明会です" },
+            { name: "B教室", floor: 2, coords: [490, 110], description: "2階 特進iコースの説明会です" },
+            { name: "C教室", floor: 2, coords: [480, 185], description: "2階 DXコースの説明会です" },
+            { name: "D教室", floor: 1, coords: [345, 150], description: "1階 QQ Englishの教室です。" },
+            { name: "E教室", floor: 2, coords: [400, 235], description: "2階 渡り廊下の手前です。" },
+            { name: "F教室", floor: 2, coords: [400, 270], description: "2階 渡り廊下の手前です。" },
+            { name: "G教室", floor: 2, coords: [400, 345], description: "2階 渡り廊下の奥です。" },
+            { name: "H教室", floor: 2, coords: [550, 80], description: "2階 階段を上がってすぐです。" },
+            { name: "I教室", floor: 2, coords: [555, 150], description: "2階 階段を上がってすぐです。" },
+            { name: "J教室", floor: 1, coords: [700, 430], description: "1階 インフォメーションの奥です。" },
+            { name: "K教室", floor: 1, coords: [560, 310], description: "1階 アートホールの隣です。" },
+            { name: "L教室", floor: 1, coords: [700, 530], description: "1階 体育館へ向かう通路にあります。" },
+            { name: "M教室", floor: 1, coords: [610, 310], description: "1階 K教室の隣です。" },
+            { name: "N教室", floor: 1, coords: [610, 150], description: "1階 スタディルームです。" }
         ];
 
         // --- 5. 施設リストとマーカーを地図に追加 ---
         const locationListElement = document.getElementById('locations-list');
-        const locationMarkers = {}; 
+        const locationMarkers = {}; // 名前をキーにしてマーカーを保持
 
         locations.forEach(loc => {
             const listItem = document.createElement('li');
-            listItem.innerHTML = `<b>${loc.name}</b>`;
+            listItem.innerHTML = `<b>${loc.name}</b> <small>(${loc.floor}階)</small>`;
             listItem.dataset.name = loc.name;
             locationListElement.appendChild(listItem);
 
@@ -108,7 +198,7 @@
             locationMarkers[loc.name] = marker;
         });
 
-        // --- 6. ★★★ イベントリスナーを修正 ★★★ ---
+        // --- 6. イベントリスナーの設定 ---
         locationListElement.addEventListener('click', function(e) {
             const li = e.target.closest('li');
             if (li && li.dataset.name) {
@@ -117,13 +207,7 @@
                 const targetMarker = locationMarkers[name];
                 
                 if (targetLocation && targetMarker) {
-                    // マーカーに視点を合わせる
                     map.setView(targetLocation.coords, 2);
-                    
-                    // ★★★ サイドバーの幅を考慮して地図をパンする ★★★
-                    // サイドバーの幅(280px)の半分(140px)だけ、地図表示を左にずらす（結果、マーカーが右に来る）
-                    map.panBy([-140, 0], { animate: true });
-
                     targetMarker.openPopup();
                 }
             }
@@ -131,8 +215,6 @@
 
         document.getElementById('btn-goto-current').addEventListener('click', () => {
             map.setView(initialPoint, initialZoom);
-            // 現在地に戻った時も、ポップアップを中心に表示するためにパンする
-            map.panBy([-140, 0], { animate: true });
             currentLocationMarker.openPopup();
         });
         document.getElementById('btn-zoom-out').addEventListener('click', () => {
