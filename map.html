@@ -263,7 +263,12 @@
 
         locations.forEach(loc => {
             const listItem = document.createElement('li');
-            listItem.innerHTML = `<b>${loc.name}</b> <small>(${loc.floor}階)</small>`;
+                if (loc.name === "現在地") {
+                        listItem.innerHTML = `<b>${loc.name}</b>`;
+                    } else {
+                        // それ以外の教室は従来通り階数表示をする
+                        listItem.innerHTML = `<b>${loc.name}</b> <small>(${loc.floor}階)</small>`;
+                    }
             listItem.dataset.name = loc.name;
             locationListElement.appendChild(listItem);
             const marker = L.marker(loc.coords, { icon: animatedDotIcon }).bindPopup(`<b>${loc.name}</b><br>${loc.description}`).addTo(map);
