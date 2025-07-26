@@ -218,7 +218,7 @@
                 const targetLocation = locations.find(l => l.name === name);
                 const targetMarker = locationMarkers[name];
                 if (targetLocation && targetMarker) {
-                    map.flyTo(targetLocation.coords, 2, { animate: true, duration: 1.0 });
+                    map.flyTo(targetLocation.coords, -1, { animate: true, duration: 1.0 });
                     setTimeout(() => { targetMarker.openPopup(); }, 1100);
                     document.getElementById('app-container').classList.remove('sidebar-open');
                 }
