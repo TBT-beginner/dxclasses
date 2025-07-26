@@ -11,100 +11,40 @@
      crossorigin=""/>
     
     <style>
-        /* --- 全体レイアウト --- */
+        /* CSSに変更はありません */
         html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            overflow: hidden;
+            height: 100%; margin: 0; padding: 0; font-family: 'Helvetica Neue', Arial, sans-serif; overflow: hidden;
         }
-        #app-container {
-            display: flex;
-            height: 100%;
-        }
+        #app-container { display: flex; height: 100%; }
         #sidebar {
-            width: 280px;
-            min-width: 240px;
-            background-color: #f8f9fa;
-            border-right: 1px solid #dee2e6;
-            padding: 15px;
-            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-            z-index: 1000;
-            display: flex;
-            flex-direction: column;
+            width: 280px; min-width: 240px; background-color: #f8f9fa; border-right: 1px solid #dee2e6;
+            padding: 15px; box-shadow: 2px 0 5px rgba(0,0,0,0.1); z-index: 1000; display: flex; flex-direction: column;
         }
-        #map {
-            flex-grow: 1;
-            height: 100%;
-            background-color: #f0f0f0;
-        }
-
-        /* --- サイドバーのスタイル --- */
-        #sidebar h2 {
-            margin-top: 0;
-            font-size: 1.5em;
-            color: #333;
-        }
+        #map { flex-grow: 1; height: 100%; background-color: #f0f0f0; }
+        #sidebar h2 { margin-top: 0; font-size: 1.5em; color: #333; }
         .control-buttons button {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1em;
-            transition: background-color 0.2s;
+            width: 100%; padding: 10px; margin-bottom: 10px; background-color: #007bff; color: white;
+            border: none; border-radius: 5px; cursor: pointer; font-size: 1em; transition: background-color 0.2s;
         }
-        .control-buttons button:hover {
-            background-color: #0056b3;
-        }
-        .locations-container {
-            flex-grow: 1;
-            overflow-y: auto; /* リストが長くなった場合にスクロール */
-        }
-        #locations-list {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
+        .control-buttons button:hover { background-color: #0056b3; }
+        .locations-container { flex-grow: 1; overflow-y: auto; }
+        #locations-list { list-style-type: none; padding: 0; margin: 0; }
         #locations-list li {
-            padding: 12px;
-            border-bottom: 1px solid #e9ecef;
-            cursor: pointer;
-            transition: background-color 0.2s;
+            padding: 12px; border-bottom: 1px solid #e9ecef; cursor: pointer; transition: background-color 0.2s;
         }
-        #locations-list li:hover {
-            background-color: #e9ecef;
-        }
-
-        /* --- 座標表示のスタイル --- */
+        #locations-list li:hover { background-color: #e9ecef; }
         .coords-display {
-            position: fixed;
-            bottom: 10px;
-            right: 10px;
-            background-color: rgba(0, 0, 0, 0.6);
-            color: white;
-            padding: 5px 10px;
-            border-radius: 4px;
-            font-size: 0.9em;
-            z-index: 1001;
+            position: fixed; bottom: 10px; right: 10px; background-color: rgba(0, 0, 0, 0.6); color: white;
+            padding: 5px 10px; border-radius: 4px; font-size: 0.9em; z-index: 1001;
         }
-        
-        /* --- 「現在地」マーカーのCSS --- */
         @keyframes pulse-red {
             0% { transform: scale(0.9); opacity: 1; }
             50% { transform: scale(1.2); opacity: 0.5; }
             100% { transform: scale(0.9); opacity: 1; }
         }
         .marker-pulse-red {
-            background-color: #ff4136;
-            border-radius: 50%;
-            border: 3px solid #fff;
-            box-shadow: 0 0 10px rgba(0,0,0,0.5);
-            animation: pulse-red 1.5s infinite ease-in-out;
+            background-color: #ff4136; border-radius: 50%; border: 3px solid #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5); animation: pulse-red 1.5s infinite ease-in-out;
         }
     </style>
 </head>
@@ -140,16 +80,19 @@
         });
         
         const imageUrl = "https://tbt-beginner.github.io/dxclasses/3997fda9-0b27-49a7-ac88-1cea7ed0ccb8-page-001.jpg";
-        const imageWidth = 616; 
-        const imageHeight = 876;
+        
+        // ★★★ 修正点 ① ★★★
+        // マーカー座標の基準となっている、正しい画像サイズに修正
+        const imageWidth = 1240; 
+        const imageHeight = 1754;
         const bounds = [[0, 0], [imageHeight, imageWidth]];
         L.imageOverlay(imageUrl, bounds).addTo(map);
 
-        // --- 2. ★★★ 初期位置とズームレベルを修正 ★★★ ---
-        // Leafletは [y, x] の順で座標を扱います。
-        // 地図上の「現在地」ピンと一致するように座標を修正しました。
-        const initialPoint = [700, 225]; 
-        const initialZoom = 2;
+        // --- 2. 初期位置とズームレベル ---
+        // ★★★ 修正点 ② ★★★
+        // 地図上の「現在地」マークに合わせた正しい座標に修正
+        const initialPoint = [1405, 755]; 
+        const initialZoom = 1; // 見やすいように少し引いたズームレベルに調整
         map.setView(initialPoint, initialZoom);
         
         // --- 3. 「現在地」マーカーの作成 ---
@@ -163,8 +106,7 @@
             .bindPopup(`<b>現在地</b>`)
             .openPopup();
 
-        // --- 4. 全教室のデータ ---
-        // (ご指定の通り、ここの座標は変更していません)
+        // --- 4. 全教室のデータ（ご指定のデータを尊重） ---
         const locations = [
             { name: "A教室 医歯薬コース", floor: 2, coords: [460, 110], description: "2階 医歯薬コースの説明会です" },
             { name: "B教室", floor: 2, coords: [490, 110], description: "2階 特進iコースの説明会です" },
@@ -199,7 +141,7 @@
             locationMarkers[loc.name] = marker;
         });
 
-        // --- 6. ★★★ イベントリスナーの動作を修正 ★★★ ---
+        // --- 6. イベントリスナーの設定 ---
         locationListElement.addEventListener('click', function(e) {
             const li = e.target.closest('li');
             if (li && li.dataset.name) {
@@ -208,27 +150,25 @@
                 const targetMarker = locationMarkers[name];
                 
                 if (targetLocation && targetMarker) {
-                    // map.setViewの代わりにflyToを使用し、スムーズに移動
+                    // ★★★ 改善点 ★★★
+                    // setViewからflyToに変更し、スムーズな移動とフォーカスを実現
                     map.flyTo(targetLocation.coords, 2, {
                         animate: true,
-                        duration: 1 // アニメーション時間（秒）
+                        duration: 1.0 // 1秒かけて移動
                     });
-                    // ポップアップを開くのを少し遅らせて、移動後に表示
+
+                    // 移動後にポップアップを開く
                     setTimeout(() => {
                         targetMarker.openPopup();
-                    }, 1000);
+                    }, 1100); // flyToのアニメーションが終わるのを待ってから開く
                 }
             }
         });
 
         document.getElementById('btn-goto-current').addEventListener('click', () => {
-            // 現在地に戻るときもflyToで見やすく
-            map.flyTo(initialPoint, initialZoom, { animate: true, duration: 1 });
-            setTimeout(() => {
-                currentLocationMarker.openPopup();
-            }, 1000);
+            map.flyTo(initialPoint, initialZoom);
+            currentLocationMarker.openPopup();
         });
-
         document.getElementById('btn-zoom-out').addEventListener('click', () => {
             map.fitBounds(bounds);
         });
