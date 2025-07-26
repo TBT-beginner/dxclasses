@@ -10,7 +10,7 @@
      crossorigin=""/>
     
     <style>
-        /* レイアウトとサイドバーのためのCSSを追加 */
+        /* CSSは変更ありません */
         html, body {
             height: 100%; margin: 0; padding: 0; font-family: 'Helvetica Neue', Arial, sans-serif; overflow: hidden;
         }
@@ -63,7 +63,7 @@
      crossorigin=""></script>
 
     <script>
-        // --- 1. マップの初期設定 (安定版コードをベース) ---
+        // --- 1. マップの初期設定 ---
         const map = L.map('map', {
             crs: L.CRS.Simple,
             minZoom: -4,
@@ -76,12 +76,11 @@
         L.imageOverlay(imageUrl, bounds).addTo(map);
 
         // --- 2. 初期位置とズームレベル ---
-        // 地図上の「現在地」マークに合わせた座標
         const initialPoint = [450, 300]; 
         const initialZoom = 1;
         map.setView(initialPoint, initialZoom);
         
-        // --- 3. 【新機能】教室・施設のデータ ---
+        // --- 3. ★★★ 修正後の座標データを反映 ★★★ ---
         const locations = [
             { name: "現在地", floor: 1, coords: [450, 300], description: "インフォメーションセンター前の現在地です。" },
             { name: "A教室 医歯薬コース", floor: 2, coords: [925, 220], description: "2階 医歯薬コース説明会" },
@@ -100,18 +99,16 @@
             { name: "N教室", floor: 1, coords: [540, 225], description: "1階 N教室の説明" }
         ];
 
-        // --- 4.リストとマーカーを動的に作成 ---
+        // --- 4. リストとマーカーを動的に作成 ---
         const locationListElement = document.getElementById('locations-list');
         const locationMarkers = {}; 
 
         locations.forEach(loc => {
-            // サイドバーのリスト項目を作成
             const listItem = document.createElement('li');
             listItem.innerHTML = `<b>${loc.name}</b> <small>(${loc.floor}階)</small>`;
             listItem.dataset.name = loc.name;
             locationListElement.appendChild(listItem);
 
-            // 地図上に標準の青いマーカーを作成
             const marker = L.marker(loc.coords)
                 .addTo(map)
                 .bindPopup(`<b>${loc.name}</b><br>${loc.description}`);
@@ -119,7 +116,7 @@
             locationMarkers[loc.name] = marker;
         });
 
-        // --- 5.【新機能】ナビゲーションイベントの設定 ---
+        // --- 5. ナビゲーションイベントの設定 ---
         locationListElement.addEventListener('click', function(e) {
             const li = e.target.closest('li');
             if (li && li.dataset.name) {
@@ -128,28 +125,26 @@
                 const targetMarker = locationMarkers[name];
                 
                 if (targetLocation && targetMarker) {
-                    // flyToで指定座標にスムーズに移動（中央にフォーカス）
-                    map.flyTo(targetLocation.coords, 2, {
-                        animate: true,
-                        duration: 1.0 
-                    });
-
-                    // 移動後にポップアップを自動で開く
-                    setTimeout(() => {
-                        targetMarker.openPopup();
-                    }, 1100);
+                    map.flyTo(targetLocation.coords, 2, { animate: true, duration: 1.0 });
+                    setTimeout(() => { targetMarker.openPopup(); }, 1100);
                 }
             }
         });
 
         document.getElementById('btn-goto-start').addEventListener('click', () => {
             map.flyTo(initialPoint, initialZoom);
+            // ★改善点: 現在地マーカーのポップアップも開く
+            const currentMarker = locationMarkers["現在地"];
+            if (currentMarker) {
+                setTimeout(() => { currentMarker.openPopup(); }, 1100);
+            }
         });
+        
         document.getElementById('btn-zoom-out').addEventListener('click', () => {
             map.fitBounds(bounds);
         });
         
-        // --- 6. カーソル座標の表示  ---
+        // --- 6. カーソル座標の表示 ---
         const coordsDisplay = document.getElementById('coords-display');
         map.on('mousemove', function(e) {
             const y = Math.round(e.latlng.lat);
@@ -158,6 +153,10 @@
                 coordsDisplay.innerHTML = `y: ${y}, x: ${x}`;
             }
         });
+
+        // ★改善点: 初期表示時に「現在地」のポップアップを開いておく
+        locationMarkers["現在地"].openPopup();
+
     </script>
 
 </body>
