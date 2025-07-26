@@ -37,7 +37,7 @@
         #locations-list li:hover { background-color: #e9ecef; }
 
         .coords-display {
-            position: fixed; bottom: 10px; right: 10px; background-color: rgba(255, 0, 0, 0.6); color: white;
+            position: fixed; bottom: 10px; right: 10px; background-color: rgba(0, 0, 0, 0.6); color: white;
             padding: 5px 10px; border-radius: 4px; font-size: 0.9em; z-index: 1001;
         }
         
@@ -72,6 +72,13 @@
                 font-size: 2.5em; font-weight: 100; color: #888; cursor: pointer; line-height: 1;
             }
             .sidebar-close:hover { color: #333; }
+        }
+
+        .dot-marker {
+            background-color: #007bff; /* ドットの色 */
+            border-radius: 50%;       /* 円にする */
+            border: 2px solid #ffffff; /* 白い縁取り */
+            box-shadow: 0 1px 4px rgba(0,0,0,0.4); /* 影をつけて立体感を出す */
         }
     </style>
 </head>
@@ -138,14 +145,20 @@
         // --- 4. リストとマーカーを動的に作成 ---
         const locationListElement = document.getElementById('locations-list');
         const locationMarkers = {}; 
-
+        const dotIcon = L.divIcon({
+            className: 'dot-marker',
+            iconSize: [16, 16],   // ドットのサイズ [幅, 高さ]
+            iconAnchor: [8, 8],     // 中心を基点にする
+            popupAnchor: [0, -10]   // ポップアップが少し上に出るように調整
+        });
+        
         locations.forEach(loc => {
             const listItem = document.createElement('li');
             listItem.innerHTML = `<b>${loc.name}</b> <small>(${loc.floor}階)</small>`;
             listItem.dataset.name = loc.name;
             locationListElement.appendChild(listItem);
             
-            const marker = L.marker(loc.coords)
+            const marker = L.marker(loc.coords, { icon: dotIcon })
                 .bindPopup(`<b>${loc.name}</b><br>${loc.description}`)
                 .addTo(map);
             
