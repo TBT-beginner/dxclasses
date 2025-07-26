@@ -148,8 +148,8 @@
         L.imageOverlay(imageUrl, bounds).addTo(map);
 
         // --- 2. 初期位置とズームレベル ---
-        const initialPoint = [433, 296]; // 地図上の「現在地」の座標
-        const initialZoom = 1;
+        const initialPoint = [225, 145]; // 地図上の「現在地」の座標
+        const initialZoom = 2;
         map.setView(initialPoint, initialZoom);
         
         // --- 3. 「現在地」マーカーの作成 ---
@@ -165,7 +165,7 @@
 
         // --- 4. ★★★ 全教室のデータを地図に合わせて更新 ★★★ ---
         const locations = [
-            { name: "A教室", floor: 2, coords: [460, 110], description: "2階 医歯薬コースの説明会です" },
+            { name: "A教室 医歯薬コース", floor: 2, coords: [460, 110], description: "2階 医歯薬コースの説明会です" },
             { name: "B教室", floor: 2, coords: [490, 110], description: "2階 特進iコースの説明会です" },
             { name: "C教室", floor: 2, coords: [480, 185], description: "2階 DXコースの説明会です" },
             { name: "D教室", floor: 1, coords: [560, 220], description: "1階 QQ Englishの教室です。" },
