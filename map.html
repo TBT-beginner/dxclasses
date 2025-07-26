@@ -139,16 +139,16 @@
             minZoom: -4,
         });
         
-        // ★★★【重要】★★★ 新しい地図画像の情報に更新
-        // このHTMLファイルを保存した後、必ずアップロードした画像のURLに書き換えてください。
-        const imageUrl = "https://tbt-beginner.github.io/dxclasses/3997fda9-0b27-49a7-ac88-1cea7ed0ccb8-page-001.jpg"; // ← ここのURLが地図の画像！
+        const imageUrl = "https://tbt-beginner.github.io/dxclasses/3997fda9-0b27-49a7-ac88-1cea7ed0ccb8-page-001.jpg";
         const imageWidth = 616; 
         const imageHeight = 876;
         const bounds = [[0, 0], [imageHeight, imageWidth]];
         L.imageOverlay(imageUrl, bounds).addTo(map);
 
-        // --- 2. 初期位置とズームレベル ---
-        const initialPoint = [225, 145]; // 地図上の「現在地」の座標
+        // --- 2. ★★★ 初期位置とズームレベルを修正 ★★★ ---
+        // Leafletは [y, x] の順で座標を扱います。
+        // 地図上の「現在地」ピンと一致するように座標を修正しました。
+        const initialPoint = [700, 225]; 
         const initialZoom = 2;
         map.setView(initialPoint, initialZoom);
         
@@ -163,7 +163,8 @@
             .bindPopup(`<b>現在地</b>`)
             .openPopup();
 
-        // --- 4. ★★★ 全教室のデータを地図に合わせて更新 ★★★ ---
+        // --- 4. 全教室のデータ ---
+        // (ご指定の通り、ここの座標は変更していません)
         const locations = [
             { name: "A教室 医歯薬コース", floor: 2, coords: [460, 110], description: "2階 医歯薬コースの説明会です" },
             { name: "B教室", floor: 2, coords: [490, 110], description: "2階 特進iコースの説明会です" },
@@ -183,7 +184,7 @@
 
         // --- 5. 施設リストとマーカーを地図に追加 ---
         const locationListElement = document.getElementById('locations-list');
-        const locationMarkers = {}; // 名前をキーにしてマーカーを保持
+        const locationMarkers = {}; 
 
         locations.forEach(loc => {
             const listItem = document.createElement('li');
@@ -198,7 +199,7 @@
             locationMarkers[loc.name] = marker;
         });
 
-        // --- 6. イベントリスナーの設定 ---
+        // --- 6. ★★★ イベントリスナーの動作を修正 ★★★ ---
         locationListElement.addEventListener('click', function(e) {
             const li = e.target.closest('li');
             if (li && li.dataset.name) {
@@ -207,16 +208,27 @@
                 const targetMarker = locationMarkers[name];
                 
                 if (targetLocation && targetMarker) {
-                    map.setView(targetLocation.coords, 2);
-                    targetMarker.openPopup();
+                    // map.setViewの代わりにflyToを使用し、スムーズに移動
+                    map.flyTo(targetLocation.coords, 2, {
+                        animate: true,
+                        duration: 1 // アニメーション時間（秒）
+                    });
+                    // ポップアップを開くのを少し遅らせて、移動後に表示
+                    setTimeout(() => {
+                        targetMarker.openPopup();
+                    }, 1000);
                 }
             }
         });
 
         document.getElementById('btn-goto-current').addEventListener('click', () => {
-            map.setView(initialPoint, initialZoom);
-            currentLocationMarker.openPopup();
+            // 現在地に戻るときもflyToで見やすく
+            map.flyTo(initialPoint, initialZoom, { animate: true, duration: 1 });
+            setTimeout(() => {
+                currentLocationMarker.openPopup();
+            }, 1000);
         });
+
         document.getElementById('btn-zoom-out').addEventListener('click', () => {
             map.fitBounds(bounds);
         });
