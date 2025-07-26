@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>構内マップ - ナビゲーション版</title>
+    <title>構内マップ - Kiryoフェア</title>
     
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
@@ -80,7 +80,7 @@
         const initialZoom = 1;
         map.setView(initialPoint, initialZoom);
         
-        // --- 3. ★★★ 修正後の座標データを反映 ★★★ ---
+        // --- 3. 座標データ ---
         const locations = [
             { name: "現在地", floor: 1, coords: [450, 300], description: "インフォメーションセンター前の現在地です。" },
             { name: "A教室 医歯薬コース", floor: 2, coords: [925, 220], description: "2階 医歯薬コース説明会" },
@@ -133,7 +133,7 @@
 
         document.getElementById('btn-goto-start').addEventListener('click', () => {
             map.flyTo(initialPoint, initialZoom);
-            // ★改善点: 現在地マーカーのポップアップも開く
+            // 現在地マーカーのポップアップ
             const currentMarker = locationMarkers["現在地"];
             if (currentMarker) {
                 setTimeout(() => { currentMarker.openPopup(); }, 1100);
@@ -154,7 +154,7 @@
             }
         });
 
-        // ★改善点: 初期表示時に「現在地」のポップアップを開いておく
+        // 初期表示時に「現在地」のポップアップを開いておく
         locationMarkers["現在地"].openPopup();
 
     </script>
