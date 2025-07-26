@@ -158,25 +158,25 @@
         const imageWidth = 2479, imageHeight = 3508;
         const bounds = [[0, 0], [imageHeight, imageWidth]];
         L.imageOverlay(imageUrl, bounds).addTo(map);
-        const initialPoint = [450, 300], initialZoom = 1;
+        const initialPoint = [900, 600], initialZoom = 1;
         map.setView(initialPoint, initialZoom);
         
         const locations = [
-            { name: "現在地", floor: 1, coords: [450, 300], description: "インフォメーションセンター前の現在地です。" },
-            { name: "A教室 医歯薬コース", floor: 2, coords: [925, 220], description: "2階 医歯薬コース説明会" },
-            { name: "B教室 特進iコース説明会", floor: 2, coords: [980, 220], description: "2階 特進iコース説明会" },
-            { name: "C教室 DXコース説明会", floor: 2, coords: [960, 375], description: "2階 DXコース説明会" },
-            { name: "D教室 進学Vコース説明会", floor: 1, coords: [695, 305], description: "1階 進学Vコース説明会" },
-            { name: "E教室", floor: 2, coords: [805, 470], description: "2階 E教室の説明" },
-            { name: "F教室", floor: 2, coords: [805, 545], description: "2階 F教室の説明" },
-            { name: "G教室", floor: 2, coords: [805, 700], description: "2階 G教室の説明" },
-            { name: "H教室", floor: 2, coords: [1100, 160], description: "2階 H教室の説明" },
-            { name: "I教室", floor: 2, coords: [1100, 300], description: "2階 I教室の説明" },
-            { name: "J教室", floor: 1, coords: [380, 700], description: "1階 J教室の説明" },
-            { name: "K教室", floor: 1, coords: [595, 375], description: "1階 K教室の説明" },
-            { name: "L教室", floor: 1, coords: [415, 965], description: "1階 L教室の説明" },
-            { name: "M教室", floor: 1, coords: [540, 375], description: "1階 M教室の説明" },
-            { name: "N教室", floor: 1, coords: [540, 225], description: "1階 N教室の説明" }
+            { name: "現在地", floor: 1, coords: [900, 600], description: "インフォメーションセンター前の現在地です。" },
+            { name: "A教室 医歯薬コース", floor: 2, coords: [1850, 440], description: "2階 医歯薬コース説明会" },
+            { name: "B教室 特進iコース説明会", floor: 2, coords: [1960, 440], description: "2階 特進iコース説明会" },
+            { name: "C教室 DXコース説明会", floor: 2, coords: [1920, 750], description: "2階 DXコース説明会" },
+            { name: "D教室 進学Vコース説明会", floor: 1, coords: [1390, 610], description: "1階 進学Vコース説明会" },
+            { name: "E教室", floor: 2, coords: [1610, 940], description: "2階 E教室の説明" },
+            { name: "F教室", floor: 2, coords: [1610, 1090], description: "2階 F教室の説明" },
+            { name: "G教室", floor: 2, coords: [1610, 1400], description: "2階 G教室の説明" },
+            { name: "H教室", floor: 2, coords: [2200, 320], description: "2階 H教室の説明" },
+            { name: "I教室", floor: 2, coords: [2200, 600], description: "2階 I教室の説明" },
+            { name: "J教室", floor: 1, coords: [760, 1400], description: "1階 J教室の説明" },
+            { name: "K教室", floor: 1, coords: [1190, 750], description: "1階 K教室の説明" },
+            { name: "L教室", floor: 1, coords: [830, 1930], description: "1階 L教室の説明" },
+            { name: "M教室", floor: 1, coords: [1080, 750], description: "1階 M教室の説明" },
+            { name: "N教室", floor: 1, coords: [1080, 450], description: "1階 N教室の説明" }
         ];
 
         const locationListElement = document.getElementById('locations-list');
