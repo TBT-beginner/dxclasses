@@ -3,15 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>構内マップ - KIRYOフェア</title>
+    <title>構内マップ - ナビゲーション版</title>
     
-    <!-- Leaflet.jsのCSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
      crossorigin=""/>
     
     <style>
-        /* CSSに変更はありません */
+        /* レイアウトとサイドバーのためのCSSを追加 */
         html, body {
             height: 100%; margin: 0; padding: 0; font-family: 'Helvetica Neue', Arial, sans-serif; overflow: hidden;
         }
@@ -37,15 +36,6 @@
             position: fixed; bottom: 10px; right: 10px; background-color: rgba(0, 0, 0, 0.6); color: white;
             padding: 5px 10px; border-radius: 4px; font-size: 0.9em; z-index: 1001;
         }
-        @keyframes pulse-red {
-            0% { transform: scale(0.9); opacity: 1; }
-            50% { transform: scale(1.2); opacity: 0.5; }
-            100% { transform: scale(0.9); opacity: 1; }
-        }
-        .marker-pulse-red {
-            background-color: #ff4136; border-radius: 50%; border: 3px solid #fff;
-            box-shadow: 0 0 10px rgba(0,0,0,0.5); animation: pulse-red 1.5s infinite ease-in-out;
-        }
     </style>
 </head>
 <body>
@@ -54,7 +44,7 @@
         <div id="sidebar">
             <h2>校舎案内</h2>
             <div class="control-buttons">
-                <button id="btn-goto-current">現在地に戻る</button>
+                <button id="btn-goto-start">現在位置に戻る</button>
                 <button id="btn-zoom-out">全体を表示</button>
             </div>
             <hr>
@@ -73,67 +63,55 @@
      crossorigin=""></script>
 
     <script>
-        // --- 1. マップの初期設定 ---
+        // --- 1. マップの初期設定 (安定版コードをベース) ---
         const map = L.map('map', {
             crs: L.CRS.Simple,
             minZoom: -4,
         });
         
         const imageUrl = "https://tbt-beginner.github.io/dxclasses/3997fda9-0b27-49a7-ac88-1cea7ed0ccb8-page-001.jpg";
-        
-        // ★★★ 修正点 ① ★★★
-        // マーカー座標の基準となっている、正しい画像サイズに修正
         const imageWidth = 1240; 
         const imageHeight = 1754;
         const bounds = [[0, 0], [imageHeight, imageWidth]];
         L.imageOverlay(imageUrl, bounds).addTo(map);
 
         // --- 2. 初期位置とズームレベル ---
-        // ★★★ 修正点 ② ★★★
-        // 地図上の「現在地」マークに合わせた正しい座標に修正
-        const initialPoint = [1405, 755]; 
-        const initialZoom = 1; // 見やすいように少し引いたズームレベルに調整
+        // 地図上の「現在地」マークに合わせた座標
+        const initialPoint = [450, 300]; 
+        const initialZoom = 1;
         map.setView(initialPoint, initialZoom);
         
-        // --- 3. 「現在地」マーカーの作成 ---
-        const currentLocationIcon = L.divIcon({
-            className: 'marker-pulse-red',
-            iconSize: [22, 22],
-            iconAnchor: [11, 11],
-            popupAnchor: [0, -14]
-        });
-        const currentLocationMarker = L.marker(initialPoint, { icon: currentLocationIcon }).addTo(map)
-            .bindPopup(`<b>現在地</b>`)
-            .openPopup();
-
-        // --- 4. 全教室のデータ（ご指定のデータを尊重） ---
+        // --- 3. 【新機能】教室・施設のデータ ---
         const locations = [
-            { name: "A教室 医歯薬コース", floor: 2, coords: [460, 110], description: "2階 医歯薬コースの説明会です" },
-            { name: "B教室", floor: 2, coords: [490, 110], description: "2階 特進iコースの説明会です" },
-            { name: "C教室", floor: 2, coords: [480, 185], description: "2階 DXコースの説明会です" },
-            { name: "D教室", floor: 1, coords: [345, 150], description: "1階 QQ Englishの教室です。" },
-            { name: "E教室", floor: 2, coords: [400, 235], description: "2階 渡り廊下の手前です。" },
-            { name: "F教室", floor: 2, coords: [400, 270], description: "2階 渡り廊下の手前です。" },
-            { name: "G教室", floor: 2, coords: [400, 345], description: "2階 渡り廊下の奥です。" },
-            { name: "H教室", floor: 2, coords: [550, 80], description: "2階 階段を上がってすぐです。" },
-            { name: "I教室", floor: 2, coords: [555, 150], description: "2階 階段を上がってすぐです。" },
-            { name: "J教室", floor: 1, coords: [700, 430], description: "1階 インフォメーションの奥です。" },
-            { name: "K教室", floor: 1, coords: [560, 310], description: "1階 アートホールの隣です。" },
-            { name: "L教室", floor: 1, coords: [700, 530], description: "1階 体育館へ向かう通路にあります。" },
-            { name: "M教室", floor: 1, coords: [610, 310], description: "1階 K教室の隣です。" },
-            { name: "N教室", floor: 1, coords: [610, 150], description: "1階 スタディルームです。" }
+            { name: "現在地", floor: 1, coords: [450, 300], description: "インフォメーションセンター前の現在地です。" },
+            { name: "A教室 医歯薬コース", floor: 2, coords: [925, 220], description: "2階 医歯薬コース説明会" },
+            { name: "B教室 特進iコース説明会", floor: 2, coords: [980, 220], description: "2階 特進iコース説明会" },
+            { name: "C教室 DXコース説明会", floor: 2, coords: [960, 220], description: "2階 DXコース説明会" },
+            { name: "D教室 QQ English", floor: 1, coords: [695, 375], description: "1階 QQ English" },
+            { name: "E教室", floor: 2, coords: [805, 470], description: "2階 E教室の説明" },
+            { name: "F教室", floor: 2, coords: [805, 545], description: "2階 F教室の説明" },
+            { name: "G教室", floor: 2, coords: [805, 700], description: "2階 G教室の説明" },
+            { name: "H教室", floor: 2, coords: [1100, 160], description: "2階 H教室の説明" },
+            { name: "I教室", floor: 2, coords: [1100, 300], description: "2階 I教室の説明" },
+            { name: "J教室", floor: 1, coords: [390, 900], description: "1階 J教室の説明" },
+            { name: "K教室", floor: 1, coords: [595, 375], description: "1階 K教室の説明" },
+            { name: "L教室", floor: 1, coords: [425, 745], description: "1階 L教室の説明" },
+            { name: "M教室", floor: 1, coords: [540, 375], description: "1階 M教室の説明" },
+            { name: "N教室", floor: 1, coords: [540, 1225], description: "1階 N教室の説明" }
         ];
 
-        // --- 5. 施設リストとマーカーを地図に追加 ---
+        // --- 4.リストとマーカーを動的に作成 ---
         const locationListElement = document.getElementById('locations-list');
         const locationMarkers = {}; 
 
         locations.forEach(loc => {
+            // サイドバーのリスト項目を作成
             const listItem = document.createElement('li');
             listItem.innerHTML = `<b>${loc.name}</b> <small>(${loc.floor}階)</small>`;
             listItem.dataset.name = loc.name;
             locationListElement.appendChild(listItem);
 
+            // 地図上に標準の青いマーカーを作成
             const marker = L.marker(loc.coords)
                 .addTo(map)
                 .bindPopup(`<b>${loc.name}</b><br>${loc.description}`);
@@ -141,7 +119,7 @@
             locationMarkers[loc.name] = marker;
         });
 
-        // --- 6. イベントリスナーの設定 ---
+        // --- 5.【新機能】ナビゲーションイベントの設定 ---
         locationListElement.addEventListener('click', function(e) {
             const li = e.target.closest('li');
             if (li && li.dataset.name) {
@@ -150,30 +128,28 @@
                 const targetMarker = locationMarkers[name];
                 
                 if (targetLocation && targetMarker) {
-                    // ★★★ 改善点 ★★★
-                    // setViewからflyToに変更し、スムーズな移動とフォーカスを実現
+                    // flyToで指定座標にスムーズに移動（中央にフォーカス）
                     map.flyTo(targetLocation.coords, 2, {
                         animate: true,
-                        duration: 1.0 // 1秒かけて移動
+                        duration: 1.0 
                     });
 
-                    // 移動後にポップアップを開く
+                    // 移動後にポップアップを自動で開く
                     setTimeout(() => {
                         targetMarker.openPopup();
-                    }, 1100); // flyToのアニメーションが終わるのを待ってから開く
+                    }, 1100);
                 }
             }
         });
 
-        document.getElementById('btn-goto-current').addEventListener('click', () => {
+        document.getElementById('btn-goto-start').addEventListener('click', () => {
             map.flyTo(initialPoint, initialZoom);
-            currentLocationMarker.openPopup();
         });
         document.getElementById('btn-zoom-out').addEventListener('click', () => {
             map.fitBounds(bounds);
         });
         
-        // --- 7. カーソル座標の常時表示 ---
+        // --- 6. カーソル座標の表示  ---
         const coordsDisplay = document.getElementById('coords-display');
         map.on('mousemove', function(e) {
             const y = Math.round(e.latlng.lat);
