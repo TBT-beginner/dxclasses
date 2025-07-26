@@ -74,31 +74,29 @@
     <script>
         const map = L.map('map', { crs: L.CRS.Simple, minZoom: -4 });
         
-        // ★★★ 修正点 ① ★★★
-        // オリジナルの綺麗な地図画像のURLを指定します
         const imageUrl = "https://tbt-beginner.github.io/dxclasses/3997fda9-0b27-49a7-ac88-1cea7ed0ccb8-page-001.jpg";
-        
-        // ★★★ 修正点 ② ★★★
-        // オリジナル地図画像の正しいサイズを指定します (これが最も重要です)
         const imageWidth = 1240; 
         const imageHeight = 1754;
-        const bounds = [[0, 0], [imageHeight, imageWidth]];
+
+        // ★★★ 修正点 ①: Y軸を反転させた境界を設定 ★★★
+        // 左上を(0, 0)、右下を(-1754, 1240)としてLeafletに認識させる
+        const bounds = [[0, 0], [-imageHeight, imageWidth]];
         L.imageOverlay(imageUrl, bounds).addTo(map);
 
-        // ★★★ 修正点 ③ ★★★
-        // ご指定の座標を尊重し、一切変更しません
+        // ★★★ 修正点 ②: Y座標をマイナスにしてleafletに渡す ★★★
         const initialPoint = [225, 145]; 
         const initialZoom = 2;
-        map.setView(initialPoint, initialZoom);
+        // map.setViewに渡すy座標を反転させる
+        map.setView([-initialPoint[0], initialPoint[1]], initialZoom);
         
-        // このマーカー作成コードは、上記の正しい設定の上で、意図通りに動作します
         const currentLocationIcon = L.divIcon({
             className: 'marker-pulse-red',
             iconSize: [22, 22],
             iconAnchor: [11, 11],
             popupAnchor: [0, -14]
         });
-        const currentLocationMarker = L.marker(initialPoint, { icon: currentLocationIcon }).addTo(map)
+        // L.markerに渡すy座標も反転させる
+        const currentLocationMarker = L.marker([-initialPoint[0], initialPoint[1]], { icon: currentLocationIcon }).addTo(map)
             .bindPopup(`<b>現在地</b>`)
             .openPopup();
 
@@ -129,8 +127,8 @@
             listItem.dataset.name = loc.name;
             locationListElement.appendChild(listItem);
 
-            // 教室マーカーは標準の青いピンで作成します
-            const marker = L.marker(loc.coords)
+            // ★★★ 修正点 ③: すべての教室マーカーでY座標を反転 ★★★
+            const marker = L.marker([-loc.coords[0], loc.coords[1]])
                 .addTo(map)
                 .bindPopup(`<b>${loc.name}</b><br>${loc.description}`);
             
@@ -145,23 +143,26 @@
                 const targetMarker = locationMarkers[name];
                 
                 if (targetLocation && targetMarker) {
-                    map.flyTo(targetLocation.coords, 2, { animate: true, duration: 1.0 });
+                    // map.flyToに渡すy座標も反転
+                    map.flyTo([-targetLocation.coords[0], targetLocation.coords[1]], 2, { animate: true, duration: 1.0 });
                     setTimeout(() => { targetMarker.openPopup(); }, 1100);
                 }
             }
         });
 
         document.getElementById('btn-goto-current').addEventListener('click', () => {
-            map.flyTo(initialPoint, initialZoom);
+            map.flyTo([-initialPoint[0], initialPoint[1]], initialZoom);
             currentLocationMarker.openPopup();
         });
         document.getElementById('btn-zoom-out').addEventListener('click', () => {
             map.fitBounds(bounds);
         });
         
+        // カーソル座標表示もY軸を反転させて、直感的な正の数で表示
         const coordsDisplay = document.getElementById('coords-display');
         map.on('mousemove', function(e) {
-            const y = Math.round(e.latlng.lat);
+            // 表示するy座標は-1を掛けて正の数に戻す
+            const y = Math.round(-e.latlng.lat);
             const x = Math.round(e.latlng.lng);
             if (y >= 0 && y <= imageHeight && x >= 0 && x <= imageWidth) {
                 coordsDisplay.innerHTML = `y: ${y}, x: ${x}`;
