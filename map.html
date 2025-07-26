@@ -117,6 +117,8 @@
             0% { transform: scale(1); opacity: 0.6; }
             100% { transform: scale(3); opacity: 0; }
         }
+        
+        /* --- 右下のフローティングボタン --- */
         .map-control-button {
             position: fixed;
             right: 15px;
@@ -136,7 +138,7 @@
             background-color: #f4f4f4;
         }
         #map-goto-start {
-             bottom: 50px; /* 座標表示の上に来るように調整 */
+             bottom: 50px; 
         }
         #map-goto-start svg {
             width: 22px;
@@ -144,6 +146,22 @@
             fill: #555;
         }
 
+        /* --- 左下のドロップダウンリスト --- */
+        .destination-select-container {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            z-index: 1001;
+            background-color: white;
+            padding: 5px;
+            border-radius: 5px;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+        }
+        #destination-select {
+            border: 1px solid #ccc;
+            padding: 5px;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
@@ -153,7 +171,7 @@
             <span class="sidebar-close">×</span>
             <h2>校舎案内</h2>
             <div class="control-buttons">
-                <button id="btn-goto-start">現在位置に戻る</button>
+                <button id="btn-goto-default-start">初期位置に戻る</button>
                 <button id="btn-zoom-out">全体を表示</button>
             </div>
             <hr>
@@ -171,36 +189,36 @@
             <a href="#" class="menu-toggle"><span></span></a>
         </div>
     </div>
-        <div id="map-goto-start" class="map-control-button" title="現在位置に戻る">
+    <div id="map-goto-start" class="map-control-button" title="現在位置に戻る">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
             <path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3A8.994 8.994 0 0013 3.06V1h-2v2.06A8.994 8.994 0 003.06 11H1v2h2.06A8.994 8.994 0 0011 20.94V23h2v-2.06A8.994 8.994 0 0020.94 13H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/>
         </svg>
     </div>
     <div class="coords-display" id="coords-display">y: -, x: -</div>
 
+    <div class="destination-select-container">
+        <select id="destination-select">
+            <option value="">目的地を選択...</option>
+        </select>
+    </div>
+
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
      crossorigin=""></script>
 
     <script>
-        const map = L.map('map', {
-            crs: L.CRS.Simple,
-            minZoom: -4,
-            zoomControl: false 
-        });
-        
-        L.control.zoom({
-            position: 'topright' 
-        }).addTo(map);
+        const map = L.map('map', { crs: L.CRS.Simple, minZoom: -4, zoomControl: false });
+        L.control.zoom({ position: 'topright' }).addTo(map);
         const imageUrl = "https://tbt-beginner.github.io/dxclasses/map.jpg";
         const imageWidth = 2479, imageHeight = 3508;
         const bounds = [[0, 0], [imageHeight, imageWidth]];
         L.imageOverlay(imageUrl, bounds).addTo(map);
-        const initialPoint = [900, 600], initialZoom = -1;
-        map.setView(initialPoint, initialZoom);
         
+        const defaultInitialPoint = [900, 600];
+        let initialPoint = [...defaultInitialPoint];
+        let initialZoom = -1;
+
         const locations = [
-            { name: "現在地", floor: 1, coords: [900, 600], description: "インフォメーションセンター前の現在地です。" },
             { name: "A教室 医歯薬コース", floor: 2, coords: [1850, 440], description: "2階 医歯薬コース説明会" },
             { name: "B教室 特進iコース説明会", floor: 2, coords: [1960, 440], description: "2階 特進iコース説明会" },
             { name: "C教室 DXコース説明会", floor: 2, coords: [1920, 750], description: "2階 DXコース説明会" },
@@ -216,16 +234,32 @@
             { name: "M教室", floor: 1, coords: [1080, 750], description: "1階 M教室の説明" },
             { name: "N教室", floor: 1, coords: [1080, 450], description: "1階 N教室の説明" }
         ];
-
+        
+        function updateStartLocationFromURL() {
+            const hash = window.location.hash.substring(1);
+            if (hash) {
+                const qrLocation = locations.find(loc => loc.name.startsWith(hash + '教室'));
+                if (qrLocation) {
+                    initialPoint = qrLocation.coords;
+                }
+            }
+        }
+        updateStartLocationFromURL();
+        
+        locations.unshift({
+            name: "現在地",
+            floor: 1,
+            coords: initialPoint,
+            description: "QRコードで読み取った、またはデフォルトの現在地です。"
+        });
+        map.setView(initialPoint, initialZoom);
+        
         const locationListElement = document.getElementById('locations-list');
         const locationMarkers = {}; 
-
         const animatedDotIcon = L.divIcon({
             className: 'pulsing-marker-wrapper',
             html: `<div class="pulsing-marker"><div class="wave"></div><div class="wave"></div><div class="dot"></div></div>`,
-            iconSize: [50, 50],
-            iconAnchor: [25, 25],
-            popupAnchor: [0, -25]
+            iconSize: [50, 50], iconAnchor: [25, 25], popupAnchor: [0, -25]
         });
 
         locations.forEach(loc => {
@@ -233,12 +267,29 @@
             listItem.innerHTML = `<b>${loc.name}</b> <small>(${loc.floor}階)</small>`;
             listItem.dataset.name = loc.name;
             locationListElement.appendChild(listItem);
-            
-            const marker = L.marker(loc.coords, { icon: animatedDotIcon })
-                .bindPopup(`<b>${loc.name}</b><br>${loc.description}`)
-                .addTo(map);
-            
+            const marker = L.marker(loc.coords, { icon: animatedDotIcon }).bindPopup(`<b>${loc.name}</b><br>${loc.description}`).addTo(map);
             locationMarkers[loc.name] = marker;
+        });
+        
+        const destinationSelect = document.getElementById('destination-select');
+        locations.forEach(loc => {
+            if (loc.name !== "現在地") {
+                const option = document.createElement('option');
+                option.value = loc.name;
+                option.textContent = loc.name;
+                destinationSelect.appendChild(option);
+            }
+        });
+        
+        destinationSelect.addEventListener('change', function(e) {
+            const selectedName = e.target.value;
+            if (selectedName) {
+                const targetLocation = locations.find(loc => loc.name === selectedName);
+                if (targetLocation) {
+                    map.flyTo(targetLocation.coords, 0, { animate: true, duration: 1.0 });
+                    setTimeout(() => { locationMarkers[selectedName].openPopup(); }, 1100);
+                }
+            }
         });
 
         locationListElement.addEventListener('click', function(e) {
@@ -248,21 +299,21 @@
                 const targetLocation = locations.find(l => l.name === name);
                 const targetMarker = locationMarkers[name];
                 if (targetLocation && targetMarker) {
-                    map.flyTo(targetLocation.coords, -1, { animate: true, duration: 1.0 });
+                    map.flyTo(targetLocation.coords, 0, { animate: true, duration: 1.0 });
                     setTimeout(() => { targetMarker.openPopup(); }, 1100);
                     document.getElementById('app-container').classList.remove('sidebar-open');
                 }
             }
         });
+
         document.getElementById('map-goto-start').addEventListener('click', () => {
             map.flyTo(initialPoint, initialZoom);
             const currentMarker = locationMarkers["現在地"];
             if (currentMarker) { setTimeout(() => { currentMarker.openPopup(); }, 1100); }
         });
-        document.getElementById('btn-goto-start').addEventListener('click', () => {
-            map.flyTo(initialPoint, initialZoom);
-            const currentMarker = locationMarkers["現在地"];
-            if (currentMarker) { setTimeout(() => { currentMarker.openPopup(); }, 1100); }
+        
+        document.getElementById('btn-goto-default-start').addEventListener('click', () => {
+            map.flyTo(defaultInitialPoint, initialZoom);
         });
 
         document.getElementById('btn-zoom-out').addEventListener('click', () => { map.fitBounds(bounds); });
