@@ -3,145 +3,232 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leaflet.js Map with GSAP Sonar Marker</title>
+    <title>インタラクティブ構内マップ - KIRYOフェア</title>
     
-    <!-- Leaflet.jsのCSSを読み込み -->
+    <!-- Leaflet.jsのCSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
      crossorigin=""/>
     
-    <!-- GSAPライブラリを読み込み -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    
     <style>
+        /* --- 全体レイアウト --- */
         html, body {
             height: 100%;
             margin: 0;
             padding: 0;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            overflow: hidden;
+        }
+        #app-container {
+            display: flex;
+            height: 100%;
+        }
+        #sidebar {
+            width: 280px;
+            min-width: 240px;
+            background-color: #f8f9fa;
+            border-right: 1px solid #dee2e6;
+            padding: 15px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
         }
         #map {
-            width: 100%;
+            flex-grow: 1;
             height: 100%;
             background-color: #f0f0f0;
         }
 
-        /* ★★★ GSAPで動かすソナーマーカーのCSS ★★★ */
-
-        /* divIconのデフォルトスタイルを上書きしないためのラッパー */
-        .sonar-icon-wrapper .leaflet-marker-icon {
-            background: transparent;
-            border: none;
+        /* --- サイドバーのスタイル --- */
+        #sidebar h2 {
+            margin-top: 0;
+            font-size: 1.5em;
+            color: #333;
         }
-
-        /* マーカー全体のコンテナ */
-        .sonar-marker {
-            position: relative;
-            width: 60px;
-            height: 60px;
-        }
-
-        /* 波紋を発生させる中心点 */
-        .sonar-emitter {
-            position: relative;
+        .control-buttons button {
             width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background-color: #4A89F3; /* 中心の色 */
-            border: 2px solid #fff;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.4);
-            transform: scale(0.3); /* 中心点の大きさを調整 */
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.2s;
+        }
+        .control-buttons button:hover {
+            background-color: #0056b3;
+        }
+        .locations-container {
+            flex-grow: 1;
+            overflow-y: auto; /* リストが長くなった場合にスクロール */
+        }
+        #locations-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        #locations-list li {
+            padding: 12px;
+            border-bottom: 1px solid #e9ecef;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        #locations-list li:hover {
+            background-color: #e9ecef;
+        }
+
+        /* --- 座標表示のスタイル --- */
+        .coords-display {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            z-index: 1001;
         }
         
-        /* 広がっていく波紋 */
-        .sonar-wave {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background-color: #4A89F3;
-            opacity: 0;
-            z-index: -1;
-            /* GSAPで scale と opacity をアニメーションさせる */
+        /* --- 「現在地」マーカーのCSS --- */
+        @keyframes pulse-red {
+            0% { transform: scale(0.9); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.5; }
+            100% { transform: scale(0.9); opacity: 1; }
         }
-
+        .marker-pulse-red {
+            background-color: #ff4136;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            animation: pulse-red 1.5s infinite ease-in-out;
+        }
     </style>
 </head>
 <body>
 
-    <div id="map"></div>
+    <div id="app-container">
+        <div id="sidebar">
+            <h2>校舎案内</h2>
+            <div class="control-buttons">
+                <button id="btn-goto-current">現在地に戻る</button>
+                <button id="btn-zoom-out">全体を表示</button>
+            </div>
+            <hr>
+            <div class="locations-container">
+                <h3>教室・施設一覧</h3>
+                <ul id="locations-list"></ul>
+            </div>
+        </div>
+        <div id="map"></div>
+    </div>
+    
+    <div class="coords-display" id="coords-display">y: -, x: -</div>
 
-    <!-- Leaflet.jsのJavaScriptを読み込み -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
      crossorigin=""></script>
 
     <script>
-        // 1. マップの初期化
+        // --- 1. マップの初期設定 ---
         const map = L.map('map', {
             crs: L.CRS.Simple,
             minZoom: -4,
         });
-
-        // 2. 画像の情報を設定
-        const imageUrl = 'https://tbt-beginner.github.io/dxclasses/3997fda9-0b27-49a7-ac88-1cea7ed0ccb8-page-001.jpg';
-        const imageWidth = 1240; 
-        const imageHeight = 1754;
-
-        // 3. 画像の境界を設定
+        
+        // ★★★【重要】★★★ 新しい地図画像の情報に更新
+        // このHTMLファイルを保存した後、必ずアップロードした画像のURLに書き換えてください。
+        const imageUrl = "https://tbt-beginner.github.io/dxclasses/3997fda9-0b27-49a7-ac88-1cea7ed0ccb8-page-001.jpg"; // ← ここのURLが地図の画像！
+        const imageWidth = 616; 
+        const imageHeight = 876;
         const bounds = [[0, 0], [imageHeight, imageWidth]];
-
-        // 4. 画像をオーバーレイとしてマップに追加
         L.imageOverlay(imageUrl, bounds).addTo(map);
 
-        // 5. 初期表示位置とズームレベルを設定
-        const initialPoint = [360, 310];
+        // --- 2. 初期位置とズームレベル ---
+        const initialPoint = [700, 225]; // 地図上の「現在地」の座標
         const initialZoom = 1;
         map.setView(initialPoint, initialZoom);
         
-        // 6. ★★★ GSAPで動かすカスタムアイコンを作成 ★★★
-        const sonarIcon = L.divIcon({
-            // ラッパー用のクラス名と、アイコン自体のHTMLを定義
-            className: 'sonar-icon-wrapper', 
-            html: `
-                <div class="sonar-marker">
-                    <div class="sonar-wave"></div>
-                    <div class="sonar-wave"></div>
-                    <div class="sonar-wave"></div>
-                    <div class="sonar-emitter"></div>
-                </div>
-            `,
-            iconSize: [60, 60],
-            iconAnchor: [30, 30], // アイコンの中心を基点にする
-            popupAnchor: [0, -35]  // ポップアップの表示位置を調整
+        // --- 3. 「現在地」マーカーの作成 ---
+        const currentLocationIcon = L.divIcon({
+            className: 'marker-pulse-red',
+            iconSize: [22, 22],
+            iconAnchor: [11, 11],
+            popupAnchor: [0, -14]
         });
-
-        // 7. ★★★ カスタムアイコンを使ってマーカーを設置 ★★★
-        const sonarMarker = L.marker(initialPoint, { icon: sonarIcon }).addTo(map)
-            .bindPopup(`<b>現在地はこちら</b><br>y: ${initialPoint[0]}, x: ${initialPoint[1]}`)
+        const currentLocationMarker = L.marker(initialPoint, { icon: currentLocationIcon }).addTo(map)
+            .bindPopup(`<b>現在地</b>`)
             .openPopup();
-        
-        // 8. ★★★ マーカーがマップに追加されたらGSAPアニメーションを開始 ★★★
-        sonarMarker.on('add', function () {
-            // .sonar-waveクラスを持つすべての要素をターゲットに
-            gsap.to(".sonar-wave", {
-                scale: 5,        // 5倍の大きさに
-                opacity: 0,      // 透明にする
-                duration: 2.5,     // アニメーション時間
-                repeat: -1,      // 無限に繰り返す
-                stagger: 0.7,    // 0.7秒ずつずらして開始
-                ease: "power1.out", // イージング（滑らかな動き）
-            });
+
+        // --- 4. ★★★ 全教室のデータを地図に合わせて更新 ★★★ ---
+        const locations = [
+            { name: "A教室", floor: 2, coords: [425, 150], description: "2階の教室です。" },
+            { name: "B教室", floor: 2, coords: [475, 150], description: "2階の教室です。" },
+            { name: "C教室", floor: 2, coords: [475, 240], description: "2階 フレンドリールーム隣です。" },
+            { name: "D教室", floor: 1, coords: [560, 220], description: "1階 QQ Englishの教室です。" },
+            { name: "E教室", floor: 2, coords: [500, 350], description: "2階 渡り廊下の手前です。" },
+            { name: "F教室", floor: 2, coords: [500, 400], description: "2階 渡り廊下の手前です。" },
+            { name: "G教室", floor: 2, coords: [500, 475], description: "2階 渡り廊下の奥です。" },
+            { name: "H教室", floor: 2, coords: [350, 150], description: "2階 階段を上がってすぐです。" },
+            { name: "I教室", floor: 2, coords: [350, 220], description: "2階 階段を上がってすぐです。" },
+            { name: "J教室", floor: 1, coords: [700, 430], description: "1階 インフォメーションの奥です。" },
+            { name: "K教室", floor: 1, coords: [560, 310], description: "1階 アートホールの隣です。" },
+            { name: "L教室", floor: 1, coords: [700, 530], description: "1階 体育館へ向かう通路にあります。" },
+            { name: "M教室", floor: 1, coords: [610, 310], description: "1階 K教室の隣です。" },
+            { name: "N教室", floor: 1, coords: [610, 150], description: "1階 スタディルームです。" }
+        ];
+
+        // --- 5. 施設リストとマーカーを地図に追加 ---
+        const locationListElement = document.getElementById('locations-list');
+        const locationMarkers = {}; // 名前をキーにしてマーカーを保持
+
+        locations.forEach(loc => {
+            const listItem = document.createElement('li');
+            listItem.innerHTML = `<b>${loc.name}</b> <small>(${loc.floor}階)</small>`;
+            listItem.dataset.name = loc.name;
+            locationListElement.appendChild(listItem);
+
+            const marker = L.marker(loc.coords)
+                .addTo(map)
+                .bindPopup(`<b>${loc.name}</b><br>${loc.description}`);
+            
+            locationMarkers[loc.name] = marker;
         });
 
-        // マップクリックで座標を取得するヘルパー機能はそのまま
-        map.on('click', function(e) {
+        // --- 6. イベントリスナーの設定 ---
+        locationListElement.addEventListener('click', function(e) {
+            const li = e.target.closest('li');
+            if (li && li.dataset.name) {
+                const name = li.dataset.name;
+                const targetLocation = locations.find(l => l.name === name);
+                const targetMarker = locationMarkers[name];
+                
+                if (targetLocation && targetMarker) {
+                    map.setView(targetLocation.coords, 2);
+                    targetMarker.openPopup();
+                }
+            }
+        });
+
+        document.getElementById('btn-goto-current').addEventListener('click', () => {
+            map.setView(initialPoint, initialZoom);
+            currentLocationMarker.openPopup();
+        });
+        document.getElementById('btn-zoom-out').addEventListener('click', () => {
+            map.fitBounds(bounds);
+        });
+        
+        // --- 7. カーソル座標の常時表示 ---
+        const coordsDisplay = document.getElementById('coords-display');
+        map.on('mousemove', function(e) {
             const y = Math.round(e.latlng.lat);
             const x = Math.round(e.latlng.lng);
-            console.log(`マップ上のクリック座標 (y, x): ${y}, ${x}`);
-            L.marker([y, x]).addTo(map)
-               .bindPopup(`クリック座標<br>y: ${y}, x: ${x}`).openPopup();
+            if (y >= 0 && y <= imageHeight && x >= 0 && x <= imageWidth) {
+                coordsDisplay.innerHTML = `y: ${y}, x: ${x}`;
+            }
         });
     </script>
 
