@@ -10,7 +10,6 @@
      crossorigin=""/>
     
     <style>
-        /* CSSは変更ありません */
         html, body {
             height: 100%; margin: 0; padding: 0; font-family: 'Helvetica Neue', Arial, sans-serif; overflow: hidden;
         }
@@ -90,7 +89,6 @@
 <body>
 
     <div id="app-container">
-        <!-- (HTML部分は変更なし) -->
         <div id="sidebar">
             <span class="sidebar-close">×</span>
             <h2>校舎案内</h2>
@@ -141,7 +139,7 @@
         let initialPoint = [...defaultInitialPoint];
         let initialZoom = -1;
 
-        // ★★★ 修正点 ①: 各場所にユニークなIDを追加 ★★★
+        // 場所を編集する場合はこちら　名前、ID(リンク名".html#A"に使う)  ★★★
         const locationsData = [
             { name: "A教室 医歯薬コース", id: 'A', floor: 2, coords: [1850, 440], description: "2階 医歯薬コース説明会" },
             { name: "B教室 特進iコース説明会", id: 'B', floor: 2, coords: [1960, 440], description: "2階 特進iコース説明会" },
