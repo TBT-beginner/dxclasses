@@ -10,7 +10,7 @@
      crossorigin=""/>
     
     <style>
-        /* レイアウトCSS (変更なし) */
+        /* レイアウトCSS */
         html, body {
             height: 100%; margin: 0; padding: 0; font-family: 'Helvetica Neue', Arial, sans-serif; overflow: hidden;
         }
@@ -48,7 +48,7 @@
         }
         .floor-filter button.active { background-color: #007bff; color: white; border-color: #007bff; font-weight: bold; }
 
-        /* レスポンシブ対応のスタイル */
+        /* レスポンシブ対応 */
         .menu-toggle, .sidebar-close { display: none; }
         @media (max-width: 768px) {
             #sidebar {
@@ -134,7 +134,6 @@
             { name: "H教室", floor: 2, coords: [1100, 160], description: "2階 H教室の説明" },
             { name: "I教室", floor: 2, coords: [1100, 300], description: "2階 I教室の説明" },
             { name: "J教室", floor: 1, coords: [380, 700], description: "1階 J教室の説明" },
-            // ★★★ 修正点: KとMの座標を修正 ★★★
             { name: "K教室", floor: 1, coords: [595, 375], description: "1階 K教室の説明" },
             { name: "L教室", floor: 1, coords: [415, 965], description: "1階 L教室の説明" },
             { name: "M教室", floor: 1, coords: [540, 375], description: "1階 M教室の説明" },
