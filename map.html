@@ -10,16 +10,20 @@
      crossorigin=""/>
     
     <style>
-        /* レイアウトCSS (変更なし) */
+        /* --- 基本レイアウト --- */
         html, body {
             height: 100%; margin: 0; padding: 0; font-family: 'Helvetica Neue', Arial, sans-serif; overflow: hidden;
         }
-        #app-container { display: flex; height: 100%; }
+        #app-container { display: flex; height: 100%; position: relative; }
         #sidebar {
             width: 280px; min-width: 240px; background-color: #f8f9fa; border-right: 1px solid #dee2e6;
-            padding: 15px; box-shadow: 2px 0 5px rgba(0,0,0,0.1); z-index: 1000; display: flex; flex-direction: column;
+            padding: 15px; box-shadow: 2px 0 5px rgba(0,0,0,0.1); z-index: 1001; /* z-indexを上げる */
+            display: flex; flex-direction: column;
+            transition: transform 0.3s ease-in-out; /* ★レスポンシブ用 */
         }
-        #map { flex-grow: 1; height: 100%; background-color: #f0f0f0; }
+        #map { flex-grow: 1; height: 100%; background-color: #f0f0f0; z-index: 1000; }
+        
+        /* --- サイドバー共通スタイル --- */
         #sidebar h2 { margin-top: 0; font-size: 1.5em; color: #333; }
         .control-buttons button {
             width: 100%; padding: 10px; margin-bottom: 10px; background-color: #007bff; color: white;
@@ -32,59 +36,103 @@
             padding: 12px; border-bottom: 1px solid #e9ecef; cursor: pointer; transition: background-color 0.2s;
         }
         #locations-list li:hover { background-color: #e9ecef; }
+
+        /* --- 座標表示 --- */
         .coords-display {
             position: fixed; bottom: 10px; right: 10px; background-color: rgba(0, 0, 0, 0.6); color: white;
             padding: 5px 10px; border-radius: 4px; font-size: 0.9em; z-index: 1001;
         }
-
-        /* ★★★ 機能追加: 赤いパルスマーカーのCSS ★★★ */
+        
+        /* --- 現在地マーカー --- */
         @keyframes pulse-red {
-            0% { transform: scale(0.9); opacity: 1; }
-            50% { transform: scale(1.2); opacity: 0.5; }
-            100% { transform: scale(0.9); opacity: 1; }
+            0% { transform: scale(0.9); } 50% { transform: scale(1.2); opacity: 0.7; } 100% { transform: scale(0.9); }
         }
         .marker-pulse-red {
-            background-color: #ff4136;
-            border-radius: 50%;
-            border: 3px solid #fff;
-            box-shadow: 0 0 10px rgba(0,0,0,0.5);
-            animation: pulse-red 1.5s infinite ease-in-out;
+            background-color: #ff4136; border-radius: 50%; border: 3px solid #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5); animation: pulse-red 1.5s infinite ease-in-out;
         }
 
-        /* ★★★ 機能追加: フロアフィルターボタンのCSS ★★★ */
-        .floor-filter {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 15px;
-        }
+        /* --- フロアフィルター --- */
+        .floor-filter { display: flex; justify-content: space-between; margin-bottom: 15px; }
         .floor-filter button {
-            flex: 1;
-            margin: 0 4px;
-            padding: 8px;
-            font-size: 0.9em;
-            background-color: #e9ecef;
-            color: #333;
-            border: 1px solid #ced4da;
+            flex: 1; margin: 0 4px; padding: 8px; font-size: 0.9em; background-color: #e9ecef;
+            color: #333; border: 1px solid #ced4da;
         }
-        .floor-filter button.active {
-            background-color: #007bff;
-            color: white;
-            border-color: #007bff;
-            font-weight: bold;
+        .floor-filter button.active { background-color: #007bff; color: white; border-color: #007bff; font-weight: bold; }
+
+        /* ★★★ レスポンシブ対応のためのスタイル ★★★ */
+        .menu-toggle, .sidebar-close { display: none; /* PCでは非表示 */ }
+
+        /* --- 画面幅が768px以下の場合 (スマホ・タブレット縦) --- */
+        @media (max-width: 768px) {
+            #sidebar {
+                position: absolute; /* 地図の上にオーバーレイ */
+                height: 100%;
+                transform: translateX(-100%); /* 初期状態では画面外に隠す */
+                border-right: none;
+            }
+            #app-container.sidebar-open #sidebar {
+                transform: translateX(0); /* 表示状態 */
+            }
+
+            /* --- ハンバーガーメニューボタン --- */
+            .menu-toggle {
+                display: block;
+                position: absolute;
+                top: 15px;
+                left: 15px;
+                z-index: 1001;
+                background: white;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                width: 40px;
+                height: 40px;
+                cursor: pointer;
+                padding: 8px;
+                box-sizing: border-box;
+            }
+            .menu-toggle span, .menu-toggle span:before, .menu-toggle span:after {
+                content: '';
+                display: block;
+                height: 2px;
+                width: 100%;
+                background: #333;
+                position: absolute;
+                left: 0;
+                transition: all 0.3s;
+            }
+            .menu-toggle span { position: relative; top: 10px; }
+            .menu-toggle span:before { top: -8px; }
+            .menu-toggle span:after { top: 8px; }
+
+            /* --- サイドバーの閉じるボタン --- */
+            .sidebar-close {
+                display: block;
+                position: absolute;
+                top: 10px;
+                right: 15px;
+                font-size: 2.5em;
+                font-weight: 100;
+                color: #888;
+                cursor: pointer;
+                line-height: 1;
+            }
+            .sidebar-close:hover { color: #333; }
         }
     </style>
 </head>
 <body>
 
     <div id="app-container">
+        <!-- サイドバー -->
         <div id="sidebar">
+            <span class="sidebar-close">×</span>
             <h2>校舎案内</h2>
             <div class="control-buttons">
                 <button id="btn-goto-start">現在位置に戻る</button>
                 <button id="btn-zoom-out">全体を表示</button>
             </div>
             <hr>
-            <!-- ★★★ 機能追加: フロアフィルターのUI ★★★ -->
             <div class="floor-filter">
                 <button class="active" data-floor="all">すべて</button>
                 <button data-floor="2">2階</button>
@@ -95,7 +143,11 @@
                 <ul id="locations-list"></ul>
             </div>
         </div>
-        <div id="map"></div>
+        <!-- 地図 -->
+        <div id="map">
+             <!-- ハンバーガーメニューボタン -->
+            <a href="#" class="menu-toggle"><span></span></a>
+        </div>
     </div>
     
     <div class="coords-display" id="coords-display">y: -, x: -</div>
@@ -131,111 +183,84 @@
             { name: "H教室", floor: 2, coords: [1100, 160], description: "2階 H教室の説明" },
             { name: "I教室", floor: 2, coords: [1100, 300], description: "2階 I教室の説明" },
             { name: "J教室", floor: 1, coords: [380, 700], description: "1階 J教室の説明" },
-            { name: "K教室", floor: 1, coords: [595, 375], description: "1階 K教室の説明" },
+            { name: "K教室", floor: 1, coords: [595, 620], description: "1階 K教室の説明" },
             { name: "L教室", floor: 1, coords: [415, 965], description: "1階 L教室の説明" },
-            { name: "M教室", floor: 1, coords: [540, 375], description: "1階 M教室の説明" },
+            { name: "M教室", floor: 1, coords: [540, 620], description: "1階 M教室の説明" },
             { name: "N教室", floor: 1, coords: [540, 225], description: "1階 N教室の説明" }
         ];
 
-        // --- 4. リストとマーカーを動的に作成 ---
+        // --- 4. リストとマーカーを動的に作成 (変更なし) ---
         const locationListElement = document.getElementById('locations-list');
         const locationMarkers = {}; 
-
-        // ★★★ 機能追加: 「現在地」用のカスタムアイコンを定義 ★★★
-        const currentLocationIcon = L.divIcon({
-            className: 'marker-pulse-red',
-            iconSize: [22, 22],
-            iconAnchor: [11, 11],
-            popupAnchor: [0, -14]
-        });
-
+        const currentLocationIcon = L.divIcon({ className: 'marker-pulse-red', iconSize: [22, 22], iconAnchor: [11, 11], popupAnchor: [0, -14] });
         locations.forEach(loc => {
             const listItem = document.createElement('li');
             listItem.innerHTML = `<b>${loc.name}</b> <small>(${loc.floor}階)</small>`;
             listItem.dataset.name = loc.name;
             locationListElement.appendChild(listItem);
-
-            let marker;
-            // ★★★ 機能追加: "現在地"の場合だけカスタムアイコンを使用 ★★★
-            if (loc.name === "現在地") {
-                marker = L.marker(loc.coords, { icon: currentLocationIcon });
-            } else {
-                // それ以外は標準の青いマーカー
-                marker = L.marker(loc.coords);
-            }
-            
+            let marker = (loc.name === "現在地") ? L.marker(loc.coords, { icon: currentLocationIcon }) : L.marker(loc.coords);
             marker.bindPopup(`<b>${loc.name}</b><br>${loc.description}`).addTo(map);
             locationMarkers[loc.name] = marker;
         });
 
-        // --- 5. ナビゲーションイベントの設定 (変更なし) ---
+        // --- 5. ナビゲーションイベントの設定 ---
         locationListElement.addEventListener('click', function(e) {
             const li = e.target.closest('li');
             if (li && li.dataset.name) {
                 const name = li.dataset.name;
                 const targetLocation = locations.find(l => l.name === name);
                 const targetMarker = locationMarkers[name];
-                
                 if (targetLocation && targetMarker) {
                     map.flyTo(targetLocation.coords, 2, { animate: true, duration: 1.0 });
                     setTimeout(() => { targetMarker.openPopup(); }, 1100);
+                    // ★レスポンシブ用: 項目をクリックしたらサイドバーを閉じる
+                    document.getElementById('app-container').classList.remove('sidebar-open');
                 }
             }
         });
-
         document.getElementById('btn-goto-start').addEventListener('click', () => {
             map.flyTo(initialPoint, initialZoom);
             const currentMarker = locationMarkers["現在地"];
             if (currentMarker) { setTimeout(() => { currentMarker.openPopup(); }, 1100); }
         });
-        
-        document.getElementById('btn-zoom-out').addEventListener('click', () => {
-            map.fitBounds(bounds);
-        });
+        document.getElementById('btn-zoom-out').addEventListener('click', () => { map.fitBounds(bounds); });
         
         // --- 6. カーソル座標の表示 (変更なし) ---
         const coordsDisplay = document.getElementById('coords-display');
         map.on('mousemove', function(e) {
             const y = Math.round(e.latlng.lat);
             const x = Math.round(e.latlng.lng);
-            if (y >= 0 && y <= imageHeight && x >= 0 && x <= imageWidth) {
-                coordsDisplay.innerHTML = `y: ${y}, x: ${x}`;
-            }
+            if (y >= 0 && y <= imageHeight && x >= 0 && x <= imageWidth) { coordsDisplay.innerHTML = `y: ${y}, x: ${x}`; }
         });
         
-        // ★★★ 機能追加: フロアフィルターのロジック ★★★
+        // --- 7. フロアフィルター (変更なし) ---
         const filterButtons = document.querySelectorAll('.floor-filter button');
         function filterByFloor(floor) {
             locations.forEach(loc => {
                 const marker = locationMarkers[loc.name];
-                // 「現在地」は常に表示
-                if (loc.name === "現在地") {
-                    return;
-                }
-                // 'all' またはフロアが一致すれば表示
-                if (floor === 'all' || loc.floor == floor) {
-                    if (!map.hasLayer(marker)) {
-                        marker.addTo(map);
-                    }
-                } else {
-                    // それ以外は非表示
-                    if (map.hasLayer(marker)) {
-                        map.removeLayer(marker);
-                    }
-                }
+                if (loc.name === "現在地") { return; }
+                if (floor === 'all' || loc.floor == floor) { if (!map.hasLayer(marker)) { marker.addTo(map); } } 
+                else { if (map.hasLayer(marker)) { map.removeLayer(marker); } }
             });
-            // アクティブなボタンのスタイルを更新
-            filterButtons.forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.floor == floor);
-            });
+            filterButtons.forEach(btn => { btn.classList.toggle('active', btn.dataset.floor == floor); });
         }
-        filterButtons.forEach(button => {
-            button.addEventListener('click', (e) => {
-                filterByFloor(e.target.dataset.floor);
-            });
+        filterButtons.forEach(button => { button.addEventListener('click', (e) => { filterByFloor(e.target.dataset.floor); }); });
+
+        // ★★★ レスポンシブ対応のJavaScript ★★★
+        const appContainer = document.getElementById('app-container');
+        const menuToggle = document.querySelector('.menu-toggle');
+        const sidebarClose = document.querySelector('.sidebar-close');
+
+        menuToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            appContainer.classList.add('sidebar-open');
+        });
+        sidebarClose.addEventListener('click', function(e) {
+            e.preventDefault();
+            appContainer.classList.remove('sidebar-open');
         });
 
-        // 初期表示時に「現在地」のポップアップを開いておく
+        // 初期表示時に「現在地」のポップアップを開く
         locationMarkers["現在地"].openPopup();
 
     </script>
