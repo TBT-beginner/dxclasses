@@ -5,13 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>構内マップ - KIRYOフェア</title>
     
-    <!-- Leaflet.jsのCSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
      crossorigin=""/>
     
     <style>
-        /* CSSは変更ありません */
         html, body {
             height: 100%; margin: 0; padding: 0; font-family: 'Helvetica Neue', Arial, sans-serif; overflow: hidden;
         }
@@ -73,30 +71,22 @@
      crossorigin=""></script>
 
     <script>
-        // --- 1. マップの初期設定 ---
-        const map = L.map('map', {
-            crs: L.CRS.Simple,
-            minZoom: -4,
-        });
+        const map = L.map('map', { crs: L.CRS.Simple, minZoom: -4 });
         
         const imageUrl = "https://tbt-beginner.github.io/dxclasses/3997fda9-0b27-49a7-ac88-1cea7ed0ccb8-page-001.jpg";
         
-        // ★★★ 修正点 ① ★★★
-        // ご提示の座標データが基準としている正しい画像サイズ（1240x1754）に設定します。
-        // これがマーカーずれの根本的な原因でした。
+        // 座標の基準となる、正しい画像サイズ
         const imageWidth = 1240; 
         const imageHeight = 1754;
         const bounds = [[0, 0], [imageHeight, imageWidth]];
         L.imageOverlay(imageUrl, bounds).addTo(map);
 
-        // --- 2. 初期位置とズームレベル ---
-        // ★★★ 修正点 ② ★★★
-        // ご指定の座標 `[225, 145]` に戻しました。
+        // ご指定の初期座標
         const initialPoint = [225, 145]; 
         const initialZoom = 2;
         map.setView(initialPoint, initialZoom);
         
-        // --- 3. 「現在地」マーカーの作成 ---
+        // ご指摘のマーカー作成ブロック（この記述で正しいです）
         const currentLocationIcon = L.divIcon({
             className: 'marker-pulse-red',
             iconSize: [22, 22],
@@ -107,7 +97,7 @@
             .bindPopup(`<b>現在地</b>`)
             .openPopup();
 
-        // --- 4. 全教室のデータ（ご指定のデータを尊重） ---
+        // ご指定の教室座標データ
         const locations = [
             { name: "A教室 医歯薬コース", floor: 2, coords: [460, 110], description: "2階 医歯薬コースの説明会です" },
             { name: "B教室", floor: 2, coords: [490, 110], description: "2階 特進iコースの説明会です" },
@@ -125,7 +115,6 @@
             { name: "N教室", floor: 1, coords: [610, 150], description: "1階 スタディルームです。" }
         ];
 
-        // --- 5. 施設リストとマーカーを地図に追加 ---
         const locationListElement = document.getElementById('locations-list');
         const locationMarkers = {}; 
 
@@ -142,7 +131,6 @@
             locationMarkers[loc.name] = marker;
         });
 
-        // --- 6. イベントリスナーの設定 ---
         locationListElement.addEventListener('click', function(e) {
             const li = e.target.closest('li');
             if (li && li.dataset.name) {
@@ -165,7 +153,6 @@
             map.fitBounds(bounds);
         });
         
-        // --- 7. カーソル座標の常時表示 ---
         const coordsDisplay = document.getElementById('coords-display');
         map.on('mousemove', function(e) {
             const y = Math.round(e.latlng.lat);
