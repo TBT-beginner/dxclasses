@@ -11,7 +11,7 @@
      crossorigin=""/>
     
     <style>
-        /* CSSに変更はありません */
+        /* CSSは変更ありません */
         html, body {
             height: 100%; margin: 0; padding: 0; font-family: 'Helvetica Neue', Arial, sans-serif; overflow: hidden;
         }
@@ -82,7 +82,8 @@
         const imageUrl = "https://tbt-beginner.github.io/dxclasses/3997fda9-0b27-49a7-ac88-1cea7ed0ccb8-page-001.jpg";
         
         // ★★★ 修正点 ① ★★★
-        // マーカー座標の基準となっている、正しい画像サイズに修正
+        // ご提示の座標データが基準としている正しい画像サイズ（1240x1754）に設定します。
+        // これがマーカーずれの根本的な原因でした。
         const imageWidth = 1240; 
         const imageHeight = 1754;
         const bounds = [[0, 0], [imageHeight, imageWidth]];
@@ -90,9 +91,9 @@
 
         // --- 2. 初期位置とズームレベル ---
         // ★★★ 修正点 ② ★★★
-        // 地図上の「現在地」マークに合わせた正しい座標に修正
-        const initialPoint = [1405, 755]; 
-        const initialZoom = 1; // 見やすいように少し引いたズームレベルに調整
+        // ご指定の座標 `[225, 145]` に戻しました。
+        const initialPoint = [225, 145]; 
+        const initialZoom = 2;
         map.setView(initialPoint, initialZoom);
         
         // --- 3. 「現在地」マーカーの作成 ---
@@ -150,17 +151,8 @@
                 const targetMarker = locationMarkers[name];
                 
                 if (targetLocation && targetMarker) {
-                    // ★★★ 改善点 ★★★
-                    // setViewからflyToに変更し、スムーズな移動とフォーカスを実現
-                    map.flyTo(targetLocation.coords, 2, {
-                        animate: true,
-                        duration: 1.0 // 1秒かけて移動
-                    });
-
-                    // 移動後にポップアップを開く
-                    setTimeout(() => {
-                        targetMarker.openPopup();
-                    }, 1100); // flyToのアニメーションが終わるのを待ってから開く
+                    map.flyTo(targetLocation.coords, 2, { animate: true, duration: 1.0 });
+                    setTimeout(() => { targetMarker.openPopup(); }, 1100);
                 }
             }
         });
