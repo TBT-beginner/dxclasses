@@ -10,7 +10,7 @@
      crossorigin=""/>
     
     <style>
-        /* CSSは変更ありません */
+        /* レイアウトCSS (変更なし) */
         html, body {
             height: 100%; margin: 0; padding: 0; font-family: 'Helvetica Neue', Arial, sans-serif; overflow: hidden;
         }
@@ -36,6 +36,42 @@
             position: fixed; bottom: 10px; right: 10px; background-color: rgba(0, 0, 0, 0.6); color: white;
             padding: 5px 10px; border-radius: 4px; font-size: 0.9em; z-index: 1001;
         }
+
+        /* ★★★ 機能追加: 赤いパルスマーカーのCSS ★★★ */
+        @keyframes pulse-red {
+            0% { transform: scale(0.9); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.5; }
+            100% { transform: scale(0.9); opacity: 1; }
+        }
+        .marker-pulse-red {
+            background-color: #ff4136;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            animation: pulse-red 1.5s infinite ease-in-out;
+        }
+
+        /* ★★★ 機能追加: フロアフィルターボタンのCSS ★★★ */
+        .floor-filter {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        .floor-filter button {
+            flex: 1;
+            margin: 0 4px;
+            padding: 8px;
+            font-size: 0.9em;
+            background-color: #e9ecef;
+            color: #333;
+            border: 1px solid #ced4da;
+        }
+        .floor-filter button.active {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -48,6 +84,12 @@
                 <button id="btn-zoom-out">全体を表示</button>
             </div>
             <hr>
+            <!-- ★★★ 機能追加: フロアフィルターのUI ★★★ -->
+            <div class="floor-filter">
+                <button class="active" data-floor="all">すべて</button>
+                <button data-floor="2">2階</button>
+                <button data-floor="1">1階</button>
+            </div>
             <div class="locations-container">
                 <h3>教室・施設一覧</h3>
                 <ul id="locations-list"></ul>
@@ -63,24 +105,20 @@
      crossorigin=""></script>
 
     <script>
-        // --- 1. マップの初期設定 ---
-        const map = L.map('map', {
-            crs: L.CRS.Simple,
-            minZoom: -4,
-        });
-        
+        // --- 1. マップの初期設定 (変更なし) ---
+        const map = L.map('map', { crs: L.CRS.Simple, minZoom: -4 });
         const imageUrl = "https://tbt-beginner.github.io/dxclasses/3997fda9-0b27-49a7-ac88-1cea7ed0ccb8-page-001.jpg";
         const imageWidth = 1240; 
         const imageHeight = 1754;
         const bounds = [[0, 0], [imageHeight, imageWidth]];
         L.imageOverlay(imageUrl, bounds).addTo(map);
 
-        // --- 2. 初期位置とズームレベル ---
+        // --- 2. 初期位置とズームレベル (変更なし) ---
         const initialPoint = [450, 300]; 
         const initialZoom = 1;
         map.setView(initialPoint, initialZoom);
         
-        // --- 3. 座標データ ---
+        // --- 3. 座標データ (変更なし) ---
         const locations = [
             { name: "現在地", floor: 1, coords: [450, 300], description: "インフォメーションセンター前の現在地です。" },
             { name: "A教室 医歯薬コース", floor: 2, coords: [925, 220], description: "2階 医歯薬コース説明会" },
@@ -93,9 +131,9 @@
             { name: "H教室", floor: 2, coords: [1100, 160], description: "2階 H教室の説明" },
             { name: "I教室", floor: 2, coords: [1100, 300], description: "2階 I教室の説明" },
             { name: "J教室", floor: 1, coords: [380, 700], description: "1階 J教室の説明" },
-            { name: "K教室", floor: 1, coords: [595, 375], description: "1階 K教室の説明" },
+            { name: "K教室", floor: 1, coords: [595, 620], description: "1階 K教室の説明" },
             { name: "L教室", floor: 1, coords: [415, 965], description: "1階 L教室の説明" },
-            { name: "M教室", floor: 1, coords: [540, 375], description: "1階 M教室の説明" },
+            { name: "M教室", floor: 1, coords: [540, 620], description: "1階 M教室の説明" },
             { name: "N教室", floor: 1, coords: [540, 225], description: "1階 N教室の説明" }
         ];
 
@@ -103,20 +141,34 @@
         const locationListElement = document.getElementById('locations-list');
         const locationMarkers = {}; 
 
+        // ★★★ 機能追加: 「現在地」用のカスタムアイコンを定義 ★★★
+        const currentLocationIcon = L.divIcon({
+            className: 'marker-pulse-red',
+            iconSize: [22, 22],
+            iconAnchor: [11, 11],
+            popupAnchor: [0, -14]
+        });
+
         locations.forEach(loc => {
             const listItem = document.createElement('li');
             listItem.innerHTML = `<b>${loc.name}</b> <small>(${loc.floor}階)</small>`;
             listItem.dataset.name = loc.name;
             locationListElement.appendChild(listItem);
 
-            const marker = L.marker(loc.coords)
-                .addTo(map)
-                .bindPopup(`<b>${loc.name}</b><br>${loc.description}`);
+            let marker;
+            // ★★★ 機能追加: "現在地"の場合だけカスタムアイコンを使用 ★★★
+            if (loc.name === "現在地") {
+                marker = L.marker(loc.coords, { icon: currentLocationIcon });
+            } else {
+                // それ以外は標準の青いマーカー
+                marker = L.marker(loc.coords);
+            }
             
+            marker.bindPopup(`<b>${loc.name}</b><br>${loc.description}`).addTo(map);
             locationMarkers[loc.name] = marker;
         });
 
-        // --- 5. ナビゲーションイベントの設定 ---
+        // --- 5. ナビゲーションイベントの設定 (変更なし) ---
         locationListElement.addEventListener('click', function(e) {
             const li = e.target.closest('li');
             if (li && li.dataset.name) {
@@ -133,18 +185,15 @@
 
         document.getElementById('btn-goto-start').addEventListener('click', () => {
             map.flyTo(initialPoint, initialZoom);
-            // 現在地マーカーのポップアップ
             const currentMarker = locationMarkers["現在地"];
-            if (currentMarker) {
-                setTimeout(() => { currentMarker.openPopup(); }, 1100);
-            }
+            if (currentMarker) { setTimeout(() => { currentMarker.openPopup(); }, 1100); }
         });
         
         document.getElementById('btn-zoom-out').addEventListener('click', () => {
             map.fitBounds(bounds);
         });
         
-        // --- 6. カーソル座標の表示 ---
+        // --- 6. カーソル座標の表示 (変更なし) ---
         const coordsDisplay = document.getElementById('coords-display');
         map.on('mousemove', function(e) {
             const y = Math.round(e.latlng.lat);
@@ -152,6 +201,38 @@
             if (y >= 0 && y <= imageHeight && x >= 0 && x <= imageWidth) {
                 coordsDisplay.innerHTML = `y: ${y}, x: ${x}`;
             }
+        });
+        
+        // ★★★ 機能追加: フロアフィルターのロジック ★★★
+        const filterButtons = document.querySelectorAll('.floor-filter button');
+        function filterByFloor(floor) {
+            locations.forEach(loc => {
+                const marker = locationMarkers[loc.name];
+                // 「現在地」は常に表示
+                if (loc.name === "現在地") {
+                    return;
+                }
+                // 'all' またはフロアが一致すれば表示
+                if (floor === 'all' || loc.floor == floor) {
+                    if (!map.hasLayer(marker)) {
+                        marker.addTo(map);
+                    }
+                } else {
+                    // それ以外は非表示
+                    if (map.hasLayer(marker)) {
+                        map.removeLayer(marker);
+                    }
+                }
+            });
+            // アクティブなボタンのスタイルを更新
+            filterButtons.forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.floor == floor);
+            });
+        }
+        filterButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                filterByFloor(e.target.dataset.floor);
+            });
         });
 
         // 初期表示時に「現在地」のポップアップを開いておく
