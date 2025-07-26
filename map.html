@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>インタラクティブ構内マップ - KIRYOフェア</title>
+    <title>構内マップ - KIRYOフェア</title>
     
     <!-- Leaflet.jsのCSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -148,7 +148,7 @@
         L.imageOverlay(imageUrl, bounds).addTo(map);
 
         // --- 2. 初期位置とズームレベル ---
-        const initialPoint = [700, 225]; // 地図上の「現在地」の座標
+        const initialPoint = [433, 296]; // 地図上の「現在地」の座標
         const initialZoom = 1;
         map.setView(initialPoint, initialZoom);
         
@@ -165,9 +165,9 @@
 
         // --- 4. ★★★ 全教室のデータを地図に合わせて更新 ★★★ ---
         const locations = [
-            { name: "A教室", floor: 2, coords: [425, 150], description: "2階の教室です。" },
-            { name: "B教室", floor: 2, coords: [475, 150], description: "2階の教室です。" },
-            { name: "C教室", floor: 2, coords: [475, 240], description: "2階 フレンドリールーム隣です。" },
+            { name: "A教室", floor: 2, coords: [460, 110], description: "2階 医歯薬コースの説明会です" },
+            { name: "B教室", floor: 2, coords: [490, 110], description: "2階 特進iコースの説明会です" },
+            { name: "C教室", floor: 2, coords: [480, 185], description: "2階 DXコースの説明会です" },
             { name: "D教室", floor: 1, coords: [560, 220], description: "1階 QQ Englishの教室です。" },
             { name: "E教室", floor: 2, coords: [500, 350], description: "2階 渡り廊下の手前です。" },
             { name: "F教室", floor: 2, coords: [500, 400], description: "2階 渡り廊下の手前です。" },
