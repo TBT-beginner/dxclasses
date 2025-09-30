@@ -1,0 +1,1539 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>関係代名詞 解釈問題</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', 'Arial', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Meiryo', sans-serif;
+            line-height: 1.7;
+            background-color: #f4f7f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        .quiz-container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .question-id {
+            font-weight: bold;
+            color: #3498db;
+            font-size: 1.2em;
+        }
+
+        .category {
+            background-color: #e7f3fe;
+            color: #3498db;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+        }
+
+        .question-text {
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .options .option {
+            display: flex;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+        
+        .quiz-container:not(.answered) .options .option:hover {
+            background-color: #f0f7ff;
+            border-color: #90caff;
+        }
+
+        .options .option span {
+            font-weight: bold;
+            margin-right: 10px;
+            color: #3498db;
+        }
+        
+        .quiz-container.answered .options .option {
+            cursor: default;
+        }
+
+        .options .option.correct {
+            background-color: #e8f5e9;
+            border-color: #4caf50;
+            color: #2e7d32;
+            font-weight: bold;
+        }
+
+        .options .option.incorrect {
+            background-color: #ffebee;
+            border-color: #f44336;
+            color: #c62828;
+        }
+
+
+        .toggle-answer {
+            background-color: #2980b9;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            margin-top: 10px;
+            transition: background-color 0.2s;
+        }
+
+        .toggle-answer:hover {
+            background-color: #3498db;
+        }
+
+        .answer-area {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-left: 4px solid #3498db;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .answer-area.visible {
+            display: block;
+        }
+        
+        .correct-answer {
+            font-weight: bold;
+            color: #d35400;
+        }
+
+        .explanation {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>関係代名詞 解釈問題</h1>
+
+    <div class="quiz-container" data-id="1" data-correct-answer="1">
+        <div class="question-header">
+            <span class="question-id">Q1</span>
+            <span class="category">関係代名詞（目的格）</span>
+        </div>
+        <p class="question-text">the same righs that men had</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 男性が有していたのと同じ権利</div>
+            <div class="option" data-option="2"><span>2.</span> 同じ権利を男性が有していた</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 1</strong></p>
+            <p class="explanation"><strong>解説:</strong> &lt;名詞 that SV&gt;は「SがVする名詞」</p>
+        </div>
+    </div>
+    
+    <div class="quiz-container" data-id="2" data-correct-answer="1">
+        <div class="question-header">
+            <span class="question-id">Q2</span>
+            <span class="category">関係代名詞（目的格）</span>
+        </div>
+        <p class="question-text">the key that I was looking for</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 私が探していたその鍵</div>
+            <div class="option" data-option="2"><span>2.</span> 私を探していたその鍵</div>
+            <div class="option" data-option="3"><span>3.</span> 私がその鍵を探していたこと</div>
+            <div class="option" data-option="4"><span>4.</span> その鍵が私を探していた</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 1</strong></p>
+            <p class="explanation"><strong>解説:</strong> &lt;名詞 that S V&gt;で「SがVする名詞」と訳す、名詞を修飾するひとかたまりです。the key（その鍵）を I was looking for（私が探していた）が説明しています。look for ~（～を探す）の目的語が the key です。選択肢3は「～こと」となっており、文の一部（名詞句）ではなく、文全体の意味を表す名詞節の訳し方なので不適切です。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="3" data-correct-answer="1">
+        <div class="question-header">
+            <span class="question-id">Q3</span>
+            <span class="category">関係代名詞（目的格）</span>
+        </div>
+        <p class="question-text">the person whom I respect most</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 私が最も尊敬しているその人</div>
+            <div class="option" data-option="2"><span>2.</span> その人が私を最も尊敬している</div>
+            <div class="option" data-option="3"><span>3.</span> 私を最も尊敬しているその人</div>
+            <div class="option" data-option="4"><span>4.</span> 私がその人を最も尊敬していること</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 1</strong></p>
+            <p class="explanation"><strong>解説:</strong> &lt;人 whom S V&gt;で「SがVする人」という意味のフレーズです。the person（その人）を I respect most（私が最も尊敬している）が修飾しています。respect（尊敬する）の目的語が the person です。選択肢3のように訳すと、尊敬する側とされる側が逆転してしまいます。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="4" data-correct-answer="1">
+        <div class="question-header">
+            <span class="question-id">Q4</span>
+            <span class="category">関係代名詞（目的格）</span>
+        </div>
+        <p class="question-text">the movie which we watched together</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 私たちが一緒に観たその映画</div>
+            <div class="option" data-option="2"><span>2.</span> 私たちがその映画を一緒に観たこと</div>
+            <div class="option" data-option="3"><span>3.</span> 私たちを一緒に観たその映画</div>
+            <div class="option" data-option="4"><span>4.</span> その映画が私たちを一緒に観た</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 1</strong></p>
+            <p class="explanation"><strong>解説:</strong> &lt;物 which S V&gt;で「SがVする物」と訳します。the movie（その映画）を we watched together（私たちが一緒に観た）が後ろから説明しています。あくまで「映画」というモノについての説明であり、「～したこと」という出来事全体を指すわけではありません。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="5" data-correct-answer="4">
+        <div class="question-header">
+            <span class="question-id">Q5</span>
+            <span class="category">関係代名詞（目的格）</span>
+        </div>
+        <p class="question-text">the book that my teacher recommended</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 私の先生に勧めたその本</div>
+            <div class="option" data-option="2"><span>2.</span> 私の先生がその本を勧めたこと</div>
+            <div class="option" data-option="3"><span>3.</span> 私の先生を勧めたその本</div>
+            <div class="option" data-option="4"><span>4.</span> 私の先生が勧めたその本</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 4</strong></p>
+            <p class="explanation"><strong>解説:</strong> the book（その本）を my teacher recommended（私の先生が勧めた）が修飾する構造です。「どんな本か？」→「先生が勧めた本だ」という関係ですね。recommended（勧めた）の目的語が the book です。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="6" data-correct-answer="2">
+        <div class="question-header">
+            <span class="question-id">Q6</span>
+            <span class="category">関係代名詞（目的格）</span>
+        </div>
+        <p class="question-text">the picture which he is looking at</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 彼を見ているその絵</div>
+            <div class="option" data-option="2"><span>2.</span> 彼が見ているその絵</div>
+            <div class="option" data-option="3"><span>3.</span> その絵が彼を見ている</div>
+            <div class="option" data-option="4"><span>4.</span> 彼がその絵を見ていること</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 2</strong></p>
+            <p class="explanation"><strong>解説:</strong> the picture（その絵）を he is looking at（彼が見ている）が説明しています。look at ~ の目的語が the picture であり、関係詞節の最後に前置詞 at が残る典型的なパターンです。あくまで「絵」の説明なので、選択肢4のような「こと」で終わる訳はフレーズの訳として不適切です。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="7" data-correct-answer="3">
+        <div class="question-header">
+            <span class="question-id">Q7</span>
+            <span class="category">関係代名詞（目的格）</span>
+        </div>
+        <p class="question-text">the music that she listens to</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 彼女を聴くその音楽</div>
+            <div class="option" data-option="2"><span>2.</span> 彼女がその音楽を聴くこと</div>
+            <div class="option" data-option="3"><span>3.</span> 彼女が聴くその音楽</div>
+            <div class="option" data-option="4"><span>4.</span> その音楽が彼女に聴かせる</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 3</strong></p>
+            <p class="explanation"><strong>解説:</strong> the music（その音楽）を she listens to（彼女が聴く）が修飾しています。listen to ~（～を聴く）の目的語が the music です。これも文末に前置詞が残る形です。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="8" data-correct-answer="1">
+        <div class="question-header">
+            <span class="question-id">Q8</span>
+            <span class="category">関係代名詞（目的格）</span>
+        </div>
+        <p class="question-text">the man whom I spoke to</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 私が話しかけたその男性</div>
+            <div class="option" data-option="2"><span>2.</span> 私に話しかけたその男性</div>
+            <div class="option" data-option="3"><span>3.</span> 私がその男性に話しかけたこと</div>
+            <div class="option" data-option="4"><span>4.</span> その男性が私に話しかけた</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 1</strong></p>
+            <p class="explanation"><strong>解説:</strong> the man（その男性）を I spoke to（私が話しかけた）が説明しています。speak to ~（～に話しかける）の目的語が the man です。選択肢2のように訳すと、行為の主体が逆になってしまいます。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="9" data-correct-answer="1">
+        <div class="question-header">
+            <span class="question-id">Q9</span>
+            <span class="category">関係代名詞（目的格）</span>
+        </div>
+        <p class="question-text">the problems which we have to solve</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 私たちが解決しなければならないそれらの問題</div>
+            <div class="option" data-option="2"><span>2.</span> 私たちがそれらの問題を解決しなければならないこと</div>
+            <div class="option" data-option="3"><span>3.</span> 私たちを解決しなければならないそれらの問題</div>
+            <div class="option" data-option="4"><span>4.</span> それらの問題が私たちを解決しなければならない</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 1</strong></p>
+            <p class="explanation"><strong>解説:</strong> the problems（それらの問題）を we have to solve（私たちが解決しなければならない）が修飾しています。solve（解決する）の目的語が the problems です。「～しなければならない（have to）」のような助動詞句が含まれていても、構造の基本は同じです。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="10" data-correct-answer="1">
+        <div class="question-header">
+            <span class="question-id">Q10</span>
+            <span class="category">関係代名詞（目的格）</span>
+        </div>
+        <p class="question-text">the company that he works for</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 彼が勤めているその会社</div>
+            <div class="option" data-option="2"><span>2.</span> 彼を雇っているその会社</div>
+            <div class="option" data-option="3"><span>3.</span> 彼がその会社で働いていること</div>
+            <div class="option" data-option="4"><span>4.</span> その会社が彼のために働く</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 1</strong></p>
+            <p class="explanation"><strong>解説:</strong> the company（その会社）を he works for（彼が勤めている）が説明しています。work for ~（～に勤めている）の目的語が the company です。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="11" data-correct-answer="1">
+        <div class="question-header">
+            <span class="question-id">Q11</span>
+            <span class="category">関係代名詞（目的格）</span>
+        </div>
+        <p class="question-text">the only excuse that I can think of</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 私が思いつく唯一の言い訳</div>
+            <div class="option" data-option="2"><span>2.</span> 私を思いつく唯一の言い訳</div>
+            <div class="option" data-option="3"><span>3.</span> 私が唯一の言い訳を思いつくこと</div>
+            <div class="option" data-option="4"><span>4.</span> 思いつくことができる私の唯一の言い訳</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 1</strong></p>
+            <p class="explanation"><strong>解説:</strong> the only excuse（唯一の言い訳）を I can think of（私が思いつくことができる）が修飾しています。think of ~（～を思いつく）の目的語が the only excuse です。これも前置詞が最後に残る形ですね。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="12" data-correct-answer="3">
+        <div class="question-header">
+            <span class="question-id">Q12</span>
+            <span class="category">関係代名詞（目的格の省略）</span>
+        </div>
+        <p class="question-text">the man you met</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> あなたに会ったその男性</div>
+            <div class="option" data-option="2"><span>2.</span> あなたがその男性に会ったこと</div>
+            <div class="option" data-option="3"><span>3.</span> あなたが会ったその男性</div>
+            <div class="option" data-option="4"><span>4.</span> その男性があなたに会った</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 3</strong></p>
+            <p class="explanation"><strong>解説:</strong> &lt;名詞 S V&gt;の形は、目的格関係代名詞の省略です。the man の直後に you met という&lt;S' V'&gt;が続いていますね。これは the man (whom) you met と同じ意味で、「あなたが会った男性」と訳します。met の目的語が the man です。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="13" data-correct-answer="1">
+        <div class="question-header">
+            <span class="question-id">Q13</span>
+            <span class="category">関係代名詞（目的格の省略）</span>
+        </div>
+        <p class="question-text">the cake she made</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 彼女が作ったそのケーキ</div>
+            <div class="option" data-option="2"><span>2.</span> 彼女を作ったそのケーキ</div>
+            <div class="option" data-option="3"><span>3.</span> 彼女がそのケーキを作ったこと</div>
+            <div class="option" data-option="4"><span>4.</span> そのケーキが彼女を作った</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 1</strong></p>
+            <p class="explanation"><strong>解説:</strong> the cake（そのケーキ）の直後に she made（彼女が作った）が続いています。the cake (which) she made の省略形です。made の目的語が the cake になっています。あくまで「ケーキ」という名詞を説明するフレーズです。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="14" data-correct-answer="1">
+        <div class="question-header">
+            <span class="question-id">Q14</span>
+            <span class="category">関係代名詞（目的格の省略）</span>
+        </div>
+        <p class="question-text">the language they speak</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 彼らが話すその言語</div>
+            <div class="option" data-option="2"><span>2.</span> 彼らに話すその言語</div>
+            <div class="option" data-option="3"><span>3.</span> 彼らがその言語を話すこと</div>
+            <div class="option" data-option="4"><span>4.</span> その言語が彼らに話させる</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 1</strong></p>
+            <p class="explanation"><strong>解説:</strong> the language（その言語）を they speak（彼らが話す）が修飾しています。間に (that) や (which) が省略されています。speak の目的語が the language です。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="15" data-correct-answer="2">
+        <div class="question-header">
+            <span class="question-id">Q15</span>
+            <span class="category">関係代名詞（目的格の省略）</span>
+        </div>
+        <p class="question-text">the bag you are looking for</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> あなたを探しているそのカバン</div>
+            <div class="option" data-option="2"><span>2.</span> あなたが探しているそのカバン</div>
+            <div class="option" data-option="3"><span>3.</span> あなたがそのカバンを探していること</div>
+            <div class="option" data-option="4"><span>4.</span> そのカバンがあなたを探している</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 2</strong></p>
+            <p class="explanation"><strong>解説:</strong> the bag（そのカバン）の後に you are looking for が続いています。look for ~（～を探す）の目的語になるはずの bag が前にある形です。間に (that) が省略されています。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="16" data-correct-answer="1">
+        <div class="question-header">
+            <span class="question-id">Q16</span>
+            <span class="category">関係代名詞（目的格の省略）</span>
+        </div>
+        <p class="question-text">the person I want to talk to</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 私が話したいその人</div>
+            <div class="option" data-option="2"><span>2.</span> 私に話したいその人</div>
+            <div class="option" data-option="3"><span>3.</span> 私がその人と話したいこと</div>
+            <div class="option" data-option="4"><span>4.</span> その人が私と話したがっている</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 1</strong></p>
+            <p class="explanation"><strong>解説:</strong> the person（その人）を I want to talk to（私が話したい）が説明しています。talk to ~ の目的語が the person です。want to V（Vしたい）が入っていても構造は同じです。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="17" data-correct-answer="1">
+        <div class="question-header">
+            <span class="question-id">Q17</span>
+            <span class="category">関係代名詞（目的格の省略）</span>
+        </div>
+        <p class="question-text">the city we visited last year</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 私たちが去年訪れたその街</div>
+            <div class="option" data-option="2"><span>2.</span> 私たちを去年訪れたその街</div>
+            <div class="option" data-option="3"><span>3.</span> 私たちがその街を去年訪れたこと</div>
+            <div class="option" data-option="4"><span>4.</span> その街が去年私たちを訪れた</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 1</strong></p>
+            <p class="explanation"><strong>解説:</strong> the city（その街）の直後に we visited ... が続いています。「どんな街？」→「私たちが去年訪れた街」という修飾関係です。visited の目的語が the city です。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="18" data-correct-answer="2">
+        <div class="question-header">
+            <span class="question-id">Q18</span>
+            <span class="category">関係代名詞（目的格の省略）</span>
+        </div>
+        <p class="question-text">the story he told me</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 彼に私が話した物語</div>
+            <div class="option" data-option="2"><span>2.</span> 彼が私に話したその物語</div>
+            <div class="option" data-option="3"><span>3.</span> 彼が私にその物語を話したこと</div>
+            <div class="option" data-option="4"><span>4.</span> その物語が彼に私を話した</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 2</strong></p>
+            <p class="explanation"><strong>解説:</strong> the story（その物語）の後に he told me（彼が私に話した）が続いています。told は tell 人 物 の形で使いますが、ここでは「物」にあたる the story が前に出て、関係代名詞が省略されています。「彼が私に話してくれた（ところの）物語」と解釈します。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="19" data-correct-answer="1">
+        <div class="question-header">
+            <span class="question-id">Q19</span>
+            <span class="category">関係代名詞（目的格の省略）</span>
+        </div>
+        <p class="question-text">the pen I was using</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 私が使っていたそのペン</div>
+            <div class="option" data-option="2"><span>2.</span> 私を使っていたそのペン</div>
+            <div class="option" data-option="3"><span>3.</span> 私がそのペンを使っていたこと</div>
+            <div class="option" data-option="4"><span>4.</span> そのペンが私を使っていた</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 1</strong></p>
+            <p class="explanation"><strong>解説:</strong> the pen（そのペン）を I was using（私が使っていた）が修飾しています。「名詞＋主語＋動詞」の並びを見たら、関係代名詞の省略を疑うことが、英文を素早く正確に読むコツです。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="20" data-correct-answer="2">
+        <div class="question-header">
+            <span class="question-id">Q20</span>
+            <span class="category">関係代名詞（目的格の省略）</span>
+        </div>
+        <p class="question-text">the rules everyone must follow</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 誰もに従わなければならないそれらの規則</div>
+            <div class="option" data-option="2"><span>2.</span> 誰もが従わなければならないそれらの規則</div>
+            <div class="option" data-option="3"><span>3.</span> 誰もがそれらの規則に従わなければならないこと</div>
+            <div class="option" data-option="4"><span>4.</span> それらの規則が誰もを従わせること</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 2</strong></p>
+            <p class="explanation"><strong>解説:</strong> the rules（それらの規則）を everyone must follow（誰もが従わなければならない）が修飾しています。follow の目的語が the rules です。must のような助動詞があっても考え方は同じです。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="21" data-correct-answer="1">
+        <div class="question-header">
+            <span class="question-id">Q21</span>
+            <span class="category">関係代名詞（目的格の省略）</span>
+        </div>
+        <p class="question-text">the dream I have had</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 私が持っているその夢</div>
+            <div class="option" data-option="2"><span>2.</span> 私を持っているその夢</div>
+            <div class="option" data-option="3"><span>3.</span> 私がその夢を持っていること</div>
+            <div class="option" data-option="4"><span>4.</span> その夢が私を持っている</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 1</strong></p>
+            <p class="explanation"><strong>解説:</strong> the dream（その夢）を I have had（私がずっと持っている）が説明しています。have had は現在完了形ですが、had（haveの過去分詞形）の目的語が the dream であるという構造に変わりはありません。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="22" data-correct-answer="1">
+        <div class="question-header">
+            <span class="question-id">Q22</span>
+            <span class="category">関係代名詞（主格）</span>
+        </div>
+        <p class="question-text">the man who lives next door</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 隣に住んでいるその男性</div>
+            <div class="option" data-option="2"><span>2.</span> その男性が隣に住んでいること</div>
+            <div class="option" data-option="3"><span>3.</span> その男性の隣に住んでいる</div>
+            <div class="option" data-option="4"><span>4.</span> 隣の住人がいるその男性</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 1</strong></p>
+            <p class="explanation"><strong>解説:</strong> &lt;名詞 who V ...&gt;で「Vする名詞」と訳します。関係代名詞 who が直後の動詞 lives（住んでいる）の主語の働きをしています。The man = who と考え、「住んでいる男性」というひとかたまりの名詞句を作ります。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="23" data-correct-answer="1">
+        <div class="question-header">
+            <span class="question-id">Q23</span>
+            <span class="category">関係代名詞（主格）</span>
+        </div>
+        <p class="question-text">a friend who can speak French</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> フランス語を話せる一人の友人</div>
+            <div class="option" data-option="2"><span>2.</span> 一人の友人がフランス語を話せること</div>
+            <div class="option" data-option="3"><span>3.</span> フランス語が話せるという友人</div>
+            <div class="option" data-option="4"><span>4.</span> 友人が話すフランス語</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 1</strong></p>
+            <p class="explanation"><strong>解説:</strong> a friend（一人の友人）を who can speak French（フランス語を話せる）が説明しています。who が can speak の主語になっています。「フランス語を話せる」という能力を持った「友人」という意味のフレーズです。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="24" data-correct-answer="1">
+        <div class="question-header">
+            <span class="question-id">Q24</span>
+            <span class="category">関係代名詞（主格）</span>
+        </div>
+        <p class="question-text">the bus which goes to the airport</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 空港へ行くそのバス</div>
+            <div class="option" data-option="2"><span>2.</span> そのバスが空港へ行くこと</div>
+            <div class="option" data-option="3"><span>3.</span> 空港から来るそのバス</div>
+            <div class="option" data-option="4"><span>4.</span> バスが行くための空港</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 1</strong></p>
+            <p class="explanation"><strong>解説:</strong> the bus（そのバス）を which goes to the airport（空港へ行く）が修飾しています。which が動詞 goes の主語になっています。「空港行きのバス」と訳すとより自然ですね。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="25" data-correct-answer="1">
+        <div class="question-header">
+            <span class="question-id">Q25</span>
+            <span class="category">関係代名詞（主格）</span>
+        </div>
+        <p class="question-text">the dog that is running in the park</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 公園で走っているその犬</div>
+            <div class="option" data-option="2"><span>2.</span> その犬が公園で走っていること</div>
+            <div class="option" data-option="3"><span>3.</span> 公園でその犬を走らせている</div>
+            <div class="option" data-option="4"><span>4.</span> 走っている公園のその犬</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 1</strong></p>
+            <p class="explanation"><strong>解説:</strong> the dog（その犬）を that is running in the park（公園で走っている）が説明しています。that が is running の主語です。that は先行詞が人でも物（動物）でも使える便利な関係代名詞です。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="26" data-correct-answer="1">
+        <div class="question-header">
+            <span class="question-id">Q26</span>
+            <span class="category">関係代名詞（主格）</span>
+        </div>
+        <p class="question-text">people who are interested in art</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 芸術に興味がある人々</div>
+            <div class="option" data-option="2"><span>2.</span> 人々が芸術に興味があること</div>
+            <div class="option" data-option="3"><span>3.</span> 芸術的な興味がある人々</div>
+            <div class="option" data-option="4"><span>4.</span> 人々を面白がらせる芸術</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 1</strong></p>
+            <p class="explanation"><strong>解説:</strong> people（人々）を who are interested in art（芸術に興味がある）が修飾しています。who が are interested の主語になっています。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="27" data-correct-answer="1">
+        <div class="question-header">
+            <span class="question-id">Q27</span>
+            <span class="category">関係代名詞（主格）</span>
+        </div>
+        <p class="question-text">a story that teaches us an important lesson</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 私たちに大切な教訓を教えてくれるある物語</div>
+            <div class="option" data-option="2"><span>2.</span> ある物語が私たちに大切な教訓を教えてくれること</div>
+            <div class="option" data-option="3"><span>3.</span> 私たちが教訓を学ぶある物語</div>
+            <div class="option" data-option="4"><span>4.</span> 大切な教訓についての物語</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 1</strong></p>
+            <p class="explanation"><strong>解説:</strong> a story（ある物語）を that teaches us ...（私たちに～を教えてくれる）が修飾しています。that が teaches の主語になっています。「～してくれる物語」という名詞句です。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="28" data-correct-answer="1">
+        <div class="question-header">
+            <span class="question-id">Q28</span>
+            <span class="category">関係代名詞（主格）</span>
+        </div>
+        <p class="question-text">the river which flows through this city</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> この街を流れるその川</div>
+            <div class="option" data-option="2"><span>2.</span> その川がこの街を流れること</div>
+            <div class="option" data-option="3"><span>3.</span> この街に流れ込むその川</div>
+            <div class="option" data-option="4"><span>4.</span> 川が流れるこの街</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 1</strong></p>
+            <p class="explanation"><strong>解説:</strong> the river（その川）を which flows through this city（この街を流れる）が修飾しています。which が flows の主語です。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="29" data-correct-answer="1">
+        <div class="question-header">
+            <span class="question-id">Q29</span>
+            <span class="category">関係代名詞（主格）</span>
+        </div>
+        <p class="question-text">a person who never makes mistakes</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 決して間違いを犯さない人</div>
+            <div class="option" data-option="2"><span>2.</span> 人が決して間違いを犯さないこと</div>
+            <div class="option" data-option="3"><span>3.</span> 間違いを犯したことがない人</div>
+            <div class="option" data-option="4"><span>4.</span> 間違いを作らない人</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 1</strong></p>
+            <p class="explanation"><strong>解説:</strong> a person（人）を who never makes mistakes（決して間違いを犯さない）が説明しています。現在形が使われているので、習慣的に間違いを犯さない、というニュアンスになります。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="30" data-correct-answer="1">
+        <div class="question-header">
+            <span class="question-id">Q30</span>
+            <span class="category">関係代名詞（主格）</span>
+        </div>
+        <p class="question-text">the girl who is talking with Mr. Tanaka</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 田中さんと話しているその女の子</div>
+            <div class="option" data-option="2"><span>2.</span> その女の子が田中さんと話していること</div>
+            <div class="option" data-option="3"><span>3.</span> 田中さんと話したがっているその女の子</div>
+            <div class="option" data-option="4"><span>4.</span> 女の子と話している田中さん</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 1</strong></p>
+            <p class="explanation"><strong>解説:</strong> the girl（その女の子）を who is talking with Mr. Tanaka（田中さんと話している）が修飾しています。who が is talking の主語です。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="31" data-correct-answer="1">
+        <div class="question-header">
+            <span class="question-id">Q31</span>
+            <span class="category">関係代名詞（主格）</span>
+        </div>
+        <p class="question-text">the key that was on the desk</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 机の上にあったその鍵</div>
+            <div class="option" data-option="2"><span>2.</span> その鍵が机の上にあったこと</div>
+            <div class="option" data-option="3"><span>3.</span> 机の上に鍵があった</div>
+            <div class="option" data-option="4"><span>4.</span> 鍵があった机</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 1</strong></p>
+            <p class="explanation"><strong>解説:</strong> the key（その鍵）を that was on the desk（机の上にあった）が修飾しています。that が was の主語です。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="32" data-correct-answer="3">
+        <div class="question-header">
+            <span class="question-id">Q32</span>
+            <span class="category">関係代名詞（所有格）</span>
+        </div>
+        <p class="question-text">a friend whose father is a famous pianist</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 有名なピアニストの父親である友人</div>
+            <div class="option" data-option="2"><span>2.</span> 友人の父親は有名なピアニストであること</div>
+            <div class="option" data-option="3"><span>3.</span> 父親が有名なピアニストである一人の友人</div>
+            <div class="option" data-option="4"><span>4.</span> 父親が有名なピアニストであるその友人</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 3</strong></p>
+            <p class="explanation"><strong>解説:</strong> &lt;名詞 whose 名詞' V ...&gt;は「その名詞'がVする名詞」と訳します。a friend（一人の友人）を whose father is a famous pianist（その人の父親は有名なピアニストだ）が修飾しています。whose は a friend's（その友人の）という所有の意味を表します。「父親がピアニスト」という属性を持つ「友人」と捉えましょう。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="33" data-correct-answer="3">
+        <div class="question-header">
+            <span class="question-id">Q33</span>
+            <span class="category">関係代名詞（所有格）</span>
+        </div>
+        <p class="question-text">the boy whose hair is red</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 赤い髪のその少年</div>
+            <div class="option" data-option="2"><span>2.</span> その少年の髪は赤い</div>
+            <div class="option" data-option="3"><span>3.</span> 髪が赤いその少年</div>
+            <div class="option" data-option="4"><span>4.</span> その少年の赤い髪</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 3</strong></p>
+            <p class="explanation"><strong>解説:</strong> the boy（その少年）を whose hair is red（その子の髪は赤い）が説明しています。whose は The boy's（その少年の）という意味です。「髪が赤い」という特徴を持つ「少年」と解釈します。選択肢1も意味は近いですが、所有格の関係をより正確に訳しているのは選択肢3です。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="34" data-correct-answer="3">
+        <div class="question-header">
+            <span class="question-id">Q34</span>
+            <span class="category">関係代名詞（所有格）</span>
+        </div>
+        <p class="question-text">a house whose roof is green</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 緑色の屋根の家</div>
+            <div class="option" data-option="2"><span>2.</span> その家の屋根は緑色だ</div>
+            <div class="option" data-option="3"><span>3.</span> 屋根が緑色の一軒の家</div>
+            <div class="option" data-option="4"><span>4.</span> 緑色の屋根がある家</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 3</strong></p>
+            <p class="explanation"><strong>解説:</strong> a house（一軒の家）を whose roof is green（その屋根は緑色だ）が修飾しています。whose は a house's（その家の）という所有の関係を示します。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="35" data-correct-answer="1">
+        <div class="question-header">
+            <span class="question-id">Q35</span>
+            <span class="category">関係代名詞（所有格）</span>
+        </div>
+        <p class="question-text">the author whose books I love</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 私がその本を愛読しているその作家</div>
+            <div class="option" data-option="2"><span>2.</span> 私が愛読している本の作家</div>
+            <div class="option" data-option="3"><span>3.</span> その作家の本を私は愛読している</div>
+            <div class="option" data-option="4"><span>4.</span> 私がその作家の本を愛読していること</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 1</strong></p>
+            <p class="explanation"><strong>解説:</strong> the author（その作家）を whose books I love（私がその本を愛読している）が修飾しています。whose は The author's（その作家の）という意味です。whose の後ろが I love という&lt;S' V'&gt;になっている点がポイント。love の目的語が whose books です。直訳すると「私がその本を愛読しているところの作家」となります。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="36" data-correct-answer="2">
+        <div class="question-header">
+            <span class="question-id">Q36</span>
+            <span class="category">関係代名詞（所有格）</span>
+        </div>
+        <p class="question-text">a girl whose mother was sick in bed</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 病気で寝込んでいる母親の少女</div>
+            <div class="option" data-option="2"><span>2.</span> 母親が病気で寝込んでいる一人の少女</div>
+            <div class="option" data-option="3"><span>3.</span> 少女の母親は病気で寝込んでいたこと</div>
+            <div class="option" data-option="4"><span>4.</span> 少女の母親が病気で寝込んでいた</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 2</strong></p>
+            <p class="explanation"><strong>解説:</strong> a girl（一人の少女）を whose mother was sick in bed（その子の母親は病気で寝込んでいた）が説明しています。whose は a girl's（その少女の）という意味です。「母親が寝込んでいる」という状況の「少女」という関係を正確に捉えましょう。選択肢1は、少女自身が母親であるかのような誤解を生む可能性があります。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="37" data-correct-answer="3">
+        <div class="question-header">
+            <span class="question-id">Q37</span>
+            <span class="category">関係代名詞（目的格）</span>
+        </div>
+        <p class="question-text">This is the key that I was looking for.</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 私が探していたのはこの鍵のことです</div>
+            <div class="option" data-option="2"><span>2.</span> これが私を探していた鍵です</div>
+            <div class="option" data-option="3"><span>3.</span> これが私が探していた鍵です</div>
+            <div class="option" data-option="4"><span>4.</span> 鍵を探していたのは私です</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 3</strong></p>
+            <p class="explanation"><strong>解説:</strong> &lt;名詞 that S V&gt;は「SがVする名詞」と訳します。ここでは the key (鍵) を、 I was looking for (私が探していた) という部分が詳しく説明しています。look for ~（～を探す）の目的語が the key であり、関係代名詞 that がその代わりをしています。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="38" data-correct-answer="4">
+        <div class="question-header">
+            <span class="question-id">Q38</span>
+            <span class="category">関係代名詞（目的格）</span>
+        </div>
+        <p class="question-text">The person whom I respect most is my mother.</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 私の母は人を最も尊敬しています</div>
+            <div class="option" data-option="2"><span>2.</span> 私を最も尊敬している人は私の母です</div>
+            <div class="option" data-option="3"><span>3.</span> 人が最も尊敬しているのは私の母です</div>
+            <div class="option" data-option="4"><span>4.</span> 私が最も尊敬している人は私の母です</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 4</strong></p>
+            <p class="explanation"><strong>解説:</strong> &lt;人 whom S V&gt;は「SがVする人」という意味です。The person (人) を、I respect most (私が最も尊敬している) が修飾しています。respect (尊敬する) の目的語が the person であり、whom がその代わりです。選択肢2のように訳すと、主語と目的語が逆になってしまいます。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="39" data-correct-answer="3">
+        <div class="question-header">
+            <span class="question-id">Q39</span>
+            <span class="category">関係代名詞（目的格）</span>
+        </div>
+        <p class="question-text">Do you remember the movie which we watched together?</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 私たちを一緒に観た映画を覚えていますか？</div>
+            <div class="option" data-option="2"><span>2.</span> 私たちが映画を一緒に観たことを覚えていますか？</div>
+            <div class="option" data-option="3"><span>3.</span> 私たちが一緒に観た映画を覚えていますか？</div>
+            <div class="option" data-option="4"><span>4.</span> 映画が私たちを一緒に観たことを覚えていますか？</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 3</strong></p>
+            <p class="explanation"><strong>解説:</strong> &lt;物 which S V&gt;は「SがVする物」と訳します。the movie (映画) を、we watched together (私たちが一緒に観た) というかたまりが説明しています。watched (観た) の目的語が the movie です。選択肢2は名詞節 that の訳し方に近く、関係代名詞の「名詞を修飾する」働きとは異なります。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="40" data-correct-answer="2">
+        <div class="question-header">
+            <span class="question-id">Q40</span>
+            <span class="category">関係代名詞（目的格）</span>
+        </div>
+        <p class="question-text">I'll lend you the book that my teacher recommended.</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 私の先生に勧めてくれた本をあなたに貸します</div>
+            <div class="option" data-option="2"><span>2.</span> 私の先生が勧めてくれた本をあなたに貸します</div>
+            <div class="option" data-option="3"><span>3.</span> 私の先生が本を勧めてくれたので、あなたに貸します</div>
+            <div class="option" data-option="4"><span>4.</span> 本を勧めてくれた私の先生をあなたに貸します</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 2</strong></p>
+            <p class="explanation"><strong>解説:</strong> the book (本) を、my teacher recommended (私の先生が勧めてくれた) が修飾しています。recommended (勧めた) の目的語が the book です。「私の先生が勧めた」という情報が「本」を詳しく説明している、と捉えるのがポイントです。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="41" data-correct-answer="1">
+        <div class="question-header">
+            <span class="question-id">Q41</span>
+            <span class="category">関係代名詞（目的格）</span>
+        </div>
+        <p class="question-text">The picture which he is looking at is beautiful.</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 彼が見ているその絵は美しい</div>
+            <div class="option" data-option="2"><span>2.</span> その絵が彼を見ていることは美しい</div>
+            <div class="option" data-option="3"><span>3.</span> 彼が絵を見ていることは美しい</div>
+            <div class="option" data-option="4"><span>4.</span> 彼を見ているその絵は美しい</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 1</strong></p>
+            <p class="explanation"><strong>解説:</strong> &lt;名詞 which S V ... (前置詞)&gt;という形です。The picture (その絵) を、he is looking at (彼が見ている) が説明しています。look at ~ (～を見る) の目的語が the picture です。このように、関係代名詞節の最後に前置詞が残ることがよくあります。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="42" data-correct-answer="3">
+        <div class="question-header">
+            <span class="question-id">Q42</span>
+            <span class="category">関係代名詞（目的格）</span>
+        </div>
+        <p class="question-text">The music that she listens to is always classical.</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 彼女が音楽を聴くことはいつもクラシックだ</div>
+            <div class="option" data-option="2"><span>2.</span> 音楽が彼女に聴かせるのはいつもクラシックだ</div>
+            <div class="option" data-option="3"><span>3.</span> 彼女が聴く音楽はいつもクラシックだ</div>
+            <div class="option" data-option="4"><span>4.</span> 彼女を聴く音楽はいつもクラシックだ</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 3</strong></p>
+            <p class="explanation"><strong>解説:</strong> The music (音楽) を、she listens to (彼女が聴く) が修飾しています。listen to ~ (～を聴く) の目的語が the music です。文の構造は「[彼女が聴く]音楽は / いつもクラシックだ」と、関係代名詞節が主語の一部になっているパターンです。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="43" data-correct-answer="3">
+        <div class="question-header">
+            <span class="question-id">Q43</span>
+            <span class="category">関係代名詞（目的格）</span>
+        </div>
+        <p class="question-text">The man whom I spoke to yesterday was a famous actor.</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 私に昨日話しかけた男性は有名な俳優だった</div>
+            <div class="option" data-option="2"><span>2.</span> 有名な俳優が昨日私に話しかけた</div>
+            <div class="option" data-option="3"><span>3.</span> 私が昨日話しかけた男性は有名な俳優だった</div>
+            <div class="option" data-option="4"><span>4.</span> 私が昨日話したということの男性は有名な俳優だった</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 3</strong></p>
+            <p class="explanation"><strong>解説:</strong> The man (男性) を、I spoke to yesterday (私が昨日話しかけた) が修飾しています。speak to ~ (～に話しかける) の目的語が the man です。選択肢1のように訳すと、話しかけた側と話しかけられた側が逆になってしまいます。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="44" data-correct-answer="2">
+        <div class="question-header">
+            <span class="question-id">Q44</span>
+            <span class="category">関係代名詞（目的格）</span>
+        </div>
+        <p class="question-text">These are the problems which we have to solve.</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 私たちが問題を解決しなければならないということです</div>
+            <div class="option" data-option="2"><span>2.</span> これらが私たちが解決しなければならない問題です</div>
+            <div class="option" data-option="3"><span>3.</span> これらは問題なので、私たちは解決しなければなりません</div>
+            <div class="option" data-option="4"><span>4.</span> これらが私たちを解決しなければならない問題です</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 2</strong></p>
+            <p class="explanation"><strong>解説:</strong> the problems (問題) を、we have to solve (私たちが解決しなければならない) が説明しています。solve (解決する) の目的語が the problems です。have to ~ (～しなければならない) という助動詞が節の中に入っていても、基本的な構造は同じです。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="45" data-correct-answer="1">
+        <div class="question-header">
+            <span class="question-id">Q45</span>
+            <span class="category">関係代名詞（目的格）</span>
+        </div>
+        <p class="question-text">The company that he works for is very large.</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 彼が勤めている会社はとても大きい</div>
+            <div class="option" data-option="2"><span>2.</span> 彼を雇っている会社はとても大きい</div>
+            <div class="option" data-option="3"><span>3.</span> 会社が彼のために働くことはとても大きい</div>
+            <div class="option" data-option="4"><span>4.</span> 彼が会社で働くことはとても大きい</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 1</strong></p>
+            <p class="explanation"><strong>解説:</strong> The company (会社) を、he works for (彼が勤めている) が修飾しています。work for ~ (～に勤めている) の目的語が the company です。これも文末に前置詞が残るパターンです。日本語では「勤めている」と訳すと自然ですね。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="46" data-correct-answer="4">
+        <div class="question-header">
+            <span class="question-id">Q46</span>
+            <span class="category">関係代名詞（目的格）</span>
+        </div>
+        <p class="question-text">This is the only excuse that I can think of.</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 私が思いつくことができるのはこの言い訳だけです</div>
+            <div class="option" data-option="2"><span>2.</span> 私が言い訳を思いついたということです</div>
+            <div class="option" data-option="3"><span>3.</span> これが私を思いつく唯一の言い訳です</div>
+            <div class="option" data-option="4"><span>4.</span> これが私が思いつく唯一の言い訳です</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 4</strong></p>
+            <p class="explanation"><strong>解説:</strong> the only excuse (唯一の言い訳) を、I can think of (私が思いつくことができる) が修飾しています。think of ~ (～を思いつく) の目的語が the only excuse です。can が入っていても考え方は同じです。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="47" data-correct-answer="3">
+        <div class="question-header">
+            <span class="question-id">Q47</span>
+            <span class="category">関係代名詞（目的格の省略）</span>
+        </div>
+        <p class="question-text">The man you met yesterday is my uncle.</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> あなたが男性に昨日会ったことは私の叔父です</div>
+            <div class="option" data-option="2"><span>2.</span> あなたに昨日会った男性は私の叔父です</div>
+            <div class="option" data-option="3"><span>3.</span> あなたが昨日会った男性は私の叔父です</div>
+            <div class="option" data-option="4"><span>4.</span> 男性があなたに昨日会ったのは私の叔父です</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 3</strong></p>
+            <p class="explanation"><strong>解説:</strong> &lt;名詞 S V&gt; の形は、目的格の関係代名詞の省略を疑いましょう。The man (男性) の直後に you met (あなたが会った) という &lt;S' V'&gt; が続いています。これは The man (whom) you met... と同じで、「あなたが会った男性」と訳します。met (会った) の目的語が the man です。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="48" data-correct-answer="3">
+        <div class="question-header">
+            <span class="question-id">Q48</span>
+            <span class="category">関係代名詞（目的格の省略）</span>
+        </div>
+        <p class="question-text">The cake she made was delicious.</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 彼女がケーキを作ったので美味しかった</div>
+            <div class="option" data-option="2"><span>2.</span> 彼女を作ったケーキは美味しかった</div>
+            <div class="option" data-option="3"><span>3.</span> 彼女が作ったケーキは美味しかった</div>
+            <div class="option" data-option="4"><span>4.</span> ケーキが彼女を作って美味しかった</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 3</strong></p>
+            <p class="explanation"><strong>解説:</strong> The cake (ケーキ) の直後に she made (彼女が作った) という &lt;S' V'&gt; が来ています。これは The cake (which) she made... の省略形。「彼女が作ったケーキ」が文の主語になっています。made (作った) の目的語が the cake です。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="49" data-correct-answer="1">
+        <div class="question-header">
+            <span class="question-id">Q49</span>
+            <span class="category">関係代名詞（目的格の省略）</span>
+        </div>
+        <p class="question-text">The language they speak in Australia is English.</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 彼らがオーストラリアで話す言語は英語です</div>
+            <div class="option" data-option="2"><span>2.</span> 彼らにオーストラリアで話す言語は英語です</div>
+            <div class="option" data-option="3"><span>3.</span> 彼らが言語をオーストラリアで話すことは英語です</div>
+            <div class="option" data-option="4"><span>4.</span> オーストラリアが彼らに話させる言語は英語です</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 1</strong></p>
+            <p class="explanation"><strong>解説:</strong> The language (言語) の後に they speak (彼らが話す) が続いています。The language (that) they speak... の省略ですね。「彼らが話す言語」という意味のかたまりが主語です。speak (話す) の目的語が the language です。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="50" data-correct-answer="4">
+        <div class="question-header">
+            <span class="question-id">Q50</span>
+            <span class="category">関係代名詞（目的格の省略）</span>
+        </div>
+        <p class="question-text">Is this the bag you are looking for?</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> あなたがカバンを探しているのはこのためですか？</div>
+            <div class="option" data-option="2"><span>2.</span> あなたが探しているのはこのカバンのことですか？</div>
+            <div class="option" data-option="3"><span>3.</span> これがあなたを探しているカバンですか？</div>
+            <div class="option" data-option="4"><span>4.</span> これがあなたが探しているカバンですか？</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 4</strong></p>
+            <p class="explanation"><strong>解説:</strong> the bag (カバン) の後に you are looking for (あなたが探している) が続いています。look for ~ (～を探す) の目的語が the bag です。文の最後に for という前置詞が残っているのがヒントになります。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="51" data-correct-answer="1">
+        <div class="question-header">
+            <span class="question-id">Q51</span>
+            <span class="category">関係代名詞（目的格の省略）</span>
+        </div>
+        <p class="question-text">The person I want to talk to is Mr. Smith.</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 私が話したい人はスミスさんです</div>
+            <div class="option" data-option="2"><span>2.</span> スミスさんが私と話したがっています</div>
+            <div class="option" data-option="3"><span>3.</span> 私に話したい人はスミスさんです</div>
+            <div class="option" data-option="4"><span>4.</span> 私が人と話したいのはスミスさんです</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 1</strong></p>
+            <p class="explanation"><strong>解説:</strong> The person (人) の後に I want to talk to (私が話したい) が続いています。talk to ~ (～と話す) の目的語が the person です。「私が話したい」が「人」を説明しています。want to V (Vしたい) が含まれていても構造は同じです。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="52" data-correct-answer="3">
+        <div class="question-header">
+            <span class="question-id">Q52</span>
+            <span class="category">関係代名詞（目的格の省略）</span>
+        </div>
+        <p class="question-text">The city we visited last year was beautiful.</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 私たちが街を去年訪れたので美しかった</div>
+            <div class="option" data-option="2"><span>2.</span> 私たちを去年訪れた街は美しかった</div>
+            <div class="option" data-option="3"><span>3.</span> 私たちが去年訪れた街は美しかった</div>
+            <div class="option" data-option="4"><span>4.</span> 街が去年私たちを訪れて美しかった</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 3</strong></p>
+            <p class="explanation"><strong>解説:</strong> The city (街) の直後に we visited (私たちが訪れた) がありますね。「私たちが去年訪れた街」が主語です。visited (訪れた) の目的語が the city です。名詞の直後の&lt;S' V'&gt; は、まず関係代名詞の省略を考えましょう。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="53" data-correct-answer="2">
+        <div class="question-header">
+            <span class="question-id">Q53</span>
+            <span class="category">関係代名詞（目的格の省略）</span>
+        </div>
+        <p class="question-text">The story he told me was very interesting.</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 物語が彼に私を話したのはとても面白かった</div>
+            <div class="option" data-option="2"><span>2.</span> 彼が私に話してくれた物語はとても面白かった</div>
+            <div class="option" data-option="3"><span>3.</span> 彼に私が話した物語はとても面白かった</div>
+            <div class="option" data-option="4"><span>4.</span> 彼が私に物語を話したことはとても面白かった</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 2</strong></p>
+            <p class="explanation"><strong>解説:</strong> The story (物語) の後に he told me (彼が私に話した) が続いています。told (話した) は tell 人 物 の形で「人に物を話す」という意味です。ここでは「物」にあたる部分が The story であり、それが関係代名詞として省略されています。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="54" data-correct-answer="1">
+        <div class="question-header">
+            <span class="question-id">Q54</span>
+            <span class="category">関係代名詞（目的格の省略）</span>
+        </div>
+        <p class="question-text">I can't find the pen I was using a minute ago.</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 私は1分前に使っていたペンを見つけられない</div>
+            <div class="option" data-option="2"><span>2.</span> ペンが1分前に私を使っていた</div>
+            <div class="option" data-option="3"><span>3.</span> 私は1分前に私を使っていたペンを見つけられない</div>
+            <div class="option" data-option="4"><span>4.</span> 私がペンを使っていたのは1分前だ</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 1</strong></p>
+            <p class="explanation"><strong>解説:</strong> the pen (ペン) を、I was using (私が使っていた) が修飾しています。using (使っていた) の目的語が the pen です。「名詞＋主語＋動詞」の形を見抜くことが、英文を正確に読むための重要なスキルです。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="55" data-correct-answer="4">
+        <div class="question-header">
+            <span class="question-id">Q55</span>
+            <span class="category">関係代名詞（目的格の省略）</span>
+        </div>
+        <p class="question-text">The rules everyone must follow are written here.</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 誰もが規則に従わなければならないので、ここに書かれている</div>
+            <div class="option" data-option="2"><span>2.</span> 規則が誰もを従わせるためにここに書かれている</div>
+            <div class="option" data-option="3"><span>3.</span> 誰もに従わなければならない規則はここに書かれている</div>
+            <div class="option" data-option="4"><span>4.</span> 誰もが従わなければならない規則はここに書かれている</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 4</strong></p>
+            <p class="explanation"><strong>解説:</strong> The rules (規則) の後に everyone must follow (誰もが従わなければならない) が続いています。follow (従う) の目的語が the rules です。must のような助動詞が入っていても、基本的な考え方は変わりません。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="56" data-correct-answer="2">
+        <div class="question-header">
+            <span class="question-id">Q56</span>
+            <span class="category">関係代名詞（目的格の省略）</span>
+        </div>
+        <p class="question-text">The dream I have had since childhood is to be a pilot.</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 私が夢を子供の頃から持っていることはパイロットになることだ</div>
+            <div class="option" data-option="2"><span>2.</span> 私が子供の頃から持っている夢はパイロットになることだ</div>
+            <div class="option" data-option="3"><span>3.</span> 私を子供の頃から持っている夢はパイロットになることだ</div>
+            <div class="option" data-option="4"><span>4.</span> 夢が私を子供の頃から持っていることはパイロットになることだ</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 2</strong></p>
+            <p class="explanation"><strong>解説:</strong> The dream (夢) の後に I have had (私がずっと持っている) が続いています。have had は現在完了形で「ずっと持っている」という意味です。had の目的語が the dream です。時制が複雑になっても、名詞を修飾する基本構造は同じです。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="57" data-correct-answer="3">
+        <div class="question-header">
+            <span class="question-id">Q57</span>
+            <span class="category">関係代名詞（主格）</span>
+        </div>
+        <p class="question-text">The man who lives next door is a doctor.</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 医者が隣に住んでいる男性です</div>
+            <div class="option" data-option="2"><span>2.</span> 男性が隣に住んでいるのは医者です</div>
+            <div class="option" data-option="3"><span>3.</span> 隣に住んでいる男性は医者です</div>
+            <div class="option" data-option="4"><span>4.</span> 隣の医者が住んでいる男性です</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 3</strong></p>
+            <p class="explanation"><strong>解説:</strong> &lt;名詞 who V ...&gt;は「Vする名詞」と訳します。関係代名詞 who が、直後の動詞 lives (住んでいる) の主語の役割をしています。The man = who と考え、「住んでいる男性」という一つの大きな主語のかたまりを作ります。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="58" data-correct-answer="3">
+        <div class="question-header">
+            <span class="question-id">Q58</span>
+            <span class="category">関係代名詞（主格）</span>
+        </div>
+        <p class="question-text">I have a friend who can speak French.</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 私には友人がフランス語を話せます</div>
+            <div class="option" data-option="2"><span>2.</span> 私の友人がフランス語を話せるということです</div>
+            <div class="option" data-option="3"><span>3.</span> 私にはフランス語を話せる友人がいます</div>
+            <div class="option" data-option="4"><span>4.</span> フランス語が話せるのは私の友人です</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 3</strong></p>
+            <p class="explanation"><strong>解説:</strong> a friend (友人) を、who can speak French (フランス語を話せる) が説明しています。who が can speak の主語になっています。「フランス語を話せる」という能力を持った「友人」がいる、ということです。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="59" data-correct-answer="2">
+        <div class="question-header">
+            <span class="question-id">Q59</span>
+            <span class="category">関係代名詞（主格）</span>
+        </div>
+        <p class="question-text">The bus which goes to the airport is over there.</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> あのバスが空港へ行きます</div>
+            <div class="option" data-option="2"><span>2.</span> 空港へ行くバスはあちらにあります</div>
+            <div class="option" data-option="3"><span>3.</span> バスが空港へ行くのはあちらです</div>
+            <div class="option" data-option="4"><span>4.</span> 空港へ行くのはあのバスのことです</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 2</strong></p>
+            <p class="explanation"><strong>解説:</strong> The bus (バス) を、which goes to the airport (空港へ行く) が修飾しています。which が動詞 goes の主語になっています。「空港行きのバス」と簡潔に訳しても良いでしょう。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="60" data-correct-answer="2">
+        <div class="question-header">
+            <span class="question-id">Q60</span>
+            <span class="category">関係代名詞（主格）</span>
+        </div>
+        <p class="question-text">The dog that is running in the park is mine.</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 公園で犬を走らせているのは私です</div>
+            <div class="option" data-option="2"><span>2.</span> 公園で走っている犬は私のものです</div>
+            <div class="option" data-option="3"><span>3.</span> 犬が公園で走っているので私のものです</div>
+            <div class="option" data-option="4"><span>4.</span> 私の犬が公園で走っています</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 2</strong></p>
+            <p class="explanation"><strong>解説:</strong> The dog (犬) を、that is running in the park (公園で走っている) が説明しています。that が is running の主語の働きをしています。関係代名詞 that は、先行詞が人でも物でも使える便利な単語です。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="61" data-correct-answer="2">
+        <div class="question-header">
+            <span class="question-id">Q61</span>
+            <span class="category">関係代名詞（主格）</span>
+        </div>
+        <p class="question-text">People who are interested in art gathered at the museum.</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 美術館に集まった人々は芸術に興味がある</div>
+            <div class="option" data-option="2"><span>2.</span> 芸術に興味がある人々が美術館に集まった</div>
+            <div class="option" data-option="3"><span>3.</span> 人々が芸術に興味があるので美術館に集まった</div>
+            <div class="option" data-option="4"><span>4.</span> 芸術に興味があるのは美術館に集まった人々だ</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 2</strong></p>
+            <p class="explanation"><strong>解説:</strong> People (人々) を、who are interested in art (芸術に興味がある) が修飾しています。この「人々」が文全体の主語となり、gathered (集まった) という動詞につながります。文の構造を正確に把握することが重要です。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="62" data-correct-answer="3">
+        <div class="question-header">
+            <span class="question-id">Q62</span>
+            <span class="category">関係代名詞（主格）</span>
+        </div>
+        <p class="question-text">This is a story that teaches us an important lesson.</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> この物語が私たちに大切な教訓を教えてくれます</div>
+            <div class="option" data-option="2"><span>2.</span> これは物語が私たちに大切な教訓を教えてくれることです</div>
+            <div class="option" data-option="3"><span>3.</span> これは私たちに大切な教訓を教えてくれる物語です</div>
+            <div class="option" data-option="4"><span>4.</span> この大切な教訓が私たちに物語を教えてくれます</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 3</strong></p>
+            <p class="explanation"><strong>解説:</strong> a story (物語) を、that teaches us an important lesson (私たちに大切な教訓を教えてくれる) が修飾しています。that が teaches の主語になっています。teach 人 物 (人に物を教える)という動詞の使い方もポイントです。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="63" data-correct-answer="2">
+        <div class="question-header">
+            <span class="question-id">Q63</span>
+            <span class="category">関係代名詞（主格）</span>
+        </div>
+        <p class="question-text">The river which flows through this city is famous.</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> この有名な川が街を流れています</div>
+            <div class="option" data-option="2"><span>2.</span> この街を流れる川は有名です</div>
+            <div class="option" data-option="3"><span>3.</span> 川がこの街を流れているので有名です</div>
+            <div class="option" data-option="4"><span>4.</span> この街が川を流しているので有名です</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 2</strong></p>
+            <p class="explanation"><strong>解説:</strong> The river (川) を、which flows through this city (この街を流れる) が説明しています。which が flows の主語です。「[この街を流れる]川は / 有名です」という文構造です。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="64" data-correct-answer="4">
+        <div class="question-header">
+            <span class="question-id">Q64</span>
+            <span class="category">関係代名詞（主格）</span>
+        </div>
+        <p class="question-text">A person who never makes mistakes is a person who never tries anything new.</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 新しいことに挑戦しない人が間違いを犯さない</div>
+            <div class="option" data-option="2"><span>2.</span> 人が間違いを犯さないことは、新しいことに挑戦しないことだ</div>
+            <div class="option" data-option="3"><span>3.</span> 間違いを犯さない人は新しいことに挑戦しない</div>
+            <div class="option" data-option="4"><span>4.</span> 決して間違いを犯さない人とは、何も新しいことに挑戦しない人である</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 4</strong></p>
+            <p class="explanation"><strong>解説:</strong> A person (人) を who never makes mistakes (決して間違いを犯さない) が修飾しています。有名なアインシュタインの言葉からの引用です。関係代名詞が2回使われている複雑な文ですが、一つ一つ「～する人」と訳していけば正確に解釈できます。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="65" data-correct-answer="2">
+        <div class="question-header">
+            <span class="question-id">Q65</span>
+            <span class="category">関係代名詞（主格）</span>
+        </div>
+        <p class="question-text">Do you know the girl who is talking with Mr. Tanaka?</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 女の子が田中さんと話している理由を知っていますか？</div>
+            <div class="option" data-option="2"><span>2.</span> 田中さんと話している女の子を知っていますか？</div>
+            <div class="option" data-option="3"><span>3.</span> 女の子が田中さんと話しているのを知っていますか？</div>
+            <div class="option" data-option="4"><span>4.</span> 田中さんと話しているのはあの女の子ですか？</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 2</strong></p>
+            <p class="explanation"><strong>解説:</strong> the girl (女の子) を、who is talking with Mr. Tanaka (田中さんと話している) が修飾しています。who が is talking の主語です。Do you know [the girl ...]? という構造で、関係代名詞節を含む名詞句が know の目的語になっています。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="66" data-correct-answer="4">
+        <div class="question-header">
+            <span class="question-id">Q66</span>
+            <span class="category">関係代名詞（主格）</span>
+        </div>
+        <p class="question-text">The key that was on the desk is missing.</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> なくなってしまった鍵は机の上にあった</div>
+            <div class="option" data-option="2"><span>2.</span> 鍵が机の上にあったのでなくなってしまった</div>
+            <div class="option" data-option="3"><span>3.</span> 机の上の鍵をなくしてしまった</div>
+            <div class="option" data-option="4"><span>4.</span> 机の上にあった鍵がなくなってしまった</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 4</strong></p>
+            <p class="explanation"><strong>解説:</strong> The key (鍵) を、that was on the desk (机の上にあった) が説明しています。このかたまり全体が文の主語となり、is missing (なくなっている) という述語につながります。「[机の上にあった]鍵が」と正しく主語を捉えましょう。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="67" data-correct-answer="3">
+        <div class="question-header">
+            <span class="question-id">Q67</span>
+            <span class="category">関係代名詞（所有格）</span>
+        </div>
+        <p class="question-text">I have a friend whose father is a famous pianist.</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 私には、有名なピアニストの父親である友人がいます</div>
+            <div class="option" data-option="2"><span>2.</span> 私の友人の父親は有名なピアニストです</div>
+            <div class="option" data-option="3"><span>3.</span> 私には、父親が有名なピアニストである友人がいます</div>
+            <div class="option" data-option="4"><span>4.</span> 有名なピアニストは私の友人の父親です</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 3</strong></p>
+            <p class="explanation"><strong>解説:</strong> &lt;名詞 whose 名詞' V ...&gt;は「その名詞'がVする名詞」と訳します。a friend (友人) を、whose father is a famous pianist (その人の父親は有名なピアニストだ) が説明しています。whose は a friend's (その友人の) という所有の意味を表します。「父親がピアニスト」なのは「友人」であり、その関係性を正しく理解することが重要です。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="68" data-correct-answer="2">
+        <div class="question-header">
+            <span class="question-id">Q68</span>
+            <span class="category">関係代名詞（所有格）</span>
+        </div>
+        <p class="question-text">The boy whose hair is red is my brother.</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 赤い髪の少年は私の弟です</div>
+            <div class="option" data-option="2"><span>2.</span> 髪が赤いその少年は私の弟です</div>
+            <div class="option" data-option="3"><span>3.</span> その少年は私の弟の赤い髪です</div>
+            <div class="option" data-option="4"><span>4.</span> その少年の髪は赤くて、私の弟です</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 2</strong></p>
+            <p class="explanation"><strong>解説:</strong> The boy (その少年) を、whose hair is red (その子の髪は赤い) が説明しています。whose は The boy's（その少年の）という意味です。「髪が赤い」という特徴を持つ「少年」と解釈します。選択肢1も意味は近いですが、「その髪が赤い」という所有格の関係を最も正確に訳しているのは選択肢2です。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="69" data-correct-answer="2">
+        <div class="question-header">
+            <span class="question-id">Q69</span>
+            <span class="category">関係代名詞（所有格）</span>
+        </div>
+        <p class="question-text">This is a house whose roof is green.</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> この家の屋根は緑色です</div>
+            <div class="option" data-option="2"><span>2.</span> これは屋根が緑色の家です</div>
+            <div class="option" data-option="3"><span>3.</span> この緑色の屋根は家です</div>
+            <div class="option" data-option="4"><span>4.</span> これは緑色の屋根の家です</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 2</strong></p>
+            <p class="explanation"><strong>解説:</strong> a house (家) を、whose roof is green (その屋根は緑色だ) が修飾しています。whose は a house's (その家の) という所有の関係を示します。「屋根が緑色」という特徴を持つ「家」という関係です。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="70" data-correct-answer="1">
+        <div class="question-header">
+            <span class="question-id">Q70</span>
+            <span class="category">関係代名詞（所有格）</span>
+        </div>
+        <p class="question-text">The author whose books I love is visiting our town.</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 私がその本を愛読している作家が私たちの町を訪れます</div>
+            <div class="option" data-option="2"><span>2.</span> その作家の本を私は愛読していて、私たちの町を訪れます</div>
+            <div class="option" data-option="3"><span>3.</span> 私が愛読している本の作家が私たちの町を訪れます</div>
+            <div class="option" data-option="4"><span>4.</span> 私が愛読している作家の本が私たちの町を訪れます</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 1</strong></p>
+            <p class="explanation"><strong>解説:</strong> The author (作家) を、whose books I love (私がその本を愛読している) が説明しています。whose は The author's (その作家の) という意味です。whose の後ろが I love という&lt;S' V'&gt;になっている点に注意。love の目的語が whose books です。直訳すると「私がその本を愛読しているところの作家」となります。</p>
+        </div>
+    </div>
+
+    <div class="quiz-container" data-id="71" data-correct-answer="4">
+        <div class="question-header">
+            <span class="question-id">Q71</span>
+            <span class="category">関係代名詞（所有格）</span>
+        </div>
+        <p class="question-text">She helped a girl whose mother was sick in bed.</p>
+        <div class="options">
+            <div class="option" data-option="1"><span>1.</span> 彼女は、病気で寝込んでいる母親の少女を助けた</div>
+            <div class="option" data-option="2"><span>2.</span> 彼女は少女を助け、その母親は病気で寝込んでいた</div>
+            <div class="option" data-option="3"><span>3.</span> 彼女の母親は病気で寝込んでいる少女を助けた</div>
+            <div class="option" data-option="4"><span>4.</span> 彼女は、母親が病気で寝込んでいる少女を助けた</div>
+        </div>
+        <button class="toggle-answer">解答・解説を見る</button>
+        <div class="answer-area">
+            <p class="correct-answer"><strong>正解: 4</strong></p>
+            <p class="explanation"><strong>解説:</strong> a girl (少女) を、whose mother was sick in bed (その子の母親は病気で寝込んでいた) が説明しています。whose は a girl's (その少女の) という意味です。「母親が寝込んでいる」という状況の「少女」を助けた、という関係を正確に捉えましょう。選択肢1は、少女自身が母親であるかのような誤解を生む可能性があります。</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const quizContainers = document.querySelectorAll('.quiz-container');
+
+            quizContainers.forEach(container => {
+                const options = container.querySelectorAll('.option');
+                const toggleButton = container.querySelector('.toggle-answer');
+                const answerArea = container.querySelector('.answer-area');
+                const correctAnswer = container.dataset.correctAnswer;
+
+                options.forEach(option => {
+                    option.addEventListener('click', () => {
+                        if (!container.classList.contains('answered')) {
+                            container.classList.add('answered');
+                            const selectedOption = option.dataset.option;
+
+                            if (selectedOption === correctAnswer) {
+                                option.classList.add('correct');
+                            } else {
+                                option.classList.add('incorrect');
+                                const correctOptionEl = container.querySelector(`.option[data-option="${correctAnswer}"]`);
+                                if (correctOptionEl) {
+                                    correctOptionEl.classList.add('correct');
+                                }
+                            }
+                            
+                            if (!answerArea.classList.contains('visible')) {
+                                answerArea.classList.add('visible');
+                                toggleButton.textContent = '解答・解説を隠す';
+                            }
+                        }
+                    });
+                });
+
+                toggleButton.addEventListener('click', () => {
+                    answerArea.classList.toggle('visible');
+                    if (answerArea.classList.contains('visible')) {
+                        toggleButton.textContent = '解答・解説を隠す';
+                    } else {
+                        toggleButton.textContent = '解答・解説を見る';
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
